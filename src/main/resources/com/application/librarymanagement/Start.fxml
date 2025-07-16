@@ -24,7 +24,7 @@
                   <Font name="Candara Bold" size="50.0" />
                </font>
             </Label>
-            <Label text="Welcome to devtop10's Libary Management System" textAlignment="CENTER" textFill="WHITE">
+            <Label text="Welcome to devtop10's Library Management System" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Candara Bold" size="25.0" />
                </font>

@@ -1,0 +1,18 @@
+# Maven build output
+target/
+
+# Compiled class files
+*.class
+
+# Log files
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+
+# OS-specific
+.DS_Store
+Thumbs.db
