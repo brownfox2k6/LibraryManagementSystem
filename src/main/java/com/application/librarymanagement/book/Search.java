@@ -1,6 +1,6 @@
 package com.application.librarymanagement.book;
 
-import com.application.librarymanagement.utils.JsonFetcher;
+import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -173,7 +173,7 @@ public class Search {
       url += "+oclc:" + this.oclc;
     }
     url += "&startIndex=" + this.startIndex;
-    JsonObject json = JsonFetcher.fetchJson(url);
+    JsonObject json = JsonUtils.fetchJson(url);
     this.totalItems = json.get("totalItems").getAsInt();
     if (!json.has("items")) {
       return new ArrayList<>();

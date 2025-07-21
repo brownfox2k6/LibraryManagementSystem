@@ -3,17 +3,53 @@ package com.application.librarymanagement;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class MainAppController {
+import java.net.URL;
+
+public class MainAppController extends MainApp {
+  @FXML public ImageView backgroundImage;
+
+  /**
+   * Initializes the controller after the FXML components have been loaded.
+   * Sets the initial background image based on the current theme stored in configuration.
+   */
+  @FXML public void initialize() {
+    setBackgroundImage();
+  }
+
+  /**
+   * Updates the background image according to the currently selected theme.
+   * It reads the theme from the configuration file and sets the corresponding
+   * light or dark background image.
+   * <p>
+   * The background image is expected to be located in the {@code images/} directory
+   * following the pattern {@code LightSky.jpg} or {@code DarkSky.jpg}.
+   * <p>
+   * For example, if the theme is {@code primer-light}, it loads {@code LightSky.jpg}.
+   * @throws AssertionError if the background image resource is not found
+   */
+  public void setBackgroundImage() {
+    String theme = config.get("theme").getAsString();
+    String type = theme.contains("light") ? "Light" : "Dark";
+    String backgroundPath = String.format("images/%sSky.jpg", type);
+    URL backgroundURL = MainAppController.class.getResource(backgroundPath);
+    assert backgroundURL != null;
+    Image image = new Image(backgroundURL.toExternalForm());
+    backgroundImage.setImage(image);
+  }
+
   /**
    * Handles theme selection from the menu. Retrieves the clicked MenuItem's text
    * (which corresponds to a theme name) and applies the matching stylesheet
    * to the application.
    * @param event the ActionEvent triggered by selecting a theme MenuItem
    */
-  @FXML
-  protected void applyStylesheet(ActionEvent event) {
-    MenuItem mi = (MenuItem) event.getSource();
-    MainApp.applyStylesheet(mi.getText());
+  @FXML public void applyStylesheet(ActionEvent event) {
+    String theme = ((MenuItem) event.getSource()).getText();
+    addPropertyToConfig("theme", theme);
+    setBackgroundImage();
+    applyStylesheet(theme);
   }
 }

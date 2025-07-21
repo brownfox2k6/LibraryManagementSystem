@@ -1,6 +1,6 @@
 package com.application.librarymanagement.book;
 
-import com.application.librarymanagement.utils.JsonFetcher;
+import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -40,7 +40,7 @@ public class Book {
    * @throws IOException if a network or I/O error occurs during the HTTP request
    */
   public Book(String id) throws IOException {
-    this(JsonFetcher.fetchJson("https://www.googleapis.com/books/v1/volumes/" + id));
+    this(JsonUtils.fetchJson("https://www.googleapis.com/books/v1/volumes/" + id));
   }
 
   /**
@@ -49,27 +49,27 @@ public class Book {
    *             by the Google Books API
    */
   public Book(JsonObject json) {
-    this.id = JsonFetcher.getAsString(json, "id");
+    this.id = JsonUtils.getAsString(json, "id");
     if (json.has("volumeInfo")) {
       JsonObject volumeInfo = json.get("volumeInfo").getAsJsonObject();
-      this.title = JsonFetcher.getAsString(volumeInfo, "title");
-      this.authors = JsonFetcher.getAsList(volumeInfo, "authors");
-      this.publisher = JsonFetcher.getAsString(volumeInfo, "publisher");
-      this.publishedDate = JsonFetcher.getAsString(volumeInfo, "publishedDate");
-      this.description = JsonFetcher.getAsString(volumeInfo, "description");
-      this.industryIdentifiers = JsonFetcher.getAsMap(
+      this.title = JsonUtils.getAsString(volumeInfo, "title");
+      this.authors = JsonUtils.getAsList(volumeInfo, "authors");
+      this.publisher = JsonUtils.getAsString(volumeInfo, "publisher");
+      this.publishedDate = JsonUtils.getAsString(volumeInfo, "publishedDate");
+      this.description = JsonUtils.getAsString(volumeInfo, "description");
+      this.industryIdentifiers = JsonUtils.getAsMap(
           volumeInfo, "industryIdentifiers", "type", "identifier");
-      this.pageCount = JsonFetcher.getAsString(volumeInfo, "pageCount");
-      this.categories = JsonFetcher.getAsList(volumeInfo, "categories");
-      this.averageRating = JsonFetcher.getAsString(volumeInfo, "averageRating");
-      this.ratingsCount = JsonFetcher.getAsString(volumeInfo, "ratingsCount");
+      this.pageCount = JsonUtils.getAsString(volumeInfo, "pageCount");
+      this.categories = JsonUtils.getAsList(volumeInfo, "categories");
+      this.averageRating = JsonUtils.getAsString(volumeInfo, "averageRating");
+      this.ratingsCount = JsonUtils.getAsString(volumeInfo, "ratingsCount");
       if (volumeInfo.has("imageLinks")) {
         JsonObject imageLinks = volumeInfo.get("imageLinks").getAsJsonObject();
-        this.thumbnailLink = JsonFetcher.getAsString(imageLinks, "thumbnail");
+        this.thumbnailLink = JsonUtils.getAsString(imageLinks, "thumbnail");
       }
-      this.language = JsonFetcher.getAsString(volumeInfo, "language");
-      this.previewLink = JsonFetcher.getAsString(volumeInfo, "previewLink");
-      this.infoLink = JsonFetcher.getAsString(volumeInfo, "infoLink");
+      this.language = JsonUtils.getAsString(volumeInfo, "language");
+      this.previewLink = JsonUtils.getAsString(volumeInfo, "previewLink");
+      this.infoLink = JsonUtils.getAsString(volumeInfo, "infoLink");
     }
     if (json.has("saleInfo")) {
       JsonObject saleInfo = json.get("saleInfo").getAsJsonObject();
@@ -77,17 +77,17 @@ public class Book {
       this.saleability = saleInfo.get("saleability").getAsString();
       if (saleInfo.has("listPrice")) {
         JsonObject listPrice = saleInfo.get("listPrice").getAsJsonObject();
-        String amount = JsonFetcher.getAsString(listPrice, "amount");
-        String currencyCode = JsonFetcher.getAsString(listPrice, "currencyCode");
+        String amount = JsonUtils.getAsString(listPrice, "amount");
+        String currencyCode = JsonUtils.getAsString(listPrice, "currencyCode");
         this.price = amount + " " + currencyCode;
       }
       if (saleInfo.has("retailPrice")) {
         JsonObject retailPrice = saleInfo.get("retailPrice").getAsJsonObject();
-        String amount = JsonFetcher.getAsString(retailPrice, "amount");
-        String currencyCode = JsonFetcher.getAsString(retailPrice, "currencyCode");
+        String amount = JsonUtils.getAsString(retailPrice, "amount");
+        String currencyCode = JsonUtils.getAsString(retailPrice, "currencyCode");
         this.retailPrice = amount + " " + currencyCode;
       }
-      this.buyLink = JsonFetcher.getAsString(saleInfo, "buyLink");
+      this.buyLink = JsonUtils.getAsString(saleInfo, "buyLink");
     }
   }
 }
