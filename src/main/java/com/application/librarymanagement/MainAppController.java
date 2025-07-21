@@ -12,7 +12,7 @@ public class MainAppController {
    * @param event the ActionEvent triggered by selecting a theme MenuItem
    */
   @FXML
-  protected void applyStylesheet(ActionEvent event) {
+  private void applyStylesheet(ActionEvent event) {
     MenuItem mi = (MenuItem) event.getSource();
     MainApp.applyStylesheet(mi.getText());
   }

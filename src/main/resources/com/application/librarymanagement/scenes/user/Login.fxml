@@ -19,7 +19,7 @@
    <children>
       <ImageView fitHeight="720.0" fitWidth="640.0">
          <image>
-            <Image url="@images/StartBackground.jpg" />
+            <Image url="@../../images/StartBackground.jpg" />
          </image>
       </ImageView>
       <VBox alignment="CENTER" layoutY="24.0" prefHeight="696.0" prefWidth="640.0">
