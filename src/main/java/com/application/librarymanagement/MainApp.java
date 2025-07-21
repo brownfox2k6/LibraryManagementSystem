@@ -1,5 +1,9 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.utils.JsonUtils;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,10 +12,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Objects;
+import com.google.gson.JsonObject;
 
 public class MainApp extends Application {
-  private static Stage stage;
+  public static Stage stage;
+  public static JsonObject config;
 
   /**
    * Initializes the main application interface.
@@ -23,15 +32,34 @@ public class MainApp extends Application {
     stage = primaryStage;
     stage.setTitle("Library Management System");
     stage.setResizable(false);
-    applyStylesheet("dracula");
-    setScene("user/Login");
+    config = JsonUtils.loadLocalJson("config");
+    assert config != null;
+    applyStylesheet(config.get("theme").getAsString());
+    setScene("SignIn");
+  }
+
+  /**
+   * Updates a property in the configuration and writes the updated configuration
+   * back to {@code config.json} in a pretty-printed JSON format.
+   * @param name  the property name to update or add
+   * @param value the property value to set
+   */
+  public void addPropertyToConfig(String name, String value) {
+    try {
+      config.addProperty(name, value);
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      Path path = Paths.get("json/config.json");
+      Files.writeString(path, gson.toJson(config));
+    } catch (Exception e) {
+      System.err.println(e.getMessage());
+    }
   }
 
   /**
    * Set/change the scene of the JavaFX application by loading a FXML file
    * from the classpath.
    * @param name the base name of the FXML file (without the {@code .fxml} extension)
-   *             e.g. {@code name=Start} will load {@code Login.fxml}
+   *             e.g. {@code name=SignIn} loads {@code scenes/SignIn.fxml}
    * @throws IOException ìf the FXML file cannot be loaded
    */
   public static void setScene(String name) throws IOException {
@@ -46,7 +74,7 @@ public class MainApp extends Application {
    * Applies a user stylesheet to the JavaFX application by loading a CSS file
    * from the {@code themes} directory on the classpath.
    * @param name the base name of the CSS file (without the {@code .css} extension)
-   *             e.g. {@code name=dracula} will load {@code themes/dracula.css}
+   *             e.g. {@code name=dracula} loads {@code themes/dracula.css}
    */
   public static void applyStylesheet(String name) {
     String path = String.format("themes/%s.css", name);
@@ -58,7 +86,7 @@ public class MainApp extends Application {
 
   /**
    * The main entry point of the JavaFX application.
-   * @param args the command-line arguments (not used)
+   * @param args the command-line arguments
    */
   public static void main(String[] args) {
     launch(args);

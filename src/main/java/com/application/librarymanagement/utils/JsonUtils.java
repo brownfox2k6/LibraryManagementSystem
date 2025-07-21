@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonFetcher {
+public class JsonUtils {
   private static final int TIMEOUT = 10000;
 
   /**
@@ -45,6 +48,18 @@ public class JsonFetcher {
       conn.disconnect();
     }
     return JsonParser.parseString(sb.toString()).getAsJsonObject();
+  }
+
+  public static JsonObject loadLocalJson(String name) {
+    try {
+      Path path = Paths.get(String.format("json/%s.json", name));
+      String content = new String(Files.readAllBytes(path));
+      JsonObject json = JsonParser.parseString(content).getAsJsonObject();
+      assert json != null;
+      return json;
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public static String getAsString(JsonObject object, String entity) {
