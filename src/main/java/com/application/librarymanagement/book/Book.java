@@ -5,12 +5,12 @@ import com.google.gson.JsonObject;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;;
+import java.util.Map;
 
 /**
  * Holds all properties of a book.
- * <a href="https://www.googleapis.com/books/v1/volumes/RSMuEAAAQBAJ">
- * This is an example of what Google Books API returns when querying for a specific book.</a>"
+ * <p><a href="https://www.googleapis.com/books/v1/volumes/RSMuEAAAQBAJ">This </a>
+ * is an example of what Google Books API returns when querying for a specific book.
  */
 public class Book {
   String id;
@@ -36,7 +36,7 @@ public class Book {
 
   /**
    * Constructs a new {@code Book} instance by loading its metadata from the Google Books API.
-   * @param id the Google Books volume ID (e.g. "RSMuEAAAQBAJ")
+   * @param id the Google Books volume ID (e.g. {@code "RSMuEAAAQBAJ"})
    * @throws IOException if a network or I/O error occurs during the HTTP request
    */
   public Book(String id) throws IOException {

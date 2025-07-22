@@ -50,14 +50,24 @@ public class JsonUtils {
     return JsonParser.parseString(sb.toString()).getAsJsonObject();
   }
 
-  public static JsonObject loadLocalJson(String name) {
+  public static JsonObject loadLocalJsonAsObject(Path path) {
     try {
-      Path path = Paths.get(String.format("json/%s.json", name));
       String content = new String(Files.readAllBytes(path));
       JsonObject json = JsonParser.parseString(content).getAsJsonObject();
       assert json != null;
       return json;
     } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static JsonArray loadLocalJsonAsArray(Path path) {
+    try {
+      String content = new String(Files.readAllBytes(path));
+      JsonArray array = JsonParser.parseString(content).getAsJsonArray();
+      assert array != null;
+      return array;
+    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

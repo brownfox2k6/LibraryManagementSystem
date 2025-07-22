@@ -2,6 +2,7 @@ package com.application.librarymanagement;
 
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +11,7 @@ import java.net.URL;
 
 public class MainAppController extends MainApp {
   @FXML public ImageView backgroundImage;
+  @FXML public Label errorLabel;
 
   /**
    * Initializes the controller after the FXML components have been loaded.
@@ -51,5 +53,14 @@ public class MainAppController extends MainApp {
     addPropertyToConfig("theme", theme);
     setBackgroundImage();
     applyStylesheet(theme);
+  }
+
+  /**
+   * Displays a given message in the error label and makes it visible.
+   * @param msg the message to display
+   */
+  protected void showErrorLabel(String msg) {
+    errorLabel.setText(msg);
+    errorLabel.setVisible(true);
   }
 }
