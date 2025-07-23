@@ -1,9 +1,6 @@
 package com.application.librarymanagement.utils;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -91,5 +88,12 @@ public class JsonUtils {
       map.put(k, v);
     }
     return map;
+  }
+  public static void saveLocalJson(Path path, JsonArray array) {
+    try (var writer = Files.newBufferedWriter(path)) {
+      new GsonBuilder().setPrettyPrinting().create().toJson(array, writer);
+    } catch (IOException e) {
+      throw new RuntimeException("Lỗi khi ghi JSON vào file: " + path, e);
+    }
   }
 }

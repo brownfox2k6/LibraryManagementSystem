@@ -90,4 +90,7 @@ public class Book {
       this.buyLink = JsonUtils.getAsString(saleInfo, "buyLink");
     }
   }
+  public static Book fromJson(JsonObject json) {
+    return new Book(json);
+  }
 }
