@@ -47,9 +47,8 @@ public class JsonUtils {
     return JsonParser.parseString(sb.toString()).getAsJsonObject();
   }
 
-  public static JsonObject loadLocalJson(String name) {
+  public static JsonObject loadLocalJsonAsObject(Path path) {
     try {
-      Path path = Paths.get(String.format("json/%s.json", name));
       String content = new String(Files.readAllBytes(path));
       JsonObject json = JsonParser.parseString(content).getAsJsonObject();
       assert json != null;
@@ -59,10 +58,6 @@ public class JsonUtils {
     }
   }
 
-<<<<<<< Updated upstream
-  public static String getAsString(JsonObject object, String entity) {
-    return object.has(entity) ? object.get(entity).getAsString() : null;
-=======
   public static JsonArray loadLocalJsonAsArray(Path path) {
     try {
       String content = new String(Files.readAllBytes(path));
@@ -76,7 +71,6 @@ public class JsonUtils {
 
   public static String getAsString(JsonObject object, String key) {
     return object.has(key) ? object.get(key).getAsString() : null;
->>>>>>> Stashed changes
   }
 
   public static List<String> getAsList(JsonObject object, String key) {

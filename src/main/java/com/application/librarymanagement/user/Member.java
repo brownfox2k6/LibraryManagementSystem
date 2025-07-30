@@ -1,8 +1,5 @@
 package com.application.librarymanagement.user;
 
-<<<<<<< Updated upstream
-public class Member extends User {
-=======
 import com.application.librarymanagement.borrow.Borrow;
 import com.google.gson.*;
 
@@ -34,5 +31,4 @@ public final class Member extends User {
     obj.add("borrows", array);
     return obj;
   }
->>>>>>> Stashed changes
 }

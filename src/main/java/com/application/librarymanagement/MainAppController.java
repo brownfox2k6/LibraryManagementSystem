@@ -4,6 +4,7 @@ import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -12,6 +13,7 @@ import java.net.URL;
 
 public class MainAppController extends MainApp {
   @FXML public ImageView backgroundImage;
+  @FXML public Label errorLabel;
 
   /**
    * Initializes the controller after the FXML components have been loaded.
@@ -53,8 +55,6 @@ public class MainAppController extends MainApp {
     loadIcon();
     applyStylesheet(theme);
   }
-<<<<<<< Updated upstream
-=======
 
   protected void loadIcon() {}
 
@@ -66,5 +66,4 @@ public class MainAppController extends MainApp {
     errorLabel.setText(msg);
     errorLabel.setVisible(true);
   }
->>>>>>> Stashed changes
 }

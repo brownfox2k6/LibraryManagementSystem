@@ -1,8 +1,5 @@
 package com.application.librarymanagement.user;
 
-<<<<<<< Updated upstream
-public class User {
-=======
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.*;
@@ -68,5 +65,4 @@ public abstract class User {
       throw new RuntimeException(e);
     }
   }
->>>>>>> Stashed changes
 }

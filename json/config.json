@@ -1,8 +1,4 @@
 {
-<<<<<<< Updated upstream
-  "theme": "cupertino-light"
-=======
   "theme": "dracula",
   "currentSession": "admin"
->>>>>>> Stashed changes
 }

@@ -4,7 +4,6 @@ import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,6 +19,9 @@ import java.util.Objects;
 import com.google.gson.JsonObject;
 
 public class MainApp extends Application {
+  public static final Path CONFIG_PATH = Paths.get("json/config.json");
+  public static final Path BOOKS_DB_PATH = Paths.get("json/books.json");
+  public static final Path USERS_DB_PATH = Paths.get("json/users.json");
   public static Stage stage;
   public static JsonObject config;
 
@@ -33,49 +35,32 @@ public class MainApp extends Application {
     stage = primaryStage;
     stage.setTitle("Library Management System");
     stage.setResizable(false);
-    config = JsonUtils.loadLocalJson("config");
+    config = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
     assert config != null;
     applyStylesheet(config.get("theme").getAsString());
-<<<<<<< Updated upstream
-    setScene("SignIn");
-  }
-
-  /**
-   * Updates a property in the configuration and writes the updated configuration
-   * back to {@code config.json} in a pretty-printed JSON format.
-   * @param name  the property name to update or add
-   * @param value the property value to set
-   */
-  public void addPropertyToConfig(String name, String value) {
-    try {
-      config.addProperty(name, value);
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      Path path = Paths.get("json/config.json");
-      Files.writeString(path, gson.toJson(config));
-    } catch (Exception e) {
-      System.err.println(e.getMessage());
-=======
     if (config.has("currentSession")) {
-      setScene("InApp");
+      setScene("Dashboard");
     } else {
       setScene("SignIn");
->>>>>>> Stashed changes
     }
   }
 
   /**
-   * Set/change the scene of the JavaFX application by loading a FXML file
+   * Set/change the scene of the JavaFX application by loading an FXML file
    * from the classpath.
    * @param name the base name of the FXML file (without the {@code .fxml} extension)
    *             e.g. {@code name=SignIn} loads {@code scenes/SignIn.fxml}
-   * @throws IOException ìf the FXML file cannot be loaded
    */
-  public static void setScene(String name) throws IOException {
-    String path = String.format("scenes/%s.fxml", name);
-    Parent root = FXMLLoader.load(Objects.requireNonNull(MainApp.class.getResource(path)));
-    Scene scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
+  public static void setScene(String name) {
+    try {
+      String path = String.format("scenes/%s.fxml", name);
+      Parent root = FXMLLoader.load(Objects.requireNonNull(MainApp.class.getResource(path)));
+      Scene scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -87,9 +72,8 @@ public class MainApp extends Application {
   public static void applyStylesheet(String name) {
     String path = String.format("themes/%s.css", name);
     URL url = MainApp.class.getResource(path);
-    if (url != null) {
-      MainApp.setUserAgentStylesheet(url.toString());
-    }
+    assert url != null;
+    MainApp.setUserAgentStylesheet(url.toString());
   }
 
   /**

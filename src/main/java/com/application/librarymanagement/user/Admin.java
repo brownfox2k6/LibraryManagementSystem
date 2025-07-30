@@ -1,8 +1,5 @@
 package com.application.librarymanagement.user;
 
-<<<<<<< Updated upstream
-public class Admin extends User {
-=======
 import com.google.gson.JsonObject;
 
 public final class Admin extends User {
@@ -14,5 +11,4 @@ public final class Admin extends User {
   protected JsonObject toJsonObject() {
     return new JsonObject();
   }
->>>>>>> Stashed changes
 }
