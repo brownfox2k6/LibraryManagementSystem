@@ -21,7 +21,7 @@
       <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="640.0"></ImageView>
       <VBox alignment="CENTER" layoutY="24.0" prefHeight="696.0" prefWidth="640.0">
          <children>
-            <Label text="Hi, 🙋‍♂️" textAlignment="CENTER">
+            <Label text="Hi 👋" textAlignment="CENTER">
                <font>
                   <Font name="Candara Bold" size="50.0"/>
                </font>

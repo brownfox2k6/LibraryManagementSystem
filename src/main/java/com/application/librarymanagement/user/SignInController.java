@@ -35,8 +35,19 @@ public class SignInController extends MainAppController {
       String p = JsonUtils.getAsString(user, "password");
       assert u != null && p != null;
       if (u.equals(username) && p.equals(password)) {
+<<<<<<< Updated upstream
         // TODO: Implement login successfully.
         errorLabel.setVisible(false);
+=======
+        JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", u);
+        errorLabel.setTextFill(Paint.valueOf("GREEN"));
+        showErrorLabel("Sign in successful. Redirecting to dashboard...");
+        PauseTransition pause = new PauseTransition(Duration.millis(1000));
+        pause.setOnFinished(event -> {
+          setScene("InApp");
+        });
+        pause.play();
+>>>>>>> Stashed changes
         return;
       }
     }

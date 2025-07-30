@@ -1,5 +1,6 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -35,6 +36,7 @@ public class MainApp extends Application {
     config = JsonUtils.loadLocalJson("config");
     assert config != null;
     applyStylesheet(config.get("theme").getAsString());
+<<<<<<< Updated upstream
     setScene("SignIn");
   }
 
@@ -52,6 +54,12 @@ public class MainApp extends Application {
       Files.writeString(path, gson.toJson(config));
     } catch (Exception e) {
       System.err.println(e.getMessage());
+=======
+    if (config.has("currentSession")) {
+      setScene("InApp");
+    } else {
+      setScene("SignIn");
+>>>>>>> Stashed changes
     }
   }
 

@@ -1,9 +1,6 @@
 package com.application.librarymanagement.utils;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -62,16 +59,32 @@ public class JsonUtils {
     }
   }
 
+<<<<<<< Updated upstream
   public static String getAsString(JsonObject object, String entity) {
     return object.has(entity) ? object.get(entity).getAsString() : null;
+=======
+  public static JsonArray loadLocalJsonAsArray(Path path) {
+    try {
+      String content = new String(Files.readAllBytes(path));
+      JsonArray array = JsonParser.parseString(content).getAsJsonArray();
+      assert array != null;
+      return array;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
-  public static List<String> getAsList(JsonObject object, String entity) {
-    if (!object.has(entity)) {
+  public static String getAsString(JsonObject object, String key) {
+    return object.has(key) ? object.get(key).getAsString() : null;
+>>>>>>> Stashed changes
+  }
+
+  public static List<String> getAsList(JsonObject object, String key) {
+    if (!object.has(key)) {
       return null;
     }
     List<String> list = new ArrayList<>();
-    JsonArray array = object.get(entity).getAsJsonArray();
+    JsonArray array = object.get(key).getAsJsonArray();
     for (JsonElement e : array) {
       list.add(e.getAsString());
     }
@@ -91,5 +104,44 @@ public class JsonUtils {
       map.put(k, v);
     }
     return map;
+  }
+
+  /**
+   * Searches through a JSON array and returns the first JSON object
+   * that contains a property with the given key whose string value
+   * exactly matches the provided value.
+   * @param array the {@link JsonArray} to search through
+   * @param key   the property name to look for in each JSON object
+   * @param value the expected string value of the property
+   * @return the first {@link JsonObject} in the array with a matching key/value pair,
+   *         or {@code null} if no such object is found
+   */
+  public static JsonObject findJsonObjectByKeyValue(JsonArray array, String key, String value) {
+    for (JsonElement e : array) {
+      JsonObject o = e.getAsJsonObject();
+      if (o.has(key) && o.get(key).getAsString().equals(value)) {
+        return o;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Adds or updates a property in the given JSON object and writes the
+   * resulting JSON back to the specified file path in a pretty-printed format.
+   * @param object the {@link JsonObject} to modify
+   * @param path   the file system {@link Path} where the JSON should be written
+   * @param name   the property name to add or update
+   * @param value  the property value to set
+   * @throws RuntimeException if an I/O error or JSON serialization error occurs
+   */
+  public static void addProperty(JsonObject object, Path path, String name, String value) {
+    try {
+      object.addProperty(name, value);
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      Files.writeString(path, gson.toJson(object));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 }
