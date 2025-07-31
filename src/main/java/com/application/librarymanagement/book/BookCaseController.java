@@ -20,7 +20,7 @@ public class BookCaseController {
     authorCase.setText(this.book.getAuthorsString());
     String thumbnailLink = this.book.getThumbnailLink();
     if (thumbnailLink.isEmpty()) {
-      imageCase.setImage(ImageUtils.getImage("defaultBookCover.jpg"));
+      imageCase.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
     } else {
       imageCase.setImage(new Image(thumbnailLink));
     }

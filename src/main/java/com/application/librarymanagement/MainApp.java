@@ -39,10 +39,10 @@ public class MainApp extends Application {
     config = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
     assert config != null;
     applyStylesheet(config.get("theme").getAsString());
-    if (config.has("currentSession")) {
-      setScene("Dashboard");
-    } else {
+    if (config.get("currentSession").getAsString().isEmpty()) {
       setScene("SignIn");
+    } else {
+      setScene("InApp");
     }
   }
 

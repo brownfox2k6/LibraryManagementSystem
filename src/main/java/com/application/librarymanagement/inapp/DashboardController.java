@@ -30,7 +30,6 @@ public final class DashboardController extends InAppController {
   private JsonArray books;
 
   public void initialize() {
-    super.initialize();
     books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
     showRecommendations();
     showMostBorrowsTable();

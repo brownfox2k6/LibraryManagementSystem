@@ -9,8 +9,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.net.URL;
-
 public class MainAppController extends MainApp {
   @FXML public ImageView backgroundImage;
   @FXML public Label errorLabel;
