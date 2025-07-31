@@ -71,19 +71,19 @@ public class JsonUtils {
   }
 
   public static String getAsString(JsonObject object, String key, String defaultValue) {
-    return object.has(key) ? object.get(key).getAsString() : defaultValue;
+    return object != null && object.has(key) ? object.get(key).getAsString() : defaultValue;
   }
 
   public static int getAsInt(JsonObject object, String key, int defaultValue) {
-    return object.has(key) ? object.get(key).getAsInt() : defaultValue;
+    return object != null && object.has(key) ? object.get(key).getAsInt() : defaultValue;
   }
 
   public static double getAsDouble(JsonObject object, String key, double defaultValue) {
-    return object.has(key) ? object.get(key).getAsDouble() : defaultValue;
+    return object != null && object.has(key) ? object.get(key).getAsDouble() : defaultValue;
   }
 
   public static JsonArray getAsJsonArray(JsonObject object, String key) {
-    return object.has(key) ? object.get(key).getAsJsonArray() : new JsonArray();
+    return object != null && object.has(key) ? object.get(key).getAsJsonArray() : new JsonArray();
   }
 
   public static String jsonArrayToString(JsonArray array) {

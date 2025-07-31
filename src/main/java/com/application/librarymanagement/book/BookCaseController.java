@@ -1,5 +1,6 @@
 package com.application.librarymanagement.book;
 
+import com.application.librarymanagement.utils.ImageUtils;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -17,6 +18,11 @@ public class BookCaseController {
     this.book = book;
     nameCase.setText(this.book.getTitle());
     authorCase.setText(this.book.getAuthorsString());
-    imageCase.setImage(new Image(this.book.getThumbnailLink()));
+    String thumbnailLink = this.book.getThumbnailLink();
+    if (thumbnailLink.isEmpty()) {
+      imageCase.setImage(ImageUtils.getImage("defaultBookCover.jpg"));
+    } else {
+      imageCase.setImage(new Image(thumbnailLink));
+    }
   }
 }

@@ -33,11 +33,11 @@
                         <Font name="Candara Bold" size="24.0" />
                      </font>
                   </Text>
-                  <TableView prefHeight="584.0" prefWidth="348.0">
+                  <TableView fx:id="mostBorrowsTable" prefHeight="584.0" prefWidth="348.0">
                     <columns>
                       <TableColumn fx:id="rankColumn" prefWidth="42.0" resizable="false" text="#" />
-                      <TableColumn fx:id="nameColumn" prefWidth="229.0" resizable="false" text="Book name" />
-                        <TableColumn fx:id="countColumn" prefWidth="76.0" resizable="false" text="Borrows" />
+                      <TableColumn fx:id="titleColumn" prefWidth="229.0" resizable="false" text="Book name" />
+                        <TableColumn fx:id="borrowsCountColumn" prefWidth="76.0" resizable="false" text="Borrows" />
                     </columns>
                   </TableView>
                </children>

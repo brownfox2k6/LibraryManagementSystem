@@ -5,6 +5,10 @@ import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Holds all properties of a book.
@@ -53,6 +57,14 @@ public class Book {
 
   public void setQuantity(int quantity) {
     data.addProperty("quantity", quantity);
+  }
+
+  public int getBorrowsCount() {
+    return JsonUtils.getAsInt(data, "borrowsCount", 0);
+  }
+
+  public void incrementBorrowsCount() {
+    data.addProperty("borrowsCount", getBorrowsCount() + 1);
   }
 
   public void adjustQuantity(int amount) {
@@ -112,7 +124,11 @@ public class Book {
   }
 
   public String getThumbnailLink() {
-    JsonObject imageLinks = getVolumeInfo().getAsJsonObject("imageLinks");
+    JsonObject o = getVolumeInfo();
+    if (o == null) {
+      return "";
+    }
+    JsonObject imageLinks = o.getAsJsonObject("imageLinks");
     return JsonUtils.getAsString(imageLinks, "thumbnail", "");
   }
 
@@ -137,14 +153,22 @@ public class Book {
   }
 
   public String getPrice() {
-    JsonObject price = getSaleInfo().get("listPrice").getAsJsonObject();
+    JsonObject o = getSaleInfo();
+    if (o == null) {
+      return "";
+    }
+    JsonObject price = o.get("listPrice").getAsJsonObject();
     String amount = JsonUtils.getAsString(price, "amount", "");
     String currencyCode = JsonUtils.getAsString(price, "currencyCode", "");
     return amount + " " + currencyCode;
   }
 
   public String getRetailPrice() {
-    JsonObject price = getSaleInfo().get("retailPrice").getAsJsonObject();
+    JsonObject o = getSaleInfo();
+    if (o == null) {
+      return "";
+    }
+    JsonObject price = o.get("retailPrice").getAsJsonObject();
     String amount = JsonUtils.getAsString(price, "amount", "");
     String currencyCode = JsonUtils.getAsString(price, "currencyCode", "");
     return amount + " " + currencyCode;
@@ -169,5 +193,26 @@ public class Book {
       books.add(getData());
     }
     JsonUtils.saveToFile(books, MainApp.BOOKS_DB_PATH);
+  }
+
+  public BookStats toBookStats() {
+    return new BookStats(0, getTitle(), getBorrowsCount());
+  }
+
+  public static List<BookStats> toBookStatsList(JsonArray books) {
+    List<BookStats> stats = new ArrayList<>();
+    for (JsonElement e : books) {
+      JsonObject obj = e.getAsJsonObject();
+      Book book = Book.fromJsonObject(obj);
+      stats.add(book.toBookStats());
+    }
+    stats = stats.stream()
+                 .sorted(Comparator.comparingInt(BookStats::getBorrowsCount).reversed())
+                 .collect(Collectors.toList());
+    for (int i = 0; i < stats.size(); ++i) {
+      BookStats s = stats.get(i);
+      s.rankProperty().set(i + 1);
+    }
+    return stats;
   }
 }
