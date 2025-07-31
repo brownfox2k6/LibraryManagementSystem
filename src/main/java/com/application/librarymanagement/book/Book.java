@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 /**
  * Holds all properties of a book.
- * <a href="https://www.googleapis.com/books/v1/volumes/RSMuEAAAQBAJ">
- * This is an example of what Google Books API returns when querying for a specific book.</a>"
+ * <p><a href="https://www.googleapis.com/books/v1/volumes/RSMuEAAAQBAJ">This </a>
+ * is an example of what Google Books API returns when querying for a specific book.
  */
 public class Book {
   private JsonObject data;

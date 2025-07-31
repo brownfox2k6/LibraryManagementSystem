@@ -9,24 +9,40 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
-import java.io.IOException;
-
-public class SignInController extends MainAppController {
+/**
+ * Controller class for handling user sign-in functionality in the Library Management System.
+ * <p>
+ * This class manages input validation, authentication of users against local JSON data,
+ * user feedback via the error label, and scene transitions between sign-in and sign-up views.
+ */
+public final class SignInController extends MainAppController {
   @FXML private TextField usernameField;
   @FXML private PasswordField passwordField;
-  @FXML private Label errorLabel;
 
   @FXML private void switchToSignUp() {
     MainApp.setScene("SignUp");
   }
 
-  @FXML private void trySignIn() {
+  /**
+   * Attempts to authenticate the user based on the provided username and password.
+   * <p>
+   * This method:
+   * <ul>
+   *   <li>Retrieves user credentials from local JSON storage.</li>
+   *   <li>Hashes the input password using SHA-256 before comparison.</li>
+   *   <li>Displays success or failure messages in the error label.</li>
+   *   <li>On successful sign-in, shows a success message and triggers a transition
+   *       (e.g., to dashboard) after a short delay.</li>
+   * </ul>
+   * If no matching username and password pair is found, an error message is displayed.
+   */
+  @FXML
+  private void trySignIn() {
     String username = usernameField.getText();
     String password = PasswordUtils.hashPassword(passwordField.getText());
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);

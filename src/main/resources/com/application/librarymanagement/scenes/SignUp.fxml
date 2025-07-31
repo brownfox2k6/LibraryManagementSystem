@@ -14,145 +14,158 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0"
-            prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.application.librarymanagement.user.SignUpController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.user.SignUpController">
    <children>
-      <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="640.0"></ImageView>
+      <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="640.0" />
       <VBox alignment="CENTER" layoutY="24.0" prefHeight="696.0" prefWidth="640.0">
          <children>
             <Label text="Hi 👋" textAlignment="CENTER">
                <font>
-                  <Font name="Candara Bold" size="50.0"/>
+                  <Font name="Candara Bold" size="50.0" />
                </font>
             </Label>
             <Label text="Welcome to devtop10's Library Management System" textAlignment="CENTER">
                <font>
-                  <Font name="Candara Bold" size="25.0"/>
+                  <Font name="Candara Bold" size="25.0" />
                </font>
                <padding>
-                  <Insets top="10.0"/>
+                  <Insets top="10.0" />
                </padding>
             </Label>
-            <Label alignment="BOTTOM_CENTER" prefHeight="112.0" prefWidth="275.0"
-                   text="Already have an account? Sign in instead." textAlignment="CENTER" wrapText="true">
+            <Label alignment="BOTTOM_CENTER" prefHeight="112.0" prefWidth="275.0" text="Already have an account? Sign in instead." textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
                <padding>
-                  <Insets top="10.0"/>
+                  <Insets top="10.0" />
                </padding>
             </Label>
             <Button mnemonicParsing="false" onAction="#switchToSignIn" text="Sign in">
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets top="25.0"/>
+                  <Insets top="25.0" />
                </VBox.margin>
             </Button>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="640.0" layoutY="67.0" prefHeight="653.0" prefWidth="640.0">
+      <VBox alignment="CENTER" layoutX="640.0" layoutY="68.0" prefHeight="652.0" prefWidth="640.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sign up">
                <font>
-                  <Font name="Candara Bold" size="50.0"/>
+                  <Font name="Candara Bold" size="50.0" />
                </font>
                <VBox.margin>
-                  <Insets/>
+                  <Insets />
                </VBox.margin>
             </Text>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="487.291015625">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Full Name" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0"/>
+                  <Font name="Candara Bold" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="15.0"/>
+                  <Insets top="15.0" />
+               </VBox.margin>
+            </Text>
+            <TextField fx:id="nameField" prefHeight="46.0" prefWidth="965.0">
+               <font>
+                  <Font name="Candara" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="75.0" right="75.0" />
+               </VBox.margin>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </TextField>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="487.291015625">
+               <font>
+                  <Font name="Candara Bold" size="20.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="15.0" />
                </VBox.margin>
             </Text>
             <TextField fx:id="usernameField" prefHeight="46.0" prefWidth="965.0">
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets left="75.0" right="75.0"/>
+                  <Insets left="75.0" right="75.0" />
                </VBox.margin>
                <opaqueInsets>
-                  <Insets/>
+                  <Insets />
                </opaqueInsets>
             </TextField>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0"/>
+                  <Font name="Candara Bold" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="15.0"/>
+                  <Insets top="15.0" />
                </VBox.margin>
             </Text>
             <TextField fx:id="emailField" prefHeight="46.0" prefWidth="965.0">
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets left="75.0" right="75.0"/>
+                  <Insets left="75.0" right="75.0" />
                </VBox.margin>
                <opaqueInsets>
-                  <Insets/>
+                  <Insets />
                </opaqueInsets>
             </TextField>
-            <Text layoutX="86.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password"
-                  wrappingWidth="487.291015625">
+            <Text layoutX="86.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0"/>
+                  <Font name="Candara Bold" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="15.0"/>
+                  <Insets top="15.0" />
                </VBox.margin>
             </Text>
             <PasswordField fx:id="passwordField">
                <VBox.margin>
-                  <Insets left="75.0" right="75.0"/>
+                  <Insets left="75.0" right="75.0" />
                </VBox.margin>
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
             </PasswordField>
-            <Text layoutX="86.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password"
-                  wrappingWidth="487.291015625">
+            <Text layoutX="86.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Confirm Password" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0"/>
+                  <Font name="Candara Bold" size="20.0" />
                </font>
                <VBox.margin>
-                  <Insets top="15.0"/>
+                  <Insets top="15.0" />
                </VBox.margin>
             </Text>
             <PasswordField fx:id="passwordField2">
                <VBox.margin>
-                  <Insets left="75.0" right="75.0"/>
+                  <Insets left="75.0" right="75.0" />
                </VBox.margin>
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
             </PasswordField>
             <Button mnemonicParsing="false" onAction="#trySignUp" text="Sign up">
                <font>
-                  <Font name="Candara" size="24.0"/>
+                  <Font name="Candara" size="24.0" />
                </font>
                <opaqueInsets>
-                  <Insets/>
+                  <Insets />
                </opaqueInsets>
                <VBox.margin>
-                  <Insets top="25.0"/>
+                  <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="101.0" prefWidth="443.0"
-                   textFill="RED" visible="false" wrapText="true">
+            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="103.0" prefWidth="443.0" textFill="RED" visible="false" wrapText="true">
                <font>
-                  <Font name="Candara" size="18.0"/>
+                  <Font name="Candara" size="18.0" />
                </font>
                <padding>
-                  <Insets top="25.0"/>
+                  <Insets top="25.0" />
                </padding>
             </Label>
          </children>
@@ -161,13 +174,13 @@
          <menus>
             <Menu mnemonicParsing="false" text="Theme">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-dark"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-light"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="dracula"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-dark"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-light"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-dark"/>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-light"/>
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-dark" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-light" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="dracula" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-dark" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-light" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-dark" />
+                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-light" />
                </items>
             </Menu>
          </menus>
