@@ -32,8 +32,8 @@ public class SignInController extends MainAppController {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
     for (JsonElement element : users) {
       JsonObject user = element.getAsJsonObject();
-      String u = JsonUtils.getAsString(user, "username");
-      String p = JsonUtils.getAsString(user, "password");
+      String u = JsonUtils.getAsString(user, "username", "");
+      String p = JsonUtils.getAsString(user, "password", "");
       assert u != null && p != null;
       if (u.equals(username) && p.equals(password)) {
         JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", u);

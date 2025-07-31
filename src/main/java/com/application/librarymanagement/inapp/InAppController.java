@@ -28,7 +28,7 @@ public class InAppController extends MainAppController {
 
   public void initialize() {
     super.initialize();
-    String username = JsonUtils.getAsString(config, "currentSession");
+    String username = JsonUtils.getAsString(config, "currentSession", "");
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
     currentUser = JsonUtils.findJsonObjectByKeyValue(users, "username", username);
     assert currentUser != null;

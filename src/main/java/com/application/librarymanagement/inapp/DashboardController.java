@@ -1,6 +1,7 @@
 package com.application.librarymanagement.inapp;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
@@ -33,7 +34,7 @@ public final class DashboardController extends InAppController {
       try {
         VBox bookCaseBox = fxmlLoader.load();
         BookCaseController bookCaseController = fxmlLoader.getController();
-        bookCaseController.setData(book);
+        bookCaseController.setData(Book.fromJsonObject(book));
         int row = cell / recommendationsPane.getColumnCount();
         int col = cell % recommendationsPane.getColumnCount();
         recommendationsPane.add(bookCaseBox, col, row);

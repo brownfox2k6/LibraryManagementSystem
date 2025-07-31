@@ -181,7 +181,7 @@ public class Search {
     List<Book> books = new ArrayList<>();
     JsonArray items = json.get("items").getAsJsonArray();
     for (JsonElement item : items) {
-      books.add(new Book(item.getAsJsonObject()));
+      books.add(Book.fromJsonObject(item.getAsJsonObject()));
     }
     return books;
   }

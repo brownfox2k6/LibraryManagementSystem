@@ -15,15 +15,8 @@ public class BookCaseController {
 
   public void setData(Book book) {
     this.book = book;
-    nameCase.setText(this.book.title);
+    nameCase.setText(this.book.getTitle());
     authorCase.setText(this.book.getAuthorsString());
-    imageCase.setImage(new Image(this.book.thumbnailLink));
-  }
-
-  public void setData(JsonObject book) {
-    this.book = Book.fromLocalJsonObject(book);
-    nameCase.setText(this.book.title);
-    authorCase.setText(this.book.getAuthorsString());
-    imageCase.setImage(new Image(this.book.thumbnailLink));
+    imageCase.setImage(new Image(this.book.getThumbnailLink()));
   }
 }

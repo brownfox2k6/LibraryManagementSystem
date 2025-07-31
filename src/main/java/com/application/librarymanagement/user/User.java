@@ -48,8 +48,8 @@ public abstract class User {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
     for (int i = 0; i < users.size(); ++i) {
       JsonObject user = users.get(i).getAsJsonObject();
-      if (Objects.equals(JsonUtils.getAsString(user, "username"), this.username) ||
-          Objects.equals(JsonUtils.getAsString(user, "email"), this.email)) {
+      if (Objects.equals(JsonUtils.getAsString(user, "username", ""), this.username) ||
+          Objects.equals(JsonUtils.getAsString(user, "email", ""), this.email)) {
         if (canOverwrite) {
           users.remove(user);
           break;

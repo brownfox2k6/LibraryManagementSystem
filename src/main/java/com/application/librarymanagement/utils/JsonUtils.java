@@ -1,5 +1,6 @@
 package com.application.librarymanagement.utils;
 
+import com.application.librarymanagement.MainApp;
 import com.google.gson.*;
 
 import java.io.BufferedReader;
@@ -69,8 +70,40 @@ public class JsonUtils {
     }
   }
 
-  public static String getAsString(JsonObject object, String key) {
-    return object.has(key) ? object.get(key).getAsString() : null;
+  public static String getAsString(JsonObject object, String key, String defaultValue) {
+    return object.has(key) ? object.get(key).getAsString() : defaultValue;
+  }
+
+  public static int getAsInt(JsonObject object, String key, int defaultValue) {
+    return object.has(key) ? object.get(key).getAsInt() : defaultValue;
+  }
+
+  public static double getAsDouble(JsonObject object, String key, double defaultValue) {
+    return object.has(key) ? object.get(key).getAsDouble() : defaultValue;
+  }
+
+  public static JsonArray getAsJsonArray(JsonObject object, String key) {
+    return object.has(key) ? object.get(key).getAsJsonArray() : new JsonArray();
+  }
+
+  public static String jsonArrayToString(JsonArray array) {
+    StringBuilder sb = new StringBuilder();
+    for (int i = 0; i < array.size(); i++) {
+      sb.append(array.get(i).getAsString());
+      if (i != array.size() - 1) {
+        sb.append(", ");
+      }
+    }
+    return sb.toString();
+  }
+
+  public static void saveToFile(JsonElement obj, Path path) {
+    try {
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      Files.writeString(path, gson.toJson(obj));
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 
   public static List<String> getAsList(JsonObject object, String key) {
