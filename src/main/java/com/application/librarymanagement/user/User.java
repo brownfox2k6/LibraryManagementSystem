@@ -1,5 +1,6 @@
 package com.application.librarymanagement.user;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.*;
@@ -11,7 +12,6 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public abstract class User {
-  protected static final Path USERS_DB_PATH = Paths.get("json/users.json");
   protected String name;
   protected String username;
   protected String email;
@@ -42,10 +42,10 @@ public abstract class User {
    *                     if {@code false}, prevents overwriting and cancels the save (this is used when creating a new user).
    * @return {@code true} if the user was saved successfully (added or overwritten),
    *         {@code false} if a duplicate was found and {@code canOverwrite} is {@code false}.
-   * @throws RuntimeException if writing to the file fails due to an {@link IOException}.
+//   * @throws IOException if writing to the file fails.
    */
   public boolean saveToDatabase(boolean canOverwrite) {
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
+    JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
     for (int i = 0; i < users.size(); ++i) {
       JsonObject user = users.get(i).getAsJsonObject();
       if (Objects.equals(JsonUtils.getAsString(user, "username"), this.username) ||
@@ -59,10 +59,9 @@ public abstract class User {
     }
     users.add(this.toJsonObject());
     try {
-      Files.writeString(USERS_DB_PATH, new GsonBuilder().setPrettyPrinting().create().toJson(users));
-      return true;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      Files.writeString(MainApp.USERS_DB_PATH, gson.toJson(users));
+    } catch (Exception ignored) {}
+    return true;
   }
 }

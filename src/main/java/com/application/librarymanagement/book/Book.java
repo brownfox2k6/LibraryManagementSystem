@@ -1,9 +1,11 @@
 package com.application.librarymanagement.book;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;;
 
@@ -15,15 +17,15 @@ import java.util.Map;;
 public class Book {
   String id;
   String title;
-  List<String> authors;
+  JsonArray authors;
   String publisher;
   String publishedDate;
   String description;
-  Map<String, String> industryIdentifiers;
-  String pageCount;
-  List<String> categories;
-  String averageRating;
-  String ratingsCount;
+  JsonArray industryIdentifiers;
+  int pageCount;
+  JsonArray categories;
+  double averageRating;
+  int ratingsCount;
   String thumbnailLink;
   String language;
   String previewLink;
@@ -33,6 +35,10 @@ public class Book {
   String price;
   String retailPrice;
   String buyLink;
+  int quantity = 0;
+  int borrowsCount = 0;
+
+  public Book() {}
 
   /**
    * Constructs a new {@code Book} instance by loading its metadata from the Google Books API.
@@ -52,24 +58,23 @@ public class Book {
     this.id = JsonUtils.getAsString(json, "id");
     if (json.has("volumeInfo")) {
       JsonObject volumeInfo = json.get("volumeInfo").getAsJsonObject();
-      this.title = JsonUtils.getAsString(volumeInfo, "title");
-      this.authors = JsonUtils.getAsList(volumeInfo, "authors");
-      this.publisher = JsonUtils.getAsString(volumeInfo, "publisher");
-      this.publishedDate = JsonUtils.getAsString(volumeInfo, "publishedDate");
-      this.description = JsonUtils.getAsString(volumeInfo, "description");
-      this.industryIdentifiers = JsonUtils.getAsMap(
-          volumeInfo, "industryIdentifiers", "type", "identifier");
-      this.pageCount = JsonUtils.getAsString(volumeInfo, "pageCount");
-      this.categories = JsonUtils.getAsList(volumeInfo, "categories");
-      this.averageRating = JsonUtils.getAsString(volumeInfo, "averageRating");
-      this.ratingsCount = JsonUtils.getAsString(volumeInfo, "ratingsCount");
+      this.title = volumeInfo.get("title").getAsString();
+      this.authors = volumeInfo.get("authors").getAsJsonArray();
+      this.publisher = volumeInfo.get("publisher").getAsString();
+      this.publishedDate = volumeInfo.get("publishedDate").getAsString();
+      this.description = volumeInfo.get("description").getAsString();
+      this.industryIdentifiers = volumeInfo.get("industryIdentifiers").getAsJsonArray();
+      this.pageCount = volumeInfo.get("pageCount").getAsInt();
+      this.categories = volumeInfo.get("categories").getAsJsonArray();
+      this.averageRating = volumeInfo.has("averageRating")? volumeInfo.get("averageRating").getAsDouble() : 0;
+      this.ratingsCount = volumeInfo.has("ratingsCount")? volumeInfo.get("ratingsCount").getAsInt() : 0;
       if (volumeInfo.has("imageLinks")) {
         JsonObject imageLinks = volumeInfo.get("imageLinks").getAsJsonObject();
-        this.thumbnailLink = JsonUtils.getAsString(imageLinks, "thumbnail");
+        this.thumbnailLink = imageLinks.get("thumbnail").getAsString();
       }
-      this.language = JsonUtils.getAsString(volumeInfo, "language");
-      this.previewLink = JsonUtils.getAsString(volumeInfo, "previewLink");
-      this.infoLink = JsonUtils.getAsString(volumeInfo, "infoLink");
+      this.language = volumeInfo.get("language").getAsString();
+      this.previewLink = volumeInfo.get("previewLink").getAsString();
+      this.infoLink = volumeInfo.get("infoLink").getAsString();
     }
     if (json.has("saleInfo")) {
       JsonObject saleInfo = json.get("saleInfo").getAsJsonObject();
@@ -77,17 +82,101 @@ public class Book {
       this.saleability = saleInfo.get("saleability").getAsString();
       if (saleInfo.has("listPrice")) {
         JsonObject listPrice = saleInfo.get("listPrice").getAsJsonObject();
-        String amount = JsonUtils.getAsString(listPrice, "amount");
-        String currencyCode = JsonUtils.getAsString(listPrice, "currencyCode");
+        String amount = listPrice.get("amount").getAsString();
+        String currencyCode = listPrice.get("currencyCode").getAsString();
         this.price = amount + " " + currencyCode;
       }
       if (saleInfo.has("retailPrice")) {
         JsonObject retailPrice = saleInfo.get("retailPrice").getAsJsonObject();
-        String amount = JsonUtils.getAsString(retailPrice, "amount");
-        String currencyCode = JsonUtils.getAsString(retailPrice, "currencyCode");
+        String amount = retailPrice.get("amount").getAsString();
+        String currencyCode = retailPrice.get("currencyCode").getAsString();
         this.retailPrice = amount + " " + currencyCode;
       }
-      this.buyLink = JsonUtils.getAsString(saleInfo, "buyLink");
+      this.buyLink = saleInfo.get("buyLink").getAsString();
     }
+  }
+
+  private JsonObject toJsonObject() {
+    JsonObject book = new JsonObject();
+    book.addProperty("id", id);
+    book.addProperty("title", title);
+    book.add("authors", authors);
+    book.addProperty("publisher", publisher);
+    book.addProperty("publishedDate", publishedDate);
+    book.addProperty("description", description);
+    book.add("industryIdentifiers", industryIdentifiers);
+    book.addProperty("pageCount", pageCount);
+    book.add("categories", categories);
+    book.addProperty("averageRating", averageRating);
+    book.addProperty("ratingsCount", ratingsCount);
+    book.addProperty("thumbnailLink", thumbnailLink);
+    book.addProperty("language", language);
+    book.addProperty("previewLink", previewLink);
+    book.addProperty("infoLink", infoLink);
+    book.addProperty("country", country);
+    book.addProperty("saleability", saleability);
+    book.addProperty("price", price);
+    book.addProperty("retailPrice", retailPrice);
+    book.addProperty("buyLink", buyLink);
+    book.addProperty("quantity", quantity);
+    book.addProperty("borrowsCount", borrowsCount);
+    return book;
+  }
+
+  public static Book fromLocalJsonObject(JsonObject obj) {
+    Book book = new Book();
+    book.id = obj.get("id").getAsString();
+    book.title = obj.get("title").getAsString();
+    book.authors = obj.get("authors").getAsJsonArray();
+    book.publisher = obj.get("publisher").getAsString();
+    book.publishedDate = obj.get("publishedDate").getAsString();
+    book.description = obj.get("description").getAsString();
+    book.industryIdentifiers = obj.get("industryIdentifiers").getAsJsonArray();
+    book.pageCount = obj.get("pageCount").getAsInt();
+    book.categories = obj.get("categories").getAsJsonArray();
+    book.averageRating = obj.get("averageRating").getAsDouble();
+    book.ratingsCount = obj.get("ratingsCount").getAsInt();
+    book.thumbnailLink = obj.get("thumbnailLink").getAsString();
+    book.language = obj.get("language").getAsString();
+    book.previewLink = obj.get("previewLink").getAsString();
+    book.infoLink = obj.get("infoLink").getAsString();
+    book.country = obj.get("country").getAsString();
+    book.saleability = obj.get("saleability").getAsString();
+    book.price = obj.get("price").getAsString();
+    book.retailPrice = obj.get("retailPrice").getAsString();
+    book.buyLink = obj.get("buyLink").getAsString();
+    book.quantity = obj.get("quantity").getAsInt();
+    book.borrowsCount = obj.get("borrowsCount").getAsInt();
+    return book;
+  }
+
+  public String getAuthorsString() {
+    StringBuilder ret = new StringBuilder();
+    for (int i = 0; i < authors.size(); ++i) {
+      ret.append(authors.get(i).getAsString());
+      if (i == authors.size() - 1) {
+        ret.append(", ");
+      }
+    }
+    return ret.toString();
+  }
+
+  public void addToDatabase(int delta) throws IOException {
+    quantity += delta;
+    JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
+    boolean updated = false;
+    for (JsonElement e : books) {
+      JsonObject currentBook = e.getAsJsonObject();
+      if (id.equals(currentBook.get("id").getAsString())) {
+        currentBook.addProperty("quantity", quantity);
+        updated = true;
+        break;
+      }
+    }
+    if (!updated) {
+      books.add(toJsonObject());
+    }
+    Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    Files.writeString(MainApp.BOOKS_DB_PATH, gson.toJson(books));
   }
 }

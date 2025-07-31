@@ -1,5 +1,6 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.Gson;
