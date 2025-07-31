@@ -7,7 +7,6 @@ import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.sun.tools.javac.Main;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -25,12 +24,7 @@ public final class SignInController extends MainAppController {
   @FXML private TextField usernameField;
   @FXML private PasswordField passwordField;
 
-  /**
-   * Switches from the sign-in scene to the sign-up scene.
-   * This method is triggered when the user opts to create a new account.
-   */
-  @FXML
-  private void switchToSignUp() {
+  @FXML private void switchToSignUp() {
     MainApp.setScene("SignUp");
   }
 
@@ -54,20 +48,26 @@ public final class SignInController extends MainAppController {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
     for (JsonElement element : users) {
       JsonObject user = element.getAsJsonObject();
-      String u = JsonUtils.getAsString(user, "username");
-      String p = JsonUtils.getAsString(user, "password");
+      String u = JsonUtils.getAsString(user, "username", "");
+      String p = JsonUtils.getAsString(user, "password", "");
       assert u != null && p != null;
       if (u.equals(username) && p.equals(password)) {
+        JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", u);
         errorLabel.setTextFill(Paint.valueOf("GREEN"));
         showErrorLabel("Sign in successful. Redirecting to dashboard...");
         PauseTransition pause = new PauseTransition(Duration.millis(1000));
         pause.setOnFinished(event -> {
-          // TODO: Go to dashboard scene.
+          setScene("InApp");
         });
         pause.play();
-        return; // this line can be removed after finishing implement switch to the dashboard scene
+        return;
       }
     }
     showErrorLabel("Wrong username or password. Please try again.");
+  }
+
+  protected void showErrorLabel(String s) {
+    errorLabel.setText(s);
+    errorLabel.setVisible(true);
   }
 }

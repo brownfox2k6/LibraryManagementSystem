@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="330.0" prefWidth="180.0" style="-fx-border-color: gray; -fx-background-radius: 8px; -fx-border-radius: 8px;" styleClass="bookcase" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.book.BookCaseController">
+   <children>
+      <ImageView fx:id="imageCase" fitHeight="240.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
+      <Label fx:id="authorCase" prefHeight="36.0" prefWidth="160.0" text="Author">
+         <font>
+            <Font name="Candara Bold" size="12.0" />
+         </font></Label>
+      <Label fx:id="nameCase" prefHeight="30.0" prefWidth="160.0" text="Name">
+         <font>
+            <Font name="Candara Bold" size="12.0" />
+         </font></Label>
+   </children>
+   <padding>
+      <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+   </padding>
+</VBox>

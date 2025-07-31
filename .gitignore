@@ -16,3 +16,6 @@ out/
 # OS-specific
 .DS_Store
 Thumbs.db
+
+# Local storage
+json/

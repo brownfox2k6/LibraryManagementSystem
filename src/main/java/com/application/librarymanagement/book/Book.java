@@ -1,11 +1,14 @@
 package com.application.librarymanagement.book;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Holds all properties of a book.
@@ -13,81 +16,203 @@ import java.util.Map;
  * is an example of what Google Books API returns when querying for a specific book.
  */
 public class Book {
-  String id;
-  String title;
-  List<String> authors;
-  String publisher;
-  String publishedDate;
-  String description;
-  Map<String, String> industryIdentifiers;
-  String pageCount;
-  List<String> categories;
-  String averageRating;
-  String ratingsCount;
-  String thumbnailLink;
-  String language;
-  String previewLink;
-  String infoLink;
-  String country;
-  String saleability;
-  String price;
-  String retailPrice;
-  String buyLink;
+  private JsonObject data;
 
-  /**
-   * Constructs a new {@code Book} instance by loading its metadata from the Google Books API.
-   * @param id the Google Books volume ID (e.g. {@code "RSMuEAAAQBAJ"})
-   * @throws IOException if a network or I/O error occurs during the HTTP request
-   */
-  public Book(String id) throws IOException {
-    this(JsonUtils.fetchJson("https://www.googleapis.com/books/v1/volumes/" + id));
+  public static Book fromGoogleBooksApi(String id) throws IOException {
+    String urlString = "https://www.googleapis.com/books/v1/volumes/" + id;
+    Book book = new Book();
+    book.setData(JsonUtils.fetchJson(urlString));
+    return book;
   }
 
-  /**
-   * Constructs a new {@code Book} instance from a pre-fetched JSON object.
-   * @param json a {@code JsonObject} representing the full volume data as returned
-   *             by the Google Books API
-   */
-  public Book(JsonObject json) {
-    this.id = JsonUtils.getAsString(json, "id");
-    if (json.has("volumeInfo")) {
-      JsonObject volumeInfo = json.get("volumeInfo").getAsJsonObject();
-      this.title = JsonUtils.getAsString(volumeInfo, "title");
-      this.authors = JsonUtils.getAsList(volumeInfo, "authors");
-      this.publisher = JsonUtils.getAsString(volumeInfo, "publisher");
-      this.publishedDate = JsonUtils.getAsString(volumeInfo, "publishedDate");
-      this.description = JsonUtils.getAsString(volumeInfo, "description");
-      this.industryIdentifiers = JsonUtils.getAsMap(
-          volumeInfo, "industryIdentifiers", "type", "identifier");
-      this.pageCount = JsonUtils.getAsString(volumeInfo, "pageCount");
-      this.categories = JsonUtils.getAsList(volumeInfo, "categories");
-      this.averageRating = JsonUtils.getAsString(volumeInfo, "averageRating");
-      this.ratingsCount = JsonUtils.getAsString(volumeInfo, "ratingsCount");
-      if (volumeInfo.has("imageLinks")) {
-        JsonObject imageLinks = volumeInfo.get("imageLinks").getAsJsonObject();
-        this.thumbnailLink = JsonUtils.getAsString(imageLinks, "thumbnail");
-      }
-      this.language = JsonUtils.getAsString(volumeInfo, "language");
-      this.previewLink = JsonUtils.getAsString(volumeInfo, "previewLink");
-      this.infoLink = JsonUtils.getAsString(volumeInfo, "infoLink");
+  public static Book fromJsonObject(JsonObject obj) {
+    Book book = new Book();
+    book.setData(obj);
+    return book;
+  }
+
+  private JsonObject getVolumeInfo() {
+    return data.getAsJsonObject("volumeInfo");
+  }
+
+  private JsonObject getSaleInfo() {
+    return data.getAsJsonObject("saleInfo");
+  }
+
+  private JsonObject getAccessInfo() {
+    return data.getAsJsonObject("accessInfo");
+  }
+
+  public void setData(JsonObject data) {
+    this.data = data;
+  }
+
+  public JsonObject getData() {
+    return data;
+  }
+
+  public int getQuantity() {
+    return JsonUtils.getAsInt(data, "quantity", 0);
+  }
+
+  public void setQuantity(int quantity) {
+    data.addProperty("quantity", quantity);
+  }
+
+  public int getBorrowsCount() {
+    return JsonUtils.getAsInt(data, "borrowsCount", 0);
+  }
+
+  public void incrementBorrowsCount() {
+    data.addProperty("borrowsCount", getBorrowsCount() + 1);
+  }
+
+  public void adjustQuantity(int amount) {
+    data.addProperty("quantity", getQuantity() + amount);
+  }
+
+  public String getId() {
+    return JsonUtils.getAsString(data, "id", "");
+  }
+
+  public String getTitle() {
+    return JsonUtils.getAsString(getVolumeInfo(), "title", "");
+  }
+
+  public JsonArray getAuthorsArray() {
+    return JsonUtils.getAsJsonArray(getVolumeInfo(), "authors");
+  }
+
+  public String getAuthorsString() {
+    return JsonUtils.jsonArrayToString(getAuthorsArray());
+  }
+
+  public String getPublisher() {
+    return JsonUtils.getAsString(getVolumeInfo(), "publisher", "");
+  }
+
+  public String getPublishedDate() {
+    return JsonUtils.getAsString(getVolumeInfo(), "publishedDate", "");
+  }
+
+  public String getDescription() {
+    return JsonUtils.getAsString(getVolumeInfo(), "description", "");
+  }
+
+  public JsonArray getIndustryIdentifiers() {
+    return JsonUtils.getAsJsonArray(getVolumeInfo(), "industryIdentifiers");
+  }
+
+  public int getPageCount() {
+    return JsonUtils.getAsInt(getVolumeInfo(), "pageCount", 0);
+  }
+
+  public JsonArray getCategoriesAsArray() {
+    return JsonUtils.getAsJsonArray(getVolumeInfo(), "categories");
+  }
+
+  public String getCategoriesAsString() {
+    return JsonUtils.jsonArrayToString(getCategoriesAsArray());
+  }
+
+  public double getAverageRating() {
+    return JsonUtils.getAsDouble(getVolumeInfo(), "averageRating", 0);
+  }
+
+  public double getRatingsCount() {
+    return JsonUtils.getAsDouble(getVolumeInfo(), "ratingsCount", 0);
+  }
+
+  public String getThumbnailLink() {
+    JsonObject o = getVolumeInfo();
+    if (o == null) {
+      return "";
     }
-    if (json.has("saleInfo")) {
-      JsonObject saleInfo = json.get("saleInfo").getAsJsonObject();
-      this.country = saleInfo.get("country").getAsString();
-      this.saleability = saleInfo.get("saleability").getAsString();
-      if (saleInfo.has("listPrice")) {
-        JsonObject listPrice = saleInfo.get("listPrice").getAsJsonObject();
-        String amount = JsonUtils.getAsString(listPrice, "amount");
-        String currencyCode = JsonUtils.getAsString(listPrice, "currencyCode");
-        this.price = amount + " " + currencyCode;
-      }
-      if (saleInfo.has("retailPrice")) {
-        JsonObject retailPrice = saleInfo.get("retailPrice").getAsJsonObject();
-        String amount = JsonUtils.getAsString(retailPrice, "amount");
-        String currencyCode = JsonUtils.getAsString(retailPrice, "currencyCode");
-        this.retailPrice = amount + " " + currencyCode;
-      }
-      this.buyLink = JsonUtils.getAsString(saleInfo, "buyLink");
+    JsonObject imageLinks = o.getAsJsonObject("imageLinks");
+    return JsonUtils.getAsString(imageLinks, "thumbnail", "");
+  }
+
+  public String getLanguage() {
+    return JsonUtils.getAsString(getVolumeInfo(), "language", "");
+  }
+
+  public String getPreviewLink() {
+    return JsonUtils.getAsString(getVolumeInfo(), "previewLink", "");
+  }
+
+  public String getInfoLink() {
+    return JsonUtils.getAsString(getVolumeInfo(), "infoLink", "");
+  }
+
+  public String getCountry() {
+    return JsonUtils.getAsString(getSaleInfo(), "country", "");
+  }
+
+  public String getSaleability() {
+    return JsonUtils.getAsString(getSaleInfo(), "saleability", "");
+  }
+
+  public String getPrice() {
+    JsonObject o = getSaleInfo();
+    if (o == null) {
+      return "";
     }
+    JsonObject price = o.get("listPrice").getAsJsonObject();
+    String amount = JsonUtils.getAsString(price, "amount", "");
+    String currencyCode = JsonUtils.getAsString(price, "currencyCode", "");
+    return amount + " " + currencyCode;
+  }
+
+  public String getRetailPrice() {
+    JsonObject o = getSaleInfo();
+    if (o == null) {
+      return "";
+    }
+    JsonObject price = o.get("retailPrice").getAsJsonObject();
+    String amount = JsonUtils.getAsString(price, "amount", "");
+    String currencyCode = JsonUtils.getAsString(price, "currencyCode", "");
+    return amount + " " + currencyCode;
+  }
+
+  public String getBuyLink() {
+    return JsonUtils.getAsString(getSaleInfo(), "buyLink", "");
+  }
+
+  public void updateToDatabase() throws IOException {
+    JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
+    boolean updated = false;
+    for (int i = 0; i < books.size(); ++i) {
+      JsonObject currentBook = books.get(i).getAsJsonObject();
+      if (getId().equals(currentBook.get("id").getAsString())) {
+        books.set(i, getData());
+        updated = true;
+        break;
+      }
+    }
+    if (!updated) {
+      books.add(getData());
+    }
+    JsonUtils.saveToFile(books, MainApp.BOOKS_DB_PATH);
+  }
+
+  public BookStats toBookStats() {
+    return new BookStats(0, getTitle(), getBorrowsCount());
+  }
+
+  public static List<BookStats> toBookStatsList(JsonArray books) {
+    List<BookStats> stats = new ArrayList<>();
+    for (JsonElement e : books) {
+      JsonObject obj = e.getAsJsonObject();
+      Book book = Book.fromJsonObject(obj);
+      stats.add(book.toBookStats());
+    }
+    stats = stats.stream()
+                 .sorted(Comparator.comparingInt(BookStats::getBorrowsCount).reversed())
+                 .collect(Collectors.toList());
+    for (int i = 0; i < stats.size(); ++i) {
+      BookStats s = stats.get(i);
+      s.rankProperty().set(i + 1);
+    }
+    return stats;
   }
 }

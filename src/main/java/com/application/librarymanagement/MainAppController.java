@@ -1,5 +1,7 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.utils.ImageUtils;
+import com.application.librarymanagement.utils.JsonUtils;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
@@ -19,6 +21,7 @@ public class MainAppController extends MainApp {
    */
   @FXML public void initialize() {
     setBackgroundImage();
+    loadIcon();
   }
 
   /**
@@ -35,10 +38,7 @@ public class MainAppController extends MainApp {
   public void setBackgroundImage() {
     String theme = config.get("theme").getAsString();
     String type = theme.contains("light") ? "Light" : "Dark";
-    String backgroundPath = String.format("images/%sSky.jpg", type);
-    URL backgroundURL = MainAppController.class.getResource(backgroundPath);
-    assert backgroundURL != null;
-    Image image = new Image(backgroundURL.toExternalForm());
+    Image image = ImageUtils.getImage(type + "Sky.jpg");
     backgroundImage.setImage(image);
   }
 
@@ -50,10 +50,13 @@ public class MainAppController extends MainApp {
    */
   @FXML public void applyStylesheet(ActionEvent event) {
     String theme = ((MenuItem) event.getSource()).getText();
-    addPropertyToConfig("theme", theme);
+    JsonUtils.addProperty(config, CONFIG_PATH,"theme", theme);
     setBackgroundImage();
+    loadIcon();
     applyStylesheet(theme);
   }
+
+  protected void loadIcon() {}
 
   /**
    * Displays a given message in the error label and makes it visible.

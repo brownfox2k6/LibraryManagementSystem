@@ -1,5 +1,7 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.book.Book;
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -37,22 +39,10 @@ public class MainApp extends Application {
     config = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
     assert config != null;
     applyStylesheet(config.get("theme").getAsString());
-    setScene("SignIn");
-  }
-
-  /**
-   * Updates a property in the configuration and writes the updated configuration
-   * back to {@code config.json} in a pretty-printed JSON format.
-   * @param name  the property name to update or add
-   * @param value the property value to set
-   */
-  public void addPropertyToConfig(String name, String value) {
-    try {
-      config.addProperty(name, value);
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      Files.writeString(CONFIG_PATH, gson.toJson(config));
-    } catch (Exception e) {
-      throw new RuntimeException(e);
+    if (config.has("currentSession")) {
+      setScene("Dashboard");
+    } else {
+      setScene("SignIn");
     }
   }
 
