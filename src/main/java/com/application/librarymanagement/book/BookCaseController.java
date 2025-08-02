@@ -1,28 +1,59 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.utils.ImageUtils;
-import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class BookCaseController {
-  @FXML ImageView imageCase;
-  @FXML Label authorCase;
-  @FXML Label nameCase;
+public final class BookCaseController {
+  @FXML private Label title;
+  @FXML private Label author;
+  @FXML private Label publisher;
+  @FXML private Label description;
+  @FXML private ImageView thumbnail;
 
   private Book book;
 
   public void setData(Book book) {
     this.book = book;
-    nameCase.setText(this.book.getTitle());
-    authorCase.setText(this.book.getAuthorsString());
-    String thumbnailLink = this.book.getThumbnailLink();
+    setTitle();
+    setAuthorsAndPublishedDate();
+    setPublisher();
+    setDescription();
+    setThumbnail();
+  }
+
+  private void setTitle() {
+    if (title != null) {
+      title.setText(book.getTitle());
+    }
+  }
+
+  private void setAuthorsAndPublishedDate() {
+    if (author != null) {
+      author.setText(book.getAuthorsString() + " · " + book.getPublishedDate());
+    }
+  }
+
+  private void setPublisher() {
+    if (publisher != null) {
+      publisher.setText(book.getPublisher());
+    }
+  }
+
+  private void setDescription() {
+    if (description != null) {
+      description.setText(book.getDescription());
+    }
+  }
+
+  private void setThumbnail() {
+    String thumbnailLink = book.getThumbnailLink();
     if (thumbnailLink.isEmpty()) {
-      imageCase.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
+      thumbnail.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
     } else {
-      imageCase.setImage(new Image(thumbnailLink));
+      thumbnail.setImage(new Image(thumbnailLink, 0, 0, true, true, true));
     }
   }
 }

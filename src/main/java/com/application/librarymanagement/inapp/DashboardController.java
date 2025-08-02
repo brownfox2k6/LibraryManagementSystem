@@ -12,16 +12,15 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
 
 public final class DashboardController extends InAppController {
-  @FXML private GridPane recommendationsPane;
+  @FXML private HBox recommendations;
   @FXML private TableView<BookStats> mostBorrowsTable;
   @FXML private TableColumn<BookStats, Number> rankColumn;
   @FXML private TableColumn<BookStats, String> titleColumn;
@@ -36,20 +35,16 @@ public final class DashboardController extends InAppController {
   }
 
   public void showRecommendations() {
-    recommendationsPane.getChildren().clear();
-    int cell = 0;
+    recommendations.getChildren().clear();
     for (JsonElement e : books) {
       JsonObject book = e.getAsJsonObject();
       FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(MainApp.class.getResource("scenes/BookCase.fxml"));
+      fxmlLoader.setLocation(MainApp.class.getResource("scenes/BookCase1.fxml"));
       try {
         VBox bookCaseBox = fxmlLoader.load();
         BookCaseController bookCaseController = fxmlLoader.getController();
         bookCaseController.setData(Book.fromJsonObject(book));
-        int row = cell / recommendationsPane.getColumnCount();
-        int col = cell % recommendationsPane.getColumnCount();
-        recommendationsPane.add(bookCaseBox, col, row);
-        ++cell;
+        recommendations.getChildren().add(bookCaseBox);
       } catch (Exception ex) {
         throw new RuntimeException(ex);
       }

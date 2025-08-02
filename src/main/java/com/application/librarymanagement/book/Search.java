@@ -143,13 +143,7 @@ public class Search {
     }
   }
 
-  /**
-   * Executes the search against the Google Books API using the configured
-   * filters and pagination settings.
-   * @return a {@link List} of {@link Book} objects matching the search criteria
-   * @throws IOException if an I/O error occurs during the HTTP request
-   */
-  public List<Book> getBooks() throws IOException {
+  public String getUrl() {
     String url = "https://www.googleapis.com/books/v1/volumes?q=" + this.q;
     if (!this.intitle.isEmpty()) {
       url += "+intitle:" + this.intitle;
@@ -173,16 +167,12 @@ public class Search {
       url += "+oclc:" + this.oclc;
     }
     url += "&startIndex=" + this.startIndex;
-    JsonObject json = JsonUtils.fetchJson(url);
-    this.totalItems = json.get("totalItems").getAsInt();
-    if (!json.has("items")) {
-      return new ArrayList<>();
-    }
-    List<Book> books = new ArrayList<>();
-    JsonArray items = json.get("items").getAsJsonArray();
-    for (JsonElement item : items) {
-      books.add(Book.fromJsonObject(item.getAsJsonObject()));
-    }
-    return books;
+    return url;
+  }
+
+  public JsonArray getBooks() throws IOException {
+    JsonObject result = JsonUtils.fetchJson(getUrl());
+    this.totalItems = result.get("totalItems").getAsInt();
+    return JsonUtils.getAsJsonArray(result, "items");
   }
 }

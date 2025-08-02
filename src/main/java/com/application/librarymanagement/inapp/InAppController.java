@@ -8,7 +8,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -21,9 +20,7 @@ public class InAppController extends MainAppController {
   @FXML private Label welcomeLabel;
   @FXML private ImageView dashboardIcon;
   @FXML private ImageView booksIcon;
-  @FXML private Button dashboardButton;
-  @FXML private Button booksButton;
-  @FXML private ImageView signOutButton;
+  @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
 
   JsonObject currentUser;
@@ -54,17 +51,19 @@ public class InAppController extends MainAppController {
   }
 
   @Override
-  protected void loadIcon() {
-    String theme = config.get("theme").getAsString();
-    String type = theme.contains("light") ? "Light" : "Dark";
+  protected void loadIcons() {
+    String type = getLightOrDark();
     dashboardIcon.setImage(ImageUtils.getImage(type + "DashboardButton.png"));
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
-    signOutButton.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
+    signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
   }
 
   @FXML
-  protected void logOut() {
+  protected void signOut() {
     JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
     setScene("SignIn");
   }
+
+  @FXML protected void gotoDashboard() { setSubscene("Dashboard"); }
+  @FXML protected void gotoBooks() { setSubscene("Books"); }
 }

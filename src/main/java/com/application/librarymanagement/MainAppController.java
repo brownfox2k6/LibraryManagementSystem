@@ -6,7 +6,6 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MainAppController extends MainApp {
@@ -19,7 +18,7 @@ public class MainAppController extends MainApp {
    */
   @FXML public void initialize() {
     setBackgroundImage();
-    loadIcon();
+    loadIcons();
   }
 
   /**
@@ -34,10 +33,7 @@ public class MainAppController extends MainApp {
    * @throws AssertionError if the background image resource is not found
    */
   public void setBackgroundImage() {
-    String theme = config.get("theme").getAsString();
-    String type = theme.contains("light") ? "Light" : "Dark";
-    Image image = ImageUtils.getImage(type + "Sky.jpg");
-    backgroundImage.setImage(image);
+    backgroundImage.setImage(ImageUtils.getImage(getLightOrDark() + "Sky.jpg"));
   }
 
   /**
@@ -50,11 +46,11 @@ public class MainAppController extends MainApp {
     String theme = ((MenuItem) event.getSource()).getText();
     JsonUtils.addProperty(config, CONFIG_PATH,"theme", theme);
     setBackgroundImage();
-    loadIcon();
+    loadIcons();
     applyStylesheet(theme);
   }
 
-  protected void loadIcon() {}
+  protected void loadIcons() {}
 
   /**
    * Displays a given message in the error label and makes it visible.

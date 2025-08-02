@@ -354,5 +354,82 @@
       "accessViewStatus": "NONE",
       "quoteSharingAllowed": false
     }
+  },
+  {
+    "kind": "books#volume",
+    "id": "IEnWwAEACAAJ",
+    "etag": "1IrKblthFx8",
+    "selfLink": "https://www.googleapis.com/books/v1/volumes/IEnWwAEACAAJ",
+    "volumeInfo": {
+      "title": "Elementary Linear Algebra",
+      "authors": [
+        "Ron Larson",
+        "David C. Falvo"
+      ],
+      "publisher": "Brooks/Cole",
+      "publishedDate": "2008",
+      "description": "The cornerstone of Elementary Linear Algebra is the authors\u0027 clear, careful, and concise presentation of material--written so that students can fully understand how mathematics works. This program balances theory with examples, applications, and geometric intuition for a complete, step-by-step learning system.The Sixth Edition incorporates up-to-date coverage of Computer Algebra Systems (Maple/MATLAB/Mathematica); additional support is provided in a corresponding technology guide. Data and applications also reflect current statistics and examples to engage students and demonstrate the link between theory and practice.",
+      "industryIdentifiers": [
+        {
+          "type": "ISBN_10",
+          "identifier": "0618783768"
+        },
+        {
+          "type": "ISBN_13",
+          "identifier": "9780618783762"
+        }
+      ],
+      "readingModes": {
+        "text": false,
+        "image": false
+      },
+      "pageCount": 480,
+      "printedPageCount": 480,
+      "dimensions": {
+        "height": "23.40 cm",
+        "width": "20.60 cm",
+        "thickness": "2.50 cm"
+      },
+      "printType": "BOOK",
+      "categories": [
+        "Mathematics / Algebra / Linear"
+      ],
+      "maturityRating": "NOT_MATURE",
+      "allowAnonLogging": false,
+      "contentVersion": "preview-1.0.0",
+      "panelizationSummary": {
+        "containsEpubBubbles": false,
+        "containsImageBubbles": false
+      },
+      "imageLinks": {
+        "smallThumbnail": "http://books.google.com/books/content?id\u003dIEnWwAEACAAJ\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d5\u0026imgtk\u003dAFLRE73IGyNMUuK6KJeg0fFGP3cWUJhbXrTFwUObsNP-NYtC4rho-MmJP5ZYULM9Sd8Mxhzh_Oo3YNRKCEJBNNmBDkpCjnVJJChYuG6c7SWskZ-XJEFKJdkLOQ4PJjQbd3w-K9leLVwS\u0026source\u003dgbs_api",
+        "thumbnail": "http://books.google.com/books/content?id\u003dIEnWwAEACAAJ\u0026printsec\u003dfrontcover\u0026img\u003d1\u0026zoom\u003d1\u0026imgtk\u003dAFLRE704WYR3ADuBjCTLjnjb7jwy_uY19vBDIVx8Wqe_Z8XpMY6vzltXvs1mEff7aMgB3Jdy059Ey2Iyk1TwiEmZS7dXElh1Yaav8K_j2q6a7Wnu2oQytGO7h4v8nJFX_w2VuAlpml-2\u0026source\u003dgbs_api"
+      },
+      "language": "en",
+      "previewLink": "http://books.google.com.vn/books?id\u003dIEnWwAEACAAJ\u0026hl\u003d\u0026source\u003dgbs_api",
+      "infoLink": "https://play.google.com/store/books/details?id\u003dIEnWwAEACAAJ\u0026source\u003dgbs_api",
+      "canonicalVolumeLink": "https://play.google.com/store/books/details?id\u003dIEnWwAEACAAJ"
+    },
+    "saleInfo": {
+      "country": "VN",
+      "saleability": "NOT_FOR_SALE",
+      "isEbook": false
+    },
+    "accessInfo": {
+      "country": "VN",
+      "viewability": "NO_PAGES",
+      "embeddable": false,
+      "publicDomain": false,
+      "textToSpeechPermission": "ALLOWED",
+      "epub": {
+        "isAvailable": false
+      },
+      "pdf": {
+        "isAvailable": false
+      },
+      "webReaderLink": "http://play.google.com/books/reader?id\u003dIEnWwAEACAAJ\u0026hl\u003d\u0026source\u003dgbs_api",
+      "accessViewStatus": "NONE",
+      "quoteSharingAllowed": false
+    }
   }
 ]

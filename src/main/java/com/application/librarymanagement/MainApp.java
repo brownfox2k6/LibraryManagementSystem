@@ -64,6 +64,11 @@ public class MainApp extends Application {
     }
   }
 
+  public static String getLightOrDark() {
+    String theme = config.get("theme").getAsString();
+    return theme.contains("light") ? "Light" : "Dark";
+  }
+
   /**
    * Applies a user stylesheet to the JavaFX application by loading a CSS file
    * from the {@code themes} directory on the classpath.
