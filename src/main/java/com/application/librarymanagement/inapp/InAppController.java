@@ -8,6 +8,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -23,9 +24,11 @@ public class InAppController extends MainAppController {
   @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
 
+  public static InAppController INSTANCE;
   JsonObject currentUser;
 
   public void initialize() {
+    INSTANCE = this;
     super.initialize();
     String username = JsonUtils.getAsString(config, "currentSession", "");
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
@@ -33,18 +36,18 @@ public class InAppController extends MainAppController {
     assert currentUser != null;
     String name = currentUser.get("name").getAsString();
     welcomeLabel.setText(String.format("Welcome, %s [%s] 👋", name, username));
-    setSubscene("Dashboard");
+    setSubscene("Dashboard", "Dashboard");
   }
 
-  protected void setSubscene(String name) {
+  public <T> T setSubscene(String name, String title) {
     try {
       subsceneContainer.getChildren().clear();
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      String path = String.format("scenes/%s.fxml", name);
-      fxmlLoader.setLocation(MainApp.class.getResource(path));
-      AnchorPane pane = fxmlLoader.load();
+      FXMLLoader fxmlLoader = new FXMLLoader(
+          MainApp.class.getResource(String.format("scenes/%s.fxml", name)));
+      Node pane = fxmlLoader.load();
       subsceneContainer.getChildren().add(pane);
-      titleLabel.setText(name);
+      titleLabel.setText(title);
+      return fxmlLoader.getController();
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
@@ -64,6 +67,6 @@ public class InAppController extends MainAppController {
     setScene("SignIn");
   }
 
-  @FXML protected void gotoDashboard() { setSubscene("Dashboard"); }
-  @FXML protected void gotoBooks() { setSubscene("Books"); }
+  @FXML protected void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
+  @FXML protected void gotoBooks() { setSubscene("Books", "Books"); }
 }

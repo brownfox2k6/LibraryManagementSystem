@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -99,7 +102,7 @@ public class JsonUtils {
 
   public static void saveToFile(JsonElement obj, Path path) {
     try {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
+      Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
       Files.writeString(path, gson.toJson(obj));
     } catch (Exception e) {
       throw new RuntimeException(e);

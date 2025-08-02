@@ -1,16 +1,14 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ImageUtils;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 public final class BookCaseController {
@@ -21,11 +19,11 @@ public final class BookCaseController {
   @FXML private ImageView thumbnail;
   @FXML private Pane container;
 
+  private Book book;
+
   public void initialize() {
     setContainerEffects();
   }
-
-  private Book book;
 
   public void setData(Book book) {
     this.book = book;
@@ -80,14 +78,11 @@ public final class BookCaseController {
     });
   }
 
-
   @FXML
   private void gotoDetails() {
-    System.out.println("gotoDetails");
+    InAppController inAppController = InAppController.INSTANCE;
+    BookDetailsController booksDetailsController = inAppController.setSubscene("BookDetails", "Book details");
+    booksDetailsController.setData(book);
   }
 
-  @FXML
-  private void onHover() {
-
-  }
 }

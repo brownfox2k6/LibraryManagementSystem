@@ -96,15 +96,33 @@ public class Book {
   }
 
   public String getDescription() {
-    return JsonUtils.getAsString(getVolumeInfo(), "description", "");
+    return JsonUtils.getAsString(getVolumeInfo(), "description", "").replaceAll("<[^>]*>", " ");
   }
 
   public JsonArray getIndustryIdentifiers() {
     return JsonUtils.getAsJsonArray(getVolumeInfo(), "industryIdentifiers");
   }
 
-  public int getPageCount() {
-    return JsonUtils.getAsInt(getVolumeInfo(), "pageCount", 0);
+  private String getSpecificIndustryIdentifier(String type) {
+    for (JsonElement e : getIndustryIdentifiers()) {
+      JsonObject obj = e.getAsJsonObject();
+      if (obj.get("type").getAsString().equals(type)) {
+        return obj.get("identifier").getAsString();
+      }
+    }
+    return "";
+  }
+
+  public String getIsbn10() {
+    return getSpecificIndustryIdentifier("ISBN_10");
+  }
+
+  public String getIsbn13() {
+    return getSpecificIndustryIdentifier("ISBN_13");
+  }
+
+  public String getPageCount() {
+    return JsonUtils.getAsString(getVolumeInfo(), "pageCount", "");
   }
 
   public JsonArray getCategoriesAsArray() {
@@ -115,12 +133,12 @@ public class Book {
     return JsonUtils.jsonArrayToString(getCategoriesAsArray());
   }
 
-  public double getAverageRating() {
-    return JsonUtils.getAsDouble(getVolumeInfo(), "averageRating", 0);
+  public String getAverageRating() {
+    return JsonUtils.getAsString(getVolumeInfo(), "averageRating", "");
   }
 
-  public double getRatingsCount() {
-    return JsonUtils.getAsDouble(getVolumeInfo(), "ratingsCount", 0);
+  public String getRatingsCount() {
+    return JsonUtils.getAsString(getVolumeInfo(), "ratingsCount", "");
   }
 
   public String getThumbnailLink() {
