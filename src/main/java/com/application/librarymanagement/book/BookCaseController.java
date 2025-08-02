@@ -1,10 +1,17 @@
 package com.application.librarymanagement.book;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.ImageUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 public final class BookCaseController {
   @FXML private Label title;
@@ -12,6 +19,11 @@ public final class BookCaseController {
   @FXML private Label publisher;
   @FXML private Label description;
   @FXML private ImageView thumbnail;
+  @FXML private Pane container;
+
+  public void initialize() {
+    setContainerEffects();
+  }
 
   private Book book;
 
@@ -55,5 +67,27 @@ public final class BookCaseController {
     } else {
       thumbnail.setImage(new Image(thumbnailLink, 0, 0, true, true, true));
     }
+  }
+
+  private void setContainerEffects() {
+    DropShadow dropShadow = new DropShadow(50, 0, 0, Color.LIGHTGREEN);
+    dropShadow.setSpread(0.2);
+    container.setOnMouseEntered(e -> {
+      container.setEffect(dropShadow);
+    });
+    container.setOnMouseExited(e -> {
+      container.setEffect(null);
+    });
+  }
+
+
+  @FXML
+  private void gotoDetails() {
+    System.out.println("gotoDetails");
+  }
+
+  @FXML
+  private void onHover() {
+
   }
 }

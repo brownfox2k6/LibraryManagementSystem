@@ -7,12 +7,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="189.0" prefWidth="1100.0" spacing="10.0" style="-fx-border-color: gray; -fx-background-radius: 8px; -fx-border-radius: 8px;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.book.BookCaseController">
+
+<HBox fx:id="container" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseClicked="#gotoDetails" prefHeight="189.0" prefWidth="1100.0" spacing="10.0" style="-fx-border-color: gray; -fx-background-radius: 8px; -fx-border-radius: 8px;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.book.BookCaseController">
    <children>
       <ImageView fx:id="thumbnail" fitHeight="169.0" fitWidth="150.0" pickOnBounds="true" preserveRatio="true">
          <HBox.margin>
             <Insets bottom="10.0" left="10.0" top="10.0" />
-         </HBox.margin></ImageView>
+         </HBox.margin>
+      </ImageView>
       <VBox prefHeight="220.0" prefWidth="986.0" spacing="10.0">
          <children>
             <Label fx:id="title" text="Title" wrapText="true">
