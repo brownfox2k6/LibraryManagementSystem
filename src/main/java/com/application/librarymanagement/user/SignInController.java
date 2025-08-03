@@ -65,9 +65,4 @@ public final class SignInController extends MainAppController {
     }
     showErrorLabel("Wrong username or password. Please try again.");
   }
-
-  protected void showErrorLabel(String s) {
-    errorLabel.setText(s);
-    errorLabel.setVisible(true);
-  }
 }

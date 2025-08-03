@@ -1,55 +1,101 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Objects;
+public class User {
+  public static final int TYPE_ADMIN = 1;
+  public static final int TYPE_MEMBER = 2;
+  private JsonObject data;
 
-public abstract class User {
-  protected String name;
-  protected String username;
-  protected String email;
-  protected String password;
-
-  public User(String name, String username, String email, String password) {
-    this.name = name;
-    this.username = username;
-    this.email = email;
-    this.password = PasswordUtils.hashPassword(password);
+  public User(JsonObject data) {
+    this.data = data;
   }
 
-  protected abstract JsonObject toJsonObject();
+  public User(String name, String username, String email, String password, int type) {
+    data = new JsonObject();
+    setName(name);
+    setUsername(username);
+    setEmail(email);
+    setPassword(password);
+    data.addProperty("type", type);
+    if (type == TYPE_MEMBER) {
+      data.add("borrows", new JsonArray());
+    }
+  }
 
-  /**
-   * Saves the current user object to the local JSON database (users.json).
-   * <p>
-   * This method first converts the current object to a {@link JsonObject} and loads
-   * the existing list of users. It searches for any user with the same username or email:
-   * <ul>
-   *   <li>If a match is found and {@code canOverwrite} is {@code true}, the existing entry is replaced.</li>
-   *   <li>If a match is found and {@code canOverwrite} is {@code false}, the method returns {@code false} and does not save the user.</li>
-   *   <li>If no match is found, the user is simply appended to the users list.</li>
-   * </ul>
-   * After updating, the method writes the updated user list back to {@code USERS_DB_PATH} in pretty-printed JSON format.
-   *
-   * @param canOverwrite if {@code true}, allows overwriting an existing user with the same username or email (this is used when updating user information);
-   *                     if {@code false}, prevents overwriting and cancels the save (this is used when creating a new user).
-   * @return {@code true} if the user was saved successfully (added or overwritten),
-   *         {@code false} if a duplicate was found and {@code canOverwrite} is {@code false}.
-//   * @throws IOException if writing to the file fails.
-   */
+  public String getUsername() {
+    return JsonUtils.getAsString(data, "username", "");
+  }
+
+  public void setUsername(String username) {
+    data.addProperty("username", username);
+  }
+
+  public String getName() {
+    return JsonUtils.getAsString(data, "name", "");
+  }
+
+  public void setName(String name) {
+    data.addProperty("name", name);
+  }
+
+  public String getEmail() {
+    return JsonUtils.getAsString(data, "email", "");
+  }
+
+  public void setEmail(String email) {
+    data.addProperty("email", email);
+  }
+
+  public String getHashedPassword() {
+    return JsonUtils.getAsString(data, "password", "");
+  }
+
+  public void setPassword(String password) {
+    String hashedPassword = PasswordUtils.hashPassword(password);
+    data.addProperty("password", hashedPassword);
+  }
+
+  public int getUserType() {
+    return JsonUtils.getAsInt(data, "type", 0);
+  }
+
+  public JsonArray getBorrows() {
+    assert getUserType() == TYPE_MEMBER;
+    return JsonUtils.getAsJsonArray(data, "borrows");
+  }
+
+  public JsonArray getAllBorrowsOfMembers() {
+    assert getUserType() == TYPE_ADMIN;
+    JsonArray borrows = new JsonArray();
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+      User u = new User(e.getAsJsonObject());
+      if (u.getUserType() == TYPE_MEMBER) {
+        for (JsonElement ee : u.getBorrows()) {
+          borrows.add(ee.getAsJsonObject());
+        }
+      }
+    }
+    return borrows;
+  }
+
+  public void addBorrow(Borrow borrow) {
+    assert getUserType() == TYPE_MEMBER;
+    JsonArray borrows = getBorrows();
+    borrows.add(borrow.getData());
+    saveToDatabase(true);
+  }
+
   public boolean saveToDatabase(boolean canOverwrite) {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
     for (int i = 0; i < users.size(); ++i) {
       JsonObject user = users.get(i).getAsJsonObject();
-      if (Objects.equals(JsonUtils.getAsString(user, "username", ""), this.username) ||
-          Objects.equals(JsonUtils.getAsString(user, "email", ""), this.email)) {
+      if (JsonUtils.getAsString(user, "username", "").equals(getUsername())
+          || JsonUtils.getAsString(user, "email", "").equals(getEmail())) {
         if (canOverwrite) {
           users.remove(user);
           break;
@@ -57,11 +103,8 @@ public abstract class User {
         return false;
       }
     }
-    users.add(this.toJsonObject());
-    try {
-      Gson gson = new GsonBuilder().setPrettyPrinting().create();
-      Files.writeString(MainApp.USERS_DB_PATH, gson.toJson(users));
-    } catch (Exception ignored) {}
+    users.add(data);
+    JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
     return true;
   }
 }

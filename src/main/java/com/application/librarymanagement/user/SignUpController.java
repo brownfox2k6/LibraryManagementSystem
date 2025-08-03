@@ -60,7 +60,7 @@ public final class SignUpController extends MainAppController {
     } else if (password.isEmpty() || !password.equals(password2)) {
       showErrorLabel("Password fields are empty or mismatched.");
     } else {
-      Member member = new Member(name, username, email, password);
+      User member = new User(name, username, email, password, User.TYPE_MEMBER);
       if (!member.saveToDatabase(false)) {
         showErrorLabel("Username or Email already exists.");
       } else {
