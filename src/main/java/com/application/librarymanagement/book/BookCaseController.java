@@ -80,9 +80,7 @@ public final class BookCaseController {
 
   @FXML
   private void gotoDetails() {
-    InAppController inAppController = InAppController.INSTANCE;
-    BookDetailsController booksDetailsController = inAppController.setSubscene("BookDetails", "Book details");
-    booksDetailsController.setData(book);
+    BookDetailsController bdc = InAppController.INSTANCE.setSubscene("BookDetails", "Book details");
+    bdc.setData(book);
   }
-
 }

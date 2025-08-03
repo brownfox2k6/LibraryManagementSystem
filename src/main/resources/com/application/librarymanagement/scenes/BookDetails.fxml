@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
@@ -64,21 +65,30 @@
                         <Font name="Candara" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="showQrCodeButton" mnemonicParsing="false" onAction="#openQrCodeWindow" text="View on Google Books">
+                  <HBox spacing="10.0">
                      <VBox.margin>
                         <Insets bottom="5.0" />
                      </VBox.margin>
-                     <font>
-                        <Font name="Candara" size="14.0" />
-                     </font>
-                  </Button>
+                     <children>
+                        <Button fx:id="copyLinkToClipboardButton" mnemonicParsing="false" onAction="#copyLinkToClipboard" text="Copy link to Google Books">
+                           <font>
+                              <Font name="Candara" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="showQrCodeButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#openQrCodeWindow" text="View QR link to Google Books">
+                           <font>
+                              <Font name="Candara" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <VBox prefHeight="200.0" prefWidth="243.0">
+            <VBox prefHeight="200.0" prefWidth="243.0" spacing="2.0">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Quantity:">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="16.0" />
                      </font>
                   </Text>
                   <Label fx:id="quantity" text="quantity">
@@ -87,6 +97,20 @@
                      </font>
                   </Label>
                   <Button fx:id="borrowButton" mnemonicParsing="false" text="Borrow">
+                     <font>
+                        <Font name="Candara" size="20.0" />
+                     </font>
+                  </Button>
+                  <Text fx:id="changeQuantityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/remove:" wrappingWidth="126.6171875">
+                     <font>
+                        <Font name="System Bold" size="16.0" />
+                     </font>
+                  </Text>
+                  <Spinner fx:id="changeQuantitySpinner" editable="true">
+                     <VBox.margin>
+                        <Insets right="10.0" />
+                     </VBox.margin></Spinner>
+                  <Button fx:id="changeQuantityButton" mnemonicParsing="false" onAction="#changeQuantity" text="Ok!">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

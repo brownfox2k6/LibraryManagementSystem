@@ -2,6 +2,7 @@ package com.application.librarymanagement.inapp;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.MainAppController;
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
@@ -11,7 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
@@ -25,17 +25,14 @@ public class InAppController extends MainAppController {
   @FXML private VBox subsceneContainer;
 
   public static InAppController INSTANCE;
-  JsonObject currentUser;
+  private static User currentUser;
 
   public void initialize() {
     INSTANCE = this;
     super.initialize();
-    String username = JsonUtils.getAsString(config, "currentSession", "");
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
-    currentUser = JsonUtils.findJsonObjectByKeyValue(users, "username", username);
-    assert currentUser != null;
-    String name = currentUser.get("name").getAsString();
-    welcomeLabel.setText(String.format("Welcome, %s [%s] 👋", name, username));
+    loadCurrentUser();
+    welcomeLabel.setText(String.format("Welcome, %s [%s] 👋",
+        currentUser.getName(), currentUser.getUsername()));
     setSubscene("Dashboard", "Dashboard");
   }
 
@@ -51,6 +48,18 @@ public class InAppController extends MainAppController {
     } catch (IOException ex) {
       throw new RuntimeException(ex);
     }
+  }
+
+  private void loadCurrentUser() {
+    String username = JsonUtils.getAsString(config, "currentSession", "");
+    JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
+    JsonObject user = JsonUtils.findJsonObjectByKeyValue(users, "username", username);
+    assert user != null;
+    currentUser = new User(user);
+  }
+
+  public static User getCurrentUser() {
+    return currentUser;
   }
 
   @Override

@@ -42,6 +42,7 @@ public class Borrow {
     data.addProperty("username", username);
     data.addProperty("id", id);
     data.addProperty("requestedTime", requestedTime.toString());
+    data.addProperty("status", STATUS_REQUESTED);
   }
 
   public Borrow(JsonObject data) {

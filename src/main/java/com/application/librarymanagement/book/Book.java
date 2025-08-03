@@ -196,21 +196,25 @@ public class Book {
     return JsonUtils.getAsString(getSaleInfo(), "buyLink", "");
   }
 
-  public void updateToDatabase() throws IOException {
-    JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
-    boolean updated = false;
-    for (int i = 0; i < books.size(); ++i) {
-      JsonObject currentBook = books.get(i).getAsJsonObject();
-      if (getId().equals(currentBook.get("id").getAsString())) {
-        books.set(i, getData());
-        updated = true;
-        break;
+  public void updateToDatabase() {
+    try {
+      JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
+      boolean updated = false;
+      for (int i = 0; i < books.size(); ++i) {
+        JsonObject currentBook = books.get(i).getAsJsonObject();
+        if (getId().equals(currentBook.get("id").getAsString())) {
+          books.set(i, getData());
+          updated = true;
+          break;
+        }
       }
+      if (!updated) {
+        books.add(getData());
+      }
+      JsonUtils.saveToFile(books, MainApp.BOOKS_DB_PATH);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
-    if (!updated) {
-      books.add(getData());
-    }
-    JsonUtils.saveToFile(books, MainApp.BOOKS_DB_PATH);
   }
 
   public BookStats toBookStats() {

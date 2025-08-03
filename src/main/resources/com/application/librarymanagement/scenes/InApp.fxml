@@ -51,7 +51,7 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="447.0">
+            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" prefHeight="59.0" prefWidth="1021.0">
                <font>
                   <Font name="Candara" size="24.0" />
                </font>

@@ -15,6 +15,10 @@ public class Time {
     this.year = year;
   }
 
+  public Time(String s) {
+    // convert "hh:mm dd/mm/yyyy" to a Time object
+  }
+
   public String toString() {
     // return as "hh:mm dd/mm/yyyy" format
     return "";
