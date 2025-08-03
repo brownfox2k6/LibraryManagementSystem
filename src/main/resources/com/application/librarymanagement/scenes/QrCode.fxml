@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+
+
+<ImageView fx:id="qrCodeImage" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" />

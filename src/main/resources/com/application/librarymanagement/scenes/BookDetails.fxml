@@ -17,9 +17,9 @@
    <children>
       <ScrollPane hbarPolicy="NEVER" layoutY="219.0" prefHeight="416.0" prefWidth="1130.0">
          <content>
-            <VBox prefHeight="1545.0" prefWidth="1130.0">
+            <VBox prefHeight="1005.0" prefWidth="1130.0">
                <children>
-                  <TableView fx:id="detailsTable" prefHeight="345.0" prefWidth="1105.0">
+                  <TableView fx:id="detailsTable" prefHeight="206.0" prefWidth="1105.0">
                     <columns>
                       <TableColumn fx:id="keyCol" prefWidth="75.0" text="Book info" />
                       <TableColumn fx:id="valueCol" prefWidth="1039.0" sortable="false" text="Details" />
@@ -39,7 +39,7 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </HBox.margin>
             </ImageView>
-            <VBox prefHeight="200.0" prefWidth="930.0" spacing="10.0">
+            <VBox prefHeight="200.0" prefWidth="930.0" spacing="5.0">
                <children>
                   <Label fx:id="title" text="Title" wrapText="true">
                      <font>
@@ -64,6 +64,14 @@
                         <Font name="Candara" size="18.0" />
                      </font>
                   </Label>
+                  <Button fx:id="showQrCodeButton" mnemonicParsing="false" onAction="#openQrCodeWindow" text="View on Google Books">
+                     <VBox.margin>
+                        <Insets bottom="5.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="Candara" size="14.0" />
+                     </font>
+                  </Button>
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="243.0">

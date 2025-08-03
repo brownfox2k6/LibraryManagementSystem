@@ -3,21 +3,25 @@ package com.application.librarymanagement.book;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonArray;
+import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class BookDetailsController {
   @FXML private TableView<BookDetail> detailsTable;
@@ -30,6 +34,7 @@ public class BookDetailsController {
   @FXML private Label description;
   @FXML private Label quantity;
   @FXML private Button borrowButton;
+  @FXML private Button showQrCodeButton;
 
   private Book book;
 
@@ -37,8 +42,8 @@ public class BookDetailsController {
   public void initialize() {
     keyCol.setCellValueFactory(cd -> cd.getValue().keyProperty());
     valueCol.setCellValueFactory(cd -> cd.getValue().valueProperty());
-    keyCol.setPrefWidth(105);
-    valueCol.setPrefWidth(1000);
+    keyCol.setPrefWidth(145);
+    valueCol.setPrefWidth(955);
     keyCol.setResizable(false);
     valueCol.setResizable(false);
     keyCol.setSortable(false);
@@ -73,7 +78,10 @@ public class BookDetailsController {
     description.setText(book.getDescription());
     quantity.setText(getQuantity() + "");
     if (getQuantity() == 0) {
-      borrowButton.setDisable(true);
+      borrowButton.setVisible(false);
+    }
+    if (book.getInfoLink().isEmpty()) {
+      showQrCodeButton.setVisible(false);
     }
   }
 
@@ -86,15 +94,31 @@ public class BookDetailsController {
   public void setTableData() {
     tryAddRowToTable("ID", book.getId());
     tryAddRowToTable("Authors", book.getAuthorsString());
-    tryAddRowToTable("Published Date", book.getPublishedDate());
     tryAddRowToTable("Publisher", book.getPublisher());
-    tryAddRowToTable("Description", book.getDescription());
+    tryAddRowToTable("Published on", book.getPublishedDate());
+    tryAddRowToTable("Pages", book.getPageCount());
+    tryAddRowToTable("Language", book.getLanguage());
     tryAddRowToTable("Categories", book.getCategoriesAsString());
     tryAddRowToTable("ISBN-10", book.getIsbn10());
     tryAddRowToTable("ISBN-13", book.getIsbn13());
-    tryAddRowToTable("Page Count", book.getPageCount());
+    tryAddRowToTable("Description", book.getDescription());
     tryAddRowToTable("Ratings Count", book.getRatingsCount());
     tryAddRowToTable("Average Rating", book.getAverageRating());
+  }
+
+  @FXML
+  private void openQrCodeWindow() {
+    ImageView imageView = QrCodeUtils.createQrCode(book.getInfoLink(), 300);
+    imageView.setFitHeight(300);
+    imageView.setFitWidth(300);
+    imageView.setPreserveRatio(true);
+    StackPane root = new StackPane(imageView);
+    root.setStyle("-fx-padding:20; -fx-background-color:white;");
+    Stage stage = new Stage();
+    stage.initModality(Modality.APPLICATION_MODAL);
+    stage.setTitle("Scan QR to open link");
+    stage.setScene(new Scene(root));
+    stage.show();
   }
 
   private void wrapTextInColumn(TableColumn<BookDetail,String> column) {

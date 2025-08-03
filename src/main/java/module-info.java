@@ -3,6 +3,8 @@ module com.application.librarymanagement {
   requires javafx.fxml;
   requires com.google.gson;
   requires jdk.compiler;
+  requires com.google.zxing;
+  requires java.desktop;
 
   opens com.application.librarymanagement to javafx.fxml;
   opens com.application.librarymanagement.scenes to javafx.fxml;
