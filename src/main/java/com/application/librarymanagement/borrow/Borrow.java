@@ -30,14 +30,14 @@ public class Borrow {
   // Note:
   // - For returnedTime, if the user has not returned the book yet, set it to be an empty string (""),
   // the same logic applied for acceptedTime and borrowedTime;
-  // - For times, use a Time object
+  // - For times, use a Timestamp object
   // - All the properties listed above may be not enough, you can add more properties if you think it's necessary;
   // - For each property, write a getter and a setter for it;
   // - Use JsonUtils class' methods to retrieve data from JsonObject or JsonArray;
   // - See my code in User and Book class to know how to implement these.
   // - When you're done, delete this note.
 
-  public Borrow(String username, String id, Time requestedTime) {
+  public Borrow(String username, String id, Timestamp requestedTime) {
     data = new JsonObject();
     data.addProperty("username", username);
     data.addProperty("id", id);

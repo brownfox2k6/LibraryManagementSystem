@@ -1,13 +1,13 @@
 package com.application.librarymanagement.borrow;
 
-public class Time {
+public class Timestamp {
   private int hour;
   private int minute;
   private int date;
   private int month;
   private int year;
 
-  public Time(int hour, int minute, int date, int month, int year) {
+  public Timestamp(int hour, int minute, int date, int month, int year) {
     this.hour = hour;
     this.minute = minute;
     this.date = date;
@@ -15,10 +15,11 @@ public class Time {
     this.year = year;
   }
 
-  public Time(String s) {
+  public Timestamp(String s) {
     // convert "hh:mm dd/mm/yyyy" to a Time object
   }
 
+  @Override
   public String toString() {
     // return as "hh:mm dd/mm/yyyy" format
     return "";
