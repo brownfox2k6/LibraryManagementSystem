@@ -1,5 +1,6 @@
 package com.application.librarymanagement.borrow;
 
+import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonObject;
 
 public class Borrow {
@@ -7,41 +8,17 @@ public class Borrow {
   public static final int STATUS_ACCEPTED = 2;
   public static final int STATUS_BORROWED = 3;
   public static final int STATUS_RETURNED = 4;
-  private JsonObject data;
 
-  // This will be stored in a JsonObject, for example:
-  //  {
-  //    "username": "handsomeboy",
-  //    "id": "RSMuEAAAQBAJ",
-  //    "requestedTime": "19:57 03/08/2025",
-  //    "acceptedTime": "20:01 03/08/2025",
-  //    "borrowedTime": "",
-  //    "returnedTime": "",
-  //    "status": 1
-  //  }
-  // Properties of a Borrow object (all wrapped in JsonObject data):
-  // - username: String (who make this borrow?)
-  // - id: String (the Google Books ID)
-  // - requestedTime: String (the time member made this borrow request)
-  // - acceptedTime: String (the time an admin accept this borrow request)
-  // - borrowedTime: String (the time member come to library to take the book)
-  // - returnedTime: String (the time member come to library to return the book)
-  // - status: int (can be STATUS_REQUESTED, STATUS_ACCEPTED, STATUS_BORROWED or STATUS_RETURNED)
-  // Note:
-  // - For returnedTime, if the user has not returned the book yet, set it to be an empty string (""),
-  // the same logic applied for acceptedTime and borrowedTime;
-  // - For times, use a Timestamp object
-  // - All the properties listed above may be not enough, you can add more properties if you think it's necessary;
-  // - For each property, write a getter and a setter for it;
-  // - Use JsonUtils class' methods to retrieve data from JsonObject or JsonArray;
-  // - See my code in User and Book class to know how to implement these.
-  // - When you're done, delete this note.
+  private JsonObject data;
 
   public Borrow(String username, String id, Timestamp requestedTime) {
     data = new JsonObject();
     data.addProperty("username", username);
     data.addProperty("id", id);
     data.addProperty("requestedTime", requestedTime.toString());
+    data.addProperty("acceptedTime", "");
+    data.addProperty("borrowedTime", "");
+    data.addProperty("returnedTime", "");
     data.addProperty("status", STATUS_REQUESTED);
   }
 
@@ -51,5 +28,93 @@ public class Borrow {
 
   public JsonObject getData() {
     return data;
+  }
+
+  // Getters & Setters
+
+  public String getUsername() {
+    return JsonUtils.getAsString(data, "username", null);
+  }
+
+  public void setUsername(String username) {
+    JsonUtils.setString(data, "username", username);
+  }
+
+  public String getId() {
+    return JsonUtils.getAsString(data, "id", null);
+  }
+
+  public void setId(String id) {
+    JsonUtils.setString(data, "id", id);
+  }
+
+  public String getRequestedTime() {
+    return JsonUtils.getAsString(data, "requestedTime", null);
+  }
+
+  public void setRequestedTime(String requestedTime) {
+    JsonUtils.setString(data, "requestedTime", requestedTime);
+  }
+
+  public String getAcceptedTime() {
+    return JsonUtils.getAsString(data, "acceptedTime", null);
+  }
+
+  public void setAcceptedTime(String acceptedTime) {
+    JsonUtils.setString(data, "acceptedTime", acceptedTime);
+  }
+
+  public String getBorrowedTime() {
+    return JsonUtils.getAsString(data, "borrowedTime",null);
+  }
+
+  public void setBorrowedTime(String borrowedTime) {
+    JsonUtils.setString(data, "borrowedTime", borrowedTime);
+  }
+
+  public String getReturnedTime() {
+    return JsonUtils.getAsString(data, "returnedTime", null);
+  }
+
+  public void setReturnedTime(String returnedTime) {
+    JsonUtils.setString(data, "returnedTime", returnedTime);
+  }
+
+  public int getStatus() {
+    return JsonUtils.getAsInt(data, "status", 0);
+  }
+
+  public void setStatus(int status) {
+    JsonUtils.setInt(data, "status", status);
+  }
+
+  // Trạng thái tiện ích
+  public boolean isRequested() {
+    return getStatus() == STATUS_REQUESTED;
+  }
+
+  public boolean isAccepted() {
+    return getStatus() == STATUS_ACCEPTED;
+  }
+
+  public boolean isBorrowed() {
+    return getStatus() == STATUS_BORROWED;
+  }
+
+  public boolean isReturned() {
+    return getStatus() == STATUS_RETURNED;
+  }
+
+  @Override
+  public String toString() {
+    return "Borrow{" +
+            "username='" + getUsername() + '\'' +
+            ", id='" + getId() + '\'' +
+            ", requestedTime='" + getRequestedTime() + '\'' +
+            ", acceptedTime='" + getAcceptedTime() + '\'' +
+            ", borrowedTime='" + getBorrowedTime() + '\'' +
+            ", returnedTime='" + getReturnedTime() + '\'' +
+            ", status=" + getStatus() +
+            '}';
   }
 }
