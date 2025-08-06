@@ -174,4 +174,16 @@ public class JsonUtils {
       throw new RuntimeException(e);
     }
   }
+
+  public static void setString(JsonObject obj, String key, String value) {
+    if (obj != null) {
+      obj.addProperty(key, value);
+    }
+  }
+
+  public static void setInt(JsonObject obj, String key, int value) {
+    if (obj != null) {
+      obj.addProperty(key, value);
+    }
+  }
 }
