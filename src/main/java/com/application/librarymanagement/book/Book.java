@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
  * <p><a href="https://www.googleapis.com/books/v1/volumes/RSMuEAAAQBAJ">This </a>
  * is an example of what Google Books API returns when querying for a specific book.
  */
-public class Book {
+public final class Book {
   private JsonObject data;
 
   public static Book fromGoogleBooksApi(String id) throws IOException {
@@ -73,12 +73,12 @@ public class Book {
     return JsonUtils.getAsInt(data, "borrowsCount", 0);
   }
 
-  public void incrementBorrowsCount() {
-    data.addProperty("borrowsCount", getBorrowsCount() + 1);
+  public void adjustBorrowsCount(int delta) {
+    data.addProperty("borrowsCount", getBorrowsCount() + delta);
   }
 
-  public void adjustQuantity(int amount) {
-    data.addProperty("quantity", getQuantity() + amount);
+  public void adjustQuantity(int delta) {
+    data.addProperty("quantity", getQuantity() + delta);
   }
 
   public String getId() {
@@ -231,16 +231,11 @@ public class Book {
     return new BookStats(0, getTitle(), getBorrowsCount());
   }
 
-  public static List<BookStats> toBookStatsList(JsonArray books) {
+  public static List<BookStats> toBookStatsList(ArrayList<Book> books) {
     List<BookStats> stats = new ArrayList<>();
-    for (JsonElement e : books) {
-      JsonObject obj = e.getAsJsonObject();
-      Book book = Book.fromJsonObject(obj);
+    for (Book book : books) {
       stats.add(book.toBookStats());
     }
-    stats = stats.stream()
-                 .sorted(Comparator.comparingInt(BookStats::getBorrowsCount).reversed())
-                 .collect(Collectors.toList());
     for (int i = 0; i < stats.size(); ++i) {
       BookStats s = stats.get(i);
       s.rankProperty().set(i + 1);

@@ -52,8 +52,8 @@ public final class BorrowCaseController {
 
   private void initializeButtons() {
     if (InAppController.CURRENT_USER.getUserType() == User.TYPE_ADMIN) {
-      makeNodeDisappear(cancelBorrowButton);
       if (borrow.getStatus() != Borrow.STATUS_REQUESTED) {
+        makeNodeDisappear(cancelBorrowButton);
         makeNodeDisappear(markBorrowedButton);
       }
       if (borrow.getStatus() != Borrow.STATUS_BORROWED) {
@@ -90,7 +90,6 @@ public final class BorrowCaseController {
   @FXML
   private void cancelBorrow() {
     borrow.setCanceled();
-    borrow.saveToDatabase();
     canceledTimeLabel.setText(borrow.getCanceledTime());
     makeNodeDisappear(cancelBorrowButton);
   }
@@ -98,7 +97,6 @@ public final class BorrowCaseController {
   @FXML
   public void markBorrowed() {
     borrow.setBorrowed();
-    borrow.saveToDatabase();
     borrowedTimeLabel.setText(borrow.getBorrowedTime());
     makeNodeDisappear(markBorrowedButton);
     makeNodeAppear(markReturnedButton);
@@ -107,7 +105,6 @@ public final class BorrowCaseController {
   @FXML
   public void markReturned() {
     borrow.setReturned();
-    borrow.saveToDatabase();
     returnedTimeLabel.setText(borrow.getReturnedTime());
     makeNodeDisappear(markReturnedButton);
   }

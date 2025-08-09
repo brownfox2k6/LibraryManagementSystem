@@ -1,8 +1,10 @@
 package com.application.librarymanagement.borrow;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public final class Borrow {
@@ -20,6 +22,7 @@ public final class Borrow {
     data.addProperty("bookId", bookId);
     data.addProperty("requestedTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_REQUESTED);
+    changeQuantity(-1, 1);
   }
 
   public static int addNewBorrow(String username, String bookId) {
@@ -86,15 +89,35 @@ public final class Borrow {
   public void setBorrowed() {
     data.addProperty("borrowedTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_BORROWED);
+    saveToDatabase();
   }
 
   public void setReturned() {
     data.addProperty("returnedTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_RETURNED);
+    changeQuantity(1, 0);
+    saveToDatabase();
   }
 
   public void setCanceled() {
     data.addProperty("canceledTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_CANCELED);
+    changeQuantity(1, -1);
+    saveToDatabase();
+  }
+
+  private void changeQuantity(int bookDelta, int borrowsCountDelta) {
+    assert Math.abs(bookDelta) == 1 && Math.abs(borrowsCountDelta) <= 1;
+    JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
+    for (JsonElement e : books) {
+      Book book = Book.fromJsonObject(e.getAsJsonObject());
+      if (book.getId().equals(getBookId())) {
+        book.adjustQuantity(bookDelta);
+        book.adjustBorrowsCount(borrowsCountDelta);
+        book.updateToDatabase();
+        return;
+      }
+    }
+    assert false;
   }
 }
