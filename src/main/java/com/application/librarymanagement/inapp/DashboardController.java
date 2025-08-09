@@ -32,14 +32,18 @@ public final class DashboardController extends InAppController {
   private ArrayList<Book> books;
 
   public void initialize() {
+    loadBooks();
+    showRecommendations();
+    showMostBorrowsTable();
+  }
+
+  private void loadBooks() {
     books = new ArrayList<>();
     for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
       books.add(Book.fromJsonObject(e.getAsJsonObject()));
     }
     books.sort(Comparator.comparing(Book::getBorrowsCount, Comparator.reverseOrder())
                          .thenComparing(Book::getTitle));
-    showRecommendations();
-    showMostBorrowsTable();
   }
 
   private void showRecommendations() {

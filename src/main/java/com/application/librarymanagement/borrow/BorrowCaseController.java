@@ -91,6 +91,7 @@ public final class BorrowCaseController {
   private void cancelBorrow() {
     borrow.setCanceled();
     canceledTimeLabel.setText(borrow.getCanceledTime());
+    statusLabel.setText("CANCELED");
     makeNodeDisappear(cancelBorrowButton);
   }
 
@@ -98,6 +99,7 @@ public final class BorrowCaseController {
   public void markBorrowed() {
     borrow.setBorrowed();
     borrowedTimeLabel.setText(borrow.getBorrowedTime());
+    statusLabel.setText("BORROWED");
     makeNodeDisappear(markBorrowedButton);
     makeNodeAppear(markReturnedButton);
   }
@@ -105,6 +107,7 @@ public final class BorrowCaseController {
   @FXML
   public void markReturned() {
     borrow.setReturned();
+    statusLabel.setText("RETURNED");
     returnedTimeLabel.setText(borrow.getReturnedTime());
     makeNodeDisappear(markReturnedButton);
   }

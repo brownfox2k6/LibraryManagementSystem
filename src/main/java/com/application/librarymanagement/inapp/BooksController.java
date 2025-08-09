@@ -4,7 +4,9 @@ import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.Search;
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
+import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -16,6 +18,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public final class BooksController extends InAppController {
   @FXML private ImageView searchIcon;
@@ -30,10 +33,15 @@ public final class BooksController extends InAppController {
   @FXML private VBox searchResults;
 
   private Search search;
+  private ArrayList<String> availableIds;
 
   public void initialize() {
     searchIcon.setImage(ImageUtils.getImage("SearchButton.png"));
     search = new Search();
+    availableIds = new ArrayList<>();
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+      availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
+    }
   }
 
   @FXML
@@ -50,10 +58,15 @@ public final class BooksController extends InAppController {
       JsonArray result = search.getBooks();
       searchResults.getChildren().clear();
       for (JsonElement e : result) {
+        Book book = Book.fromJsonObject(e.getAsJsonObject());
+        if (InAppController.CURRENT_USER.getUserType() == User.TYPE_MEMBER
+            && !availableIds.contains(book.getId())) {
+          continue;
+        }
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
         HBox bookCaseBox = fxmlLoader.load();
         BookCaseController bookCaseController = fxmlLoader.getController();
-        bookCaseController.setData(Book.fromJsonObject(e.getAsJsonObject()));
+        bookCaseController.setData(book);
         searchResults.getChildren().add(bookCaseBox);
       }
     } catch (IOException e) {

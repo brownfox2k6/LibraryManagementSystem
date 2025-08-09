@@ -28,7 +28,7 @@ public final class Search {
   private String oclc = "";
 
   /** Maximum number of items to fetch per page. */
-  private static final int MAX_COUNT = 10;
+  private static final int MAX_COUNT = 40;
 
   /** The zero-based index of the first item in the current page. */
   private int startIndex = 0;
@@ -166,6 +166,7 @@ public final class Search {
     if (!this.oclc.isEmpty()) {
       url += "+oclc:" + this.oclc;
     }
+    url += "&maxResults=" + MAX_COUNT;
     url += "&startIndex=" + this.startIndex;
     return url;
   }
