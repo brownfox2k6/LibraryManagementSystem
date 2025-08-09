@@ -2,23 +2,17 @@ package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.borrow.Borrow;
-import com.application.librarymanagement.borrow.Timestamp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
-import javafx.animation.PauseTransition;
-import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -26,18 +20,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public final class BookDetailsController {
-  @FXML private TableView<BookDetail> detailsTable;
-  @FXML private TableColumn<BookDetail, String> keyCol;
-  @FXML private TableColumn<BookDetail, String> valueCol;
+  @FXML private TableView<BookDetails> detailsTable;
+  @FXML private TableColumn<BookDetails, String> keyCol;
+  @FXML private TableColumn<BookDetails, String> valueCol;
   @FXML private ImageView thumbnail;
   @FXML private Label title;
   @FXML private Label authors;
@@ -66,7 +57,7 @@ public final class BookDetailsController {
     valueCol.setSortable(false);
     detailsTable.setColumnResizePolicy(TableView.UNCONSTRAINED_RESIZE_POLICY);
     detailsTable.setRowFactory(tv -> {
-      TableRow<BookDetail> row = new TableRow<>();
+      TableRow<BookDetails> row = new TableRow<>();
       row.setPadding(new Insets(8, 0, 8, 0));
       return row;
     });
@@ -113,7 +104,7 @@ public final class BookDetailsController {
 
   private void tryAddRowToTable(String key, String value) {
     if (!value.isEmpty()) {
-      detailsTable.getItems().add(new BookDetail(key, value));
+      detailsTable.getItems().add(new BookDetails(key, value));
     }
   }
 
@@ -153,7 +144,7 @@ public final class BookDetailsController {
     ClipboardContent content = new ClipboardContent();
     content.putUrl(book.getInfoLink());
     clipboard.setContent(content);
-    showPopupMessage("Link copied to clipboard!");
+    MainApp.showPopupMessage("Link copied to clipboard!");
   }
 
   @FXML
@@ -168,60 +159,15 @@ public final class BookDetailsController {
     changeQuantitySpinner.setValueFactory(
         new SpinnerValueFactory.IntegerSpinnerValueFactory(-getQuantity(), Integer.MAX_VALUE, amount));
     String fmt = amount > 0 ? "Book(s) added: +%d (%d → %d)" : "Book(s) removed: %d (%d → %d)";
-    showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()));
+    MainApp.showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()));
   }
 
   @FXML
   private void borrow() {
-    showPopupMessage("Ok! Please come to our library within one week to collect the book.");
+    MainApp.showPopupMessage("Ok! Please come to our library within one week to collect the book.");
     int id = Borrow.addNewBorrow(user.getUsername(), book.getId());
     user.addBorrowId(id);
     makeNodeDisappear(borrowButton);
-  }
-
-  private void showPopupMessage(String message) {
-    Label label = new Label(message);
-    label.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
-    StackPane pane = new StackPane(label);
-    pane.setBackground(new Background(new BackgroundFill(
-        Color.rgb(6,64,43,0.75), new CornerRadii(5), Insets.EMPTY)));
-    pane.setPadding(new Insets(10));
-    pane.setOpacity(0.9);
-
-    Popup popup = new Popup();
-    popup.getContent().add(pane);
-    popup.setAutoFix(true);
-    popup.setAutoHide(true);
-    popup.setHideOnEscape(true);
-
-    // Lấy tọa độ vùng nội dung (chuẩn hơn so với Window.getX/Y)
-    Parent root = detailsTable.getScene().getRoot();
-    Bounds rootBounds = root.localToScreen(root.getBoundsInLocal());
-
-    // Tính vị trí mép dưới – chính giữa
-    pane.applyCss();
-    pane.layout();
-    double bottomMargin = 8;   // cách đáy nội dung
-    double centerX = rootBounds.getMinX()
-        + (rootBounds.getWidth() - pane.prefWidth(-1)) / 2.0;
-    double targetY = rootBounds.getMaxY()
-        - pane.prefHeight(-1) - bottomMargin;
-
-    // Hiển thị popup tại vị trí đích
-    popup.show(detailsTable.getScene().getWindow(), centerX, targetY);
-
-    // Trượt nhẹ từ dưới lên (dịch bên trong popup)
-    double slideOffset = 16;   // độ trượt (px) — nhẹ nhàng
-    pane.setTranslateY(slideOffset);
-    TranslateTransition slideUp = new TranslateTransition(Duration.millis(220), pane);
-    slideUp.setFromY(slideOffset);
-    slideUp.setToY(0);
-    slideUp.play();
-
-    // Tự đóng sau 3 giây
-    PauseTransition wait = new PauseTransition(Duration.seconds(3));
-    wait.setOnFinished(e -> popup.hide());
-    wait.play();
   }
 
   private void makeNodeDisappear(Node node) {
@@ -229,8 +175,8 @@ public final class BookDetailsController {
     node.setManaged(false);
   }
 
-  private void wrapTextInColumn(TableColumn<BookDetail,String> column) {
-    column.setCellFactory(col -> new TableCell<BookDetail,String>() {
+  private void wrapTextInColumn(TableColumn<BookDetails,String> column) {
+    column.setCellFactory(col -> new TableCell<BookDetails,String>() {
       private final Label label = new Label();
 
       {
@@ -276,7 +222,7 @@ public final class BookDetailsController {
   }
 
   private void setAutoExpandHeight() {
-    detailsTable.getItems().addListener((ListChangeListener<BookDetail>) c -> {
+    detailsTable.getItems().addListener((ListChangeListener<BookDetails>) c -> {
       Platform.runLater(() -> {
         double newHeight = detailsTable.prefHeight(detailsTable.getWidth());
         // Only set prefHeight—leave maxHeight alone
@@ -294,19 +240,4 @@ public final class BookDetailsController {
     // (if you did this in code; otherwise set it in FXML)
     VBox.setVgrow(detailsTable, Priority.ALWAYS);
   }
-}
-
-final class BookDetail {
-  private final SimpleStringProperty key;
-  private final SimpleStringProperty value;
-
-  public BookDetail(String key, String value) {
-    this.key = new SimpleStringProperty(key);
-    this.value = new SimpleStringProperty(value);
-  }
-
-  public String getKey() { return key.get(); }
-  public String getValue() { return value.get(); }
-  public SimpleStringProperty keyProperty() { return key; }
-  public SimpleStringProperty valueProperty() { return value; }
 }

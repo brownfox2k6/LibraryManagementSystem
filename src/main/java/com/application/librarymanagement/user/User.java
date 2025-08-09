@@ -1,12 +1,11 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.*;
 
-public class User {
+public final class User {
   public static final int TYPE_ADMIN = 1;
   public static final int TYPE_MEMBER = 2;
   private JsonObject data;

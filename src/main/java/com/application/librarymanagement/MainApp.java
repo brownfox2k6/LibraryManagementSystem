@@ -5,10 +5,21 @@ import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +28,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
 import com.google.gson.JsonObject;
+import javafx.util.Duration;
 
 public class MainApp extends Application {
   public static final Path CONFIG_PATH = Paths.get("json/config.json");
@@ -80,6 +92,51 @@ public class MainApp extends Application {
     URL url = MainApp.class.getResource(path);
     assert url != null;
     MainApp.setUserAgentStylesheet(url.toString());
+  }
+
+  public static void showPopupMessage(String message) {
+    Label label = new Label(message);
+    label.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
+    StackPane pane = new StackPane(label);
+    pane.setBackground(new Background(new BackgroundFill(
+        Color.rgb(6,64,43,0.75), new CornerRadii(5), Insets.EMPTY)));
+    pane.setPadding(new Insets(10));
+    pane.setOpacity(0.9);
+
+    Popup popup = new Popup();
+    popup.getContent().add(pane);
+    popup.setAutoFix(true);
+    popup.setAutoHide(true);
+    popup.setHideOnEscape(true);
+
+    // Lấy tọa độ vùng nội dung (chuẩn hơn so với Window.getX/Y)
+    Parent root = stage.getScene().getRoot();
+    Bounds rootBounds = root.localToScreen(root.getBoundsInLocal());
+
+    // Tính vị trí mép dưới – chính giữa
+    pane.applyCss();
+    pane.layout();
+    double bottomMargin = 8;   // cách đáy nội dung
+    double centerX = rootBounds.getMinX()
+        + (rootBounds.getWidth() - pane.prefWidth(-1)) / 2.0;
+    double targetY = rootBounds.getMaxY()
+        - pane.prefHeight(-1) - bottomMargin;
+
+    // Hiển thị popup tại vị trí đích
+    popup.show(stage.getScene().getWindow(), centerX, targetY);
+
+    // Trượt nhẹ từ dưới lên (dịch bên trong popup)
+    double slideOffset = 16;   // độ trượt (px) — nhẹ nhàng
+    pane.setTranslateY(slideOffset);
+    TranslateTransition slideUp = new TranslateTransition(Duration.millis(220), pane);
+    slideUp.setFromY(slideOffset);
+    slideUp.setToY(0);
+    slideUp.play();
+
+    // Tự đóng sau 3 giây
+    PauseTransition wait = new PauseTransition(Duration.seconds(3));
+    wait.setOnFinished(e -> popup.hide());
+    wait.play();
   }
 
   /**

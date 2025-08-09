@@ -1,15 +1,12 @@
-package com.application.librarymanagement.inapp;
+package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.book.Book;
-import com.application.librarymanagement.book.BookCaseController;
-import com.application.librarymanagement.book.Search;
+import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -20,7 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class BooksController extends InAppController {
+public final class BookSearchController extends InAppController {
   @FXML private ImageView searchIcon;
   @FXML private TextField q;
   @FXML private TextField intitle;
