@@ -15,15 +15,16 @@ public final class BorrowCaseController {
   @FXML private ImageView thumbnail;
   @FXML private Label titleLabel;
   @FXML private Label borrowIdLabel;
+  @FXML private Label bookIdLabel;
   @FXML private Label usernameLabel;
   @FXML private Label statusLabel;
   @FXML private Label requestedTimeLabel;
   @FXML private Label borrowedTimeLabel;
   @FXML private Label returnedTimeLabel;
   @FXML private Label canceledTimeLabel;
-  @FXML private Button cancelBorrowButton;
   @FXML private Button markBorrowedButton;
   @FXML private Button markReturnedButton;
+  @FXML private Button cancelBorrowButton;
 
   private Borrow borrow;
   private Book book;
@@ -35,6 +36,7 @@ public final class BorrowCaseController {
     setThumbnail();
     titleLabel.setText(book.getTitle());
     borrowIdLabel.setText(borrow.getBorrowId() + "");
+    bookIdLabel.setText(book.getId());
     usernameLabel.setText(borrow.getUsername());
     statusLabel.setText(switch (borrow.getStatus()) {
       case Borrow.STATUS_REQUESTED -> "REQUESTED";
@@ -101,6 +103,7 @@ public final class BorrowCaseController {
     borrowedTimeLabel.setText(borrow.getBorrowedTime());
     statusLabel.setText("BORROWED");
     makeNodeDisappear(markBorrowedButton);
+    makeNodeDisappear(cancelBorrowButton);
     makeNodeAppear(markReturnedButton);
   }
 
@@ -110,5 +113,6 @@ public final class BorrowCaseController {
     statusLabel.setText("RETURNED");
     returnedTimeLabel.setText(borrow.getReturnedTime());
     makeNodeDisappear(markReturnedButton);
+    makeNodeDisappear(cancelBorrowButton);
   }
 }

@@ -21,8 +21,11 @@
                      <font>
                         <Font name="Candara Bold" size="18.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="q">
+                  <TextField fx:id="q" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -32,10 +35,10 @@
                         <Font name="Candara Bold" size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="5.0" top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="subject">
+                  <TextField fx:id="subject" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -54,8 +57,11 @@
                      <font>
                         <Font name="Candara Bold" size="18.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="intitle">
+                  <TextField fx:id="intitle" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -65,10 +71,10 @@
                         <Font name="Candara Bold" size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="5.0" top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="isbn">
+                  <TextField fx:id="isbn" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -81,8 +87,11 @@
                      <font>
                         <Font name="Candara Bold" size="18.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="inauthor">
+                  <TextField fx:id="inauthor" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -92,10 +101,10 @@
                         <Font name="Candara Bold" size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="5.0" top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="lccn">
+                  <TextField fx:id="lccn" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -108,8 +117,11 @@
                      <font>
                         <Font name="Candara Bold" size="18.0" />
                      </font>
+                     <VBox.margin>
+                        <Insets left="5.0" />
+                     </VBox.margin>
                   </Text>
-                  <TextField fx:id="inpublisher">
+                  <TextField fx:id="inpublisher" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>
@@ -119,10 +131,10 @@
                         <Font name="Candara Bold" size="18.0" />
                      </font>
                      <VBox.margin>
-                        <Insets top="10.0" />
+                        <Insets left="5.0" top="10.0" />
                      </VBox.margin>
                   </Text>
-                  <TextField fx:id="oclc">
+                  <TextField fx:id="oclc" onAction="#doSearch">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

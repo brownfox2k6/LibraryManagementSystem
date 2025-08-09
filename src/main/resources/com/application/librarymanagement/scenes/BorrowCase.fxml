@@ -47,6 +47,20 @@
                         </TextFlow>
                         <TextFlow prefHeight="200.0" prefWidth="200.0">
                            <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book ID:  ">
+                                 <font>
+                                    <Font name="Candara Bold" size="18.0" />
+                                 </font>
+                              </Text>
+                              <Label fx:id="bookIdLabel" text="bookIdLabel">
+                                 <font>
+                                    <Font name="Candara" size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </TextFlow>
+                        <TextFlow prefHeight="200.0" prefWidth="200.0">
+                           <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:  ">
                                  <font>
                                     <Font name="Candara Bold" size="18.0" />
@@ -137,17 +151,17 @@
                   </VBox>
                   <VBox prefHeight="147.0" prefWidth="157.0" spacing="10.0">
                      <children>
-                        <Button fx:id="cancelBorrowButton" mnemonicParsing="false" onAction="#cancelBorrow" prefHeight="39.0" prefWidth="170.0" text="Cancel borrow">
-                           <font>
-                              <Font size="18.0" />
-                           </font>
-                        </Button>
                         <Button fx:id="markBorrowedButton" mnemonicParsing="false" onAction="#markBorrowed" prefHeight="39.0" prefWidth="185.0" text="Mark borrowed">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Button>
                         <Button fx:id="markReturnedButton" mnemonicParsing="false" onAction="#markReturned" prefHeight="39.0" prefWidth="191.0" text="Mark returned">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="cancelBorrowButton" mnemonicParsing="false" onAction="#cancelBorrow" prefHeight="39.0" prefWidth="170.0" text="Cancel borrow">
                            <font>
                               <Font size="18.0" />
                            </font>

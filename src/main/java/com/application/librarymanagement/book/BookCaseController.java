@@ -1,6 +1,5 @@
 package com.application.librarymanagement.book;
 
-import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ImageUtils;
 import javafx.fxml.FXML;

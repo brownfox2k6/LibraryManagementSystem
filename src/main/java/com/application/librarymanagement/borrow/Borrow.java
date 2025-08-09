@@ -7,6 +7,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.stream.Stream;
+
 public final class Borrow {
   public static final int STATUS_REQUESTED = 1;
   public static final int STATUS_BORROWED = 2;
@@ -80,6 +82,12 @@ public final class Borrow {
 
   public String getCanceledTime() {
     return JsonUtils.getAsString(data, "canceledTime", "");
+  }
+
+  public String getLatestTimestamp() {
+    return Stream.of(getRequestedTime(), getBorrowedTime(), getReturnedTime(), getCanceledTime())
+        .max(String::compareTo)
+        .orElseThrow(() -> new IllegalStateException("Cannot get latest timestamp"));
   }
 
   public int getStatus() {
