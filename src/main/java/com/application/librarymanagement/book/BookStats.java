@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class BookStats {
+public final class BookStats {
   private final IntegerProperty rank = new SimpleIntegerProperty();
   private final StringProperty title = new SimpleStringProperty();
   private final IntegerProperty borrowsCount = new SimpleIntegerProperty();

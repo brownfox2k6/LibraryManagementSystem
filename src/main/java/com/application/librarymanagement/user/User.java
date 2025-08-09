@@ -83,10 +83,10 @@ public class User {
     return borrows;
   }
 
-  public void addBorrow(Borrow borrow) {
+  public void addBorrowId(int id) {
     assert getUserType() == TYPE_MEMBER;
     JsonArray borrows = getBorrows();
-    borrows.add(borrow.getData());
+    borrows.add(id);
     saveToDatabase(true);
   }
 

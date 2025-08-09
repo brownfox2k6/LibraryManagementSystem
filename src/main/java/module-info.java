@@ -5,6 +5,7 @@ module com.application.librarymanagement {
   requires jdk.compiler;
   requires com.google.zxing;
   requires java.desktop;
+  requires java.sql;
 
   opens com.application.librarymanagement to javafx.fxml;
   opens com.application.librarymanagement.scenes to javafx.fxml;
@@ -12,6 +13,7 @@ module com.application.librarymanagement {
   opens com.application.librarymanagement.images to javafx.fxml;
   opens com.application.librarymanagement.inapp to javafx.fxml;
   opens com.application.librarymanagement.book to javafx.fxml;
+  opens com.application.librarymanagement.borrow to javafx.fxml;
 
   exports com.application.librarymanagement;
 }

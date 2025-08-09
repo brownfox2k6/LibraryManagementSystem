@@ -21,6 +21,7 @@ import com.google.gson.JsonObject;
 public class MainApp extends Application {
   public static final Path CONFIG_PATH = Paths.get("json/config.json");
   public static final Path BOOKS_DB_PATH = Paths.get("json/books.json");
+  public static final Path BORROWS_DB_PATH = Paths.get("json/borrows.json");
   public static final Path USERS_DB_PATH = Paths.get("json/users.json");
   public static Stage stage;
   public static JsonObject config;

@@ -50,11 +50,10 @@ public final class BooksController extends InAppController {
       JsonArray result = search.getBooks();
       searchResults.getChildren().clear();
       for (JsonElement e : result) {
-        JsonObject book = e.getAsJsonObject();
         FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
         HBox bookCaseBox = fxmlLoader.load();
         BookCaseController bookCaseController = fxmlLoader.getController();
-        bookCaseController.setData(Book.fromJsonObject(book));
+        bookCaseController.setData(Book.fromJsonObject(e.getAsJsonObject()));
         searchResults.getChildren().add(bookCaseBox);
       }
     } catch (IOException e) {

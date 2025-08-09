@@ -31,6 +31,16 @@ public class Book {
     return book;
   }
 
+  public static Book findById(String id) {
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+      Book book = Book.fromJsonObject(e.getAsJsonObject());
+      if (book.getId().equals(id)) {
+        return book;
+      }
+    }
+    return null;
+  }
+
   private JsonObject getVolumeInfo() {
     return data.getAsJsonObject("volumeInfo");
   }

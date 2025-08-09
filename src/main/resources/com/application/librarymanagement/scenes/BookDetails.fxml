@@ -96,7 +96,7 @@
                         <Font name="Candara" size="20.0" />
                      </font>
                   </Label>
-                  <Button fx:id="borrowButton" mnemonicParsing="false" text="Borrow">
+                  <Button fx:id="borrowButton" mnemonicParsing="false" onAction="#borrow" text="Borrow">
                      <font>
                         <Font name="Candara" size="20.0" />
                      </font>

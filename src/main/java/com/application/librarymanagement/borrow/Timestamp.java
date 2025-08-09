@@ -1,18 +1,18 @@
 package com.application.librarymanagement.borrow;
 
-public class Timestamp {
+public final class Timestamp {
+  private int year;
+  private int month;
+  private int date;
   private int hour;
   private int minute;
-  private int date;
-  private int month;
-  private int year;
 
-  public Timestamp(int hour, int minute, int date, int month, int year) {
+  public Timestamp(int year, int month, int date, int hour, int minute) {
+    this.year = year;
+    this.month = month;
+    this.date = date;
     this.hour = hour;
     this.minute = minute;
-    this.date = date;
-    this.month = month;
-    this.year = year;
   }
 
   public Timestamp(String s) {
@@ -20,31 +20,30 @@ public class Timestamp {
     String[] parts = s.split(" ");
     if (parts.length != 2) throw new IllegalArgumentException("Invalid timestamp format");
 
-    String[] timeParts = parts[0].split(":");
-    String[] dateParts = parts[1].split("/");
+    String[] datePart = parts[0].split("/");
+    String[] timePart = parts[1].split(":");
 
-    this.hour = Integer.parseInt(timeParts[0]);
-    this.minute = Integer.parseInt(timeParts[1]);
-    this.date = Integer.parseInt(dateParts[0]);
-    this.month = Integer.parseInt(dateParts[1]);
-    this.year = Integer.parseInt(dateParts[2]);
+    this.year = Integer.parseInt(datePart[0]);
+    this.month = Integer.parseInt(datePart[1]);
+    this.date = Integer.parseInt(datePart[2]);
+    this.hour = Integer.parseInt(timePart[0]);
+    this.minute = Integer.parseInt(timePart[1]);
   }
 
   public static Timestamp now() {
     java.time.LocalDateTime now = java.time.LocalDateTime.now();
     return new Timestamp(
-            now.getHour(),
-            now.getMinute(),
-            now.getDayOfMonth(),
-            now.getMonthValue(),
-            now.getYear()
+        now.getYear(),
+        now.getMonthValue(),
+        now.getDayOfMonth(),
+        now.getHour(),
+        now.getMinute()
     );
   }
 
-
   @Override
   public String toString() {
-    return String.format("%02d:%02d %02d/%02d/%04d", hour, minute, date, month, year);
+    return String.format("%04d/%02d/%02d %02d:%02d", year, month, date, hour, minute);
   }
 
   // Getters

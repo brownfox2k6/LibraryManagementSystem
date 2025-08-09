@@ -1,25 +1,46 @@
 package com.application.librarymanagement.borrow;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-public class Borrow {
+public final class Borrow {
   public static final int STATUS_REQUESTED = 1;
-  public static final int STATUS_ACCEPTED = 2;
-  public static final int STATUS_BORROWED = 3;
-  public static final int STATUS_RETURNED = 4;
+  public static final int STATUS_BORROWED = 2;
+  public static final int STATUS_RETURNED = 3;
+  public static final int STATUS_CANCELED = 4;
 
   private JsonObject data;
 
-  public Borrow(String username, String id, Timestamp requestedTime) {
+  public Borrow(int borrowId, String username, String bookId) {
     data = new JsonObject();
+    data.addProperty("borrowId", borrowId);
     data.addProperty("username", username);
-    data.addProperty("id", id);
-    data.addProperty("requestedTime", requestedTime.toString());
-    data.addProperty("acceptedTime", "");
-    data.addProperty("borrowedTime", "");
-    data.addProperty("returnedTime", "");
+    data.addProperty("bookId", bookId);
+    data.addProperty("requestedTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_REQUESTED);
+  }
+
+  public static int addNewBorrow(String username, String bookId) {
+    JsonArray borrows = JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH);
+    int borrowId = borrows.size() + 1;
+    Borrow borrow = new Borrow(borrowId, username, bookId);
+    borrows.add(borrow.getData());
+    JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
+    return borrowId;
+  }
+
+  public void saveToDatabase() {
+    JsonArray borrows = JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH);
+    for (int i = 0; i < borrows.size(); i++) {
+      if (JsonUtils.getAsInt(borrows.get(i).getAsJsonObject(), "borrowId", 0) == getBorrowId()) {
+        borrows.set(i, data);
+        JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
+        return;
+      }
+    }
+    assert false;
   }
 
   public Borrow(JsonObject data) {
@@ -30,91 +51,50 @@ public class Borrow {
     return data;
   }
 
-  // Getters & Setters
-
   public String getUsername() {
     return JsonUtils.getAsString(data, "username", null);
   }
 
-  public void setUsername(String username) {
-    JsonUtils.setString(data, "username", username);
+  public int getBorrowId() {
+    return JsonUtils.getAsInt(data, "borrowId", 0);
   }
 
-  public String getId() {
-    return JsonUtils.getAsString(data, "id", null);
-  }
-
-  public void setId(String id) {
-    JsonUtils.setString(data, "id", id);
+  public String getBookId() {
+    return JsonUtils.getAsString(data, "bookId", "");
   }
 
   public String getRequestedTime() {
-    return JsonUtils.getAsString(data, "requestedTime", null);
-  }
-
-  public void setRequestedTime(String requestedTime) {
-    JsonUtils.setString(data, "requestedTime", requestedTime);
-  }
-
-  public String getAcceptedTime() {
-    return JsonUtils.getAsString(data, "acceptedTime", null);
-  }
-
-  public void setAcceptedTime(String acceptedTime) {
-    JsonUtils.setString(data, "acceptedTime", acceptedTime);
+    return JsonUtils.getAsString(data, "requestedTime", "");
   }
 
   public String getBorrowedTime() {
-    return JsonUtils.getAsString(data, "borrowedTime",null);
-  }
-
-  public void setBorrowedTime(String borrowedTime) {
-    JsonUtils.setString(data, "borrowedTime", borrowedTime);
+    return JsonUtils.getAsString(data, "borrowedTime","");
   }
 
   public String getReturnedTime() {
-    return JsonUtils.getAsString(data, "returnedTime", null);
+    return JsonUtils.getAsString(data, "returnedTime", "");
   }
 
-  public void setReturnedTime(String returnedTime) {
-    JsonUtils.setString(data, "returnedTime", returnedTime);
+  public String getCanceledTime() {
+    return JsonUtils.getAsString(data, "canceledTime", "");
   }
 
   public int getStatus() {
     return JsonUtils.getAsInt(data, "status", 0);
   }
 
-  public void setStatus(int status) {
-    JsonUtils.setInt(data, "status", status);
+  public void setBorrowed() {
+    data.addProperty("borrowedTime", Timestamp.now().toString());
+    data.addProperty("status", STATUS_BORROWED);
   }
 
-  // Trạng thái tiện ích
-  public boolean isRequested() {
-    return getStatus() == STATUS_REQUESTED;
+  public void setReturned() {
+    data.addProperty("returnedTime", Timestamp.now().toString());
+    data.addProperty("status", STATUS_RETURNED);
   }
 
-  public boolean isAccepted() {
-    return getStatus() == STATUS_ACCEPTED;
-  }
-
-  public boolean isBorrowed() {
-    return getStatus() == STATUS_BORROWED;
-  }
-
-  public boolean isReturned() {
-    return getStatus() == STATUS_RETURNED;
-  }
-
-  @Override
-  public String toString() {
-    return "Borrow{" +
-            "username='" + getUsername() + '\'' +
-            ", id='" + getId() + '\'' +
-            ", requestedTime='" + getRequestedTime() + '\'' +
-            ", acceptedTime='" + getAcceptedTime() + '\'' +
-            ", borrowedTime='" + getBorrowedTime() + '\'' +
-            ", returnedTime='" + getReturnedTime() + '\'' +
-            ", status=" + getStatus() +
-            '}';
+  public void setCanceled() {
+    data.addProperty("canceledTime", Timestamp.now().toString());
+    data.addProperty("status", STATUS_CANCELED);
   }
 }

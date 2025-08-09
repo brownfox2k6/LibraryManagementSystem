@@ -21,18 +21,19 @@ public class InAppController extends MainAppController {
   @FXML private Label welcomeLabel;
   @FXML private ImageView dashboardIcon;
   @FXML private ImageView booksIcon;
+  @FXML private ImageView borrowsIcon;
   @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
 
   public static InAppController INSTANCE;
-  private static User currentUser;
+  public static User CURRENT_USER;
 
   public void initialize() {
     INSTANCE = this;
     super.initialize();
     loadCurrentUser();
     welcomeLabel.setText(String.format("Welcome, %s [%s] 👋",
-        currentUser.getName(), currentUser.getUsername()));
+        CURRENT_USER.getName(), CURRENT_USER.getUsername()));
     setSubscene("Dashboard", "Dashboard");
   }
 
@@ -55,11 +56,7 @@ public class InAppController extends MainAppController {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
     JsonObject user = JsonUtils.findJsonObjectByKeyValue(users, "username", username);
     assert user != null;
-    currentUser = new User(user);
-  }
-
-  public static User getCurrentUser() {
-    return currentUser;
+    CURRENT_USER = new User(user);
   }
 
   @Override
@@ -68,6 +65,7 @@ public class InAppController extends MainAppController {
     dashboardIcon.setImage(ImageUtils.getImage(type + "DashboardButton.png"));
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
     signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
+    borrowsIcon.setImage(ImageUtils.getImage(type + "BorrowsButton.png"));
   }
 
   @FXML
@@ -78,4 +76,5 @@ public class InAppController extends MainAppController {
 
   @FXML protected void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
   @FXML protected void gotoBooks() { setSubscene("Books", "Books"); }
+  @FXML protected void gotoBorrows() { setSubscene("Borrows", "Borrows"); }
 }

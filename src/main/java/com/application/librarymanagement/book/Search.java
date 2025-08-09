@@ -17,7 +17,7 @@ import java.util.List;
  * ISBN, LCCN, and OCLC. Manages pagination through {@link #nextPage()} and
  * {@link #previousPage()} with a fixed page size.
  */
-public class Search {
+public final class Search {
   private String q = "";
   private String intitle = "";
   private String inauthor = "";

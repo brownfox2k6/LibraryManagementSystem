@@ -1,6 +1,8 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.borrow.Borrow;
+import com.application.librarymanagement.borrow.Timestamp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
@@ -8,12 +10,15 @@ import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
 import javafx.animation.PauseTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -27,10 +32,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
-public class BookDetailsController {
+public final class BookDetailsController {
   @FXML private TableView<BookDetail> detailsTable;
   @FXML private TableColumn<BookDetail, String> keyCol;
   @FXML private TableColumn<BookDetail, String> valueCol;
@@ -69,7 +73,7 @@ public class BookDetailsController {
     setAutoExpandHeight();
     wrapTextInColumn(keyCol);
     wrapTextInColumn(valueCol);
-    user = InAppController.getCurrentUser();
+    user = InAppController.CURRENT_USER;
   }
 
   public void setData(Book book) {
@@ -167,6 +171,14 @@ public class BookDetailsController {
     showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()));
   }
 
+  @FXML
+  private void borrow() {
+    showPopupMessage("Ok! Please come to our library within one week to collect the book.");
+    int id = Borrow.addNewBorrow(user.getUsername(), book.getId());
+    user.addBorrowId(id);
+    makeNodeDisappear(borrowButton);
+  }
+
   private void showPopupMessage(String message) {
     Label label = new Label(message);
     label.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
@@ -175,18 +187,39 @@ public class BookDetailsController {
         Color.rgb(6,64,43,0.75), new CornerRadii(5), Insets.EMPTY)));
     pane.setPadding(new Insets(10));
     pane.setOpacity(0.9);
+
     Popup popup = new Popup();
     popup.getContent().add(pane);
     popup.setAutoFix(true);
     popup.setAutoHide(true);
     popup.setHideOnEscape(true);
-    Window window = detailsTable.getScene().getWindow();
-    double centerX = window.getX() + window.getWidth()  / 2.0
-        - pane.prefWidth(-1) / 2.0;
-    double centerY = window.getY() + window.getHeight() / 2.0
-        - pane.prefHeight(-1) / 2.0;
-    popup.show(window, centerX, centerY);
-    PauseTransition wait = new  PauseTransition(Duration.seconds(3));
+
+    // Lấy tọa độ vùng nội dung (chuẩn hơn so với Window.getX/Y)
+    Parent root = detailsTable.getScene().getRoot();
+    Bounds rootBounds = root.localToScreen(root.getBoundsInLocal());
+
+    // Tính vị trí mép dưới – chính giữa
+    pane.applyCss();
+    pane.layout();
+    double bottomMargin = 8;   // cách đáy nội dung
+    double centerX = rootBounds.getMinX()
+        + (rootBounds.getWidth() - pane.prefWidth(-1)) / 2.0;
+    double targetY = rootBounds.getMaxY()
+        - pane.prefHeight(-1) - bottomMargin;
+
+    // Hiển thị popup tại vị trí đích
+    popup.show(detailsTable.getScene().getWindow(), centerX, targetY);
+
+    // Trượt nhẹ từ dưới lên (dịch bên trong popup)
+    double slideOffset = 16;   // độ trượt (px) — nhẹ nhàng
+    pane.setTranslateY(slideOffset);
+    TranslateTransition slideUp = new TranslateTransition(Duration.millis(220), pane);
+    slideUp.setFromY(slideOffset);
+    slideUp.setToY(0);
+    slideUp.play();
+
+    // Tự đóng sau 3 giây
+    PauseTransition wait = new PauseTransition(Duration.seconds(3));
     wait.setOnFinished(e -> popup.hide());
     wait.play();
   }
@@ -263,7 +296,7 @@ public class BookDetailsController {
   }
 }
 
-class BookDetail {
+final class BookDetail {
   private final SimpleStringProperty key;
   private final SimpleStringProperty value;
 
