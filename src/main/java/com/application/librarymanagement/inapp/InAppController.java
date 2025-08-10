@@ -16,7 +16,7 @@ import javafx.scene.layout.VBox;
 
 import java.io.IOException;
 
-public class InAppController extends MainAppController {
+public final class InAppController extends MainAppController {
   @FXML private Label titleLabel;
   @FXML private Label welcomeLabel;
   @FXML private ImageView dashboardIcon;
@@ -69,12 +69,12 @@ public class InAppController extends MainAppController {
   }
 
   @FXML
-  protected void signOut() {
+  private void signOut() {
     JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
     setScene("SignIn");
   }
 
-  @FXML protected void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
-  @FXML protected void gotoBooks() { setSubscene("BookSearch", "Book search"); }
-  @FXML protected void gotoBorrows() { setSubscene("Borrows", "Borrows"); }
+  @FXML private void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
+  @FXML private void gotoBooks() { setSubscene("BookSearch", "Book search"); }
+  @FXML private void gotoBorrows() { setSubscene("Borrows", "Borrows"); }
 }

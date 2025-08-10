@@ -17,7 +17,7 @@ import javafx.scene.layout.VBox;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public final class BookSearchController extends InAppController {
+public final class BookSearchController {
   @FXML private ImageView searchIcon;
   @FXML private TextField q;
   @FXML private TextField intitle;

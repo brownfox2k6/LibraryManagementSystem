@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public final class DashboardController extends InAppController {
+public final class DashboardController {
   @FXML private HBox recommendations;
   @FXML private TableView<BookStats> mostBorrowsTable;
   @FXML private TableColumn<BookStats, Number> rankColumn;
