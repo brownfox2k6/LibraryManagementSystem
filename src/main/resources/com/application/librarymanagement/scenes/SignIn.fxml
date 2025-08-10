@@ -21,12 +21,12 @@
          <children>
             <Label text="Hi 👋" textAlignment="CENTER">
                <font>
-                  <Font name="Candara Bold" size="50.0" />
+                  <Font name="Segoe UI Bold" size="50.0" />
                </font>
             </Label>
             <Label text="Welcome to devtop10's Library Management System" textAlignment="CENTER">
                <font>
-                  <Font name="Candara Bold" size="25.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
@@ -34,7 +34,7 @@
             </Label>
             <Label alignment="BOTTOM_CENTER" prefHeight="112.0" prefWidth="371.0" text="New here? Enter your details and start your journey with us!" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
                <padding>
                   <Insets top="10.0" />
@@ -42,7 +42,7 @@
             </Label>
             <Button mnemonicParsing="false" onAction="#switchToSignUp" text="Sign up">
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets top="25.0" />
@@ -54,7 +54,7 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
                <font>
-                  <Font name="Candara Bold" size="50.0" />
+                  <Font name="Segoe UI Bold" size="50.0" />
                </font>
                <VBox.margin>
                   <Insets />
@@ -62,7 +62,7 @@
             </Text>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0" />
+                  <Font name="Segoe UI Bold" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets top="15.0" />
@@ -70,7 +70,7 @@
             </Text>
             <TextField fx:id="usernameField" prefHeight="46.0" prefWidth="965.0">
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets left="75.0" right="75.0" />
@@ -81,7 +81,7 @@
             </TextField>
             <Text layoutX="86.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="487.291015625">
                <font>
-                  <Font name="Candara Bold" size="20.0" />
+                  <Font name="Segoe UI Bold" size="20.0" />
                </font>
                <VBox.margin>
                   <Insets top="15.0" />
@@ -92,12 +92,12 @@
                   <Insets left="75.0" right="75.0" />
                </VBox.margin>
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
             </PasswordField>
             <Button mnemonicParsing="false" onAction="#trySignIn" text="Sign in">
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
                <opaqueInsets>
                   <Insets />
@@ -108,15 +108,15 @@
             </Button>
             <Label fx:id="errorLabel" alignment="CENTER" prefHeight="0.0" prefWidth="443.0" textFill="RED" visible="false">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
                <padding>
                   <Insets top="50.0" />
                </padding>
             </Label>
-            <Label prefHeight="40.0" prefWidth="443.0" text="Forgot your password? Contact our administrator for help.">
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="583.0" text="Forgot your password? Contact our administrator for help." textAlignment="CENTER">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Label>
          </children>

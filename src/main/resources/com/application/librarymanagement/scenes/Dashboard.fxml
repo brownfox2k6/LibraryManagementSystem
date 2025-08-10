@@ -19,7 +19,7 @@
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Most borrowed books">
                <font>
-                  <Font name="Candara Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
             </Text>
             <TableView fx:id="mostBorrowsTable" prefHeight="584.0" prefWidth="348.0">
@@ -33,9 +33,9 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="14.0" layoutY="-7.0" prefHeight="635.0" prefWidth="745.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You may like" wrappingWidth="130.23046875">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You may like" textAlignment="CENTER" wrappingWidth="294.23046875">
                <font>
-                  <Font name="Candara Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="5.0" />
@@ -48,7 +48,7 @@
             </ScrollPane>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Borrows in the past 30 days">
                <font>
-                  <Font name="Candara Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets top="10.0" />

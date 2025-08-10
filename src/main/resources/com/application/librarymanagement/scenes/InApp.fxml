@@ -19,7 +19,7 @@
          <children>
             <Button fx:id="dashboardButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#gotoDashboard" onMouseClicked="#gotoDashboard" prefHeight="81.0" prefWidth="130.0" text="Dashboard">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" top="30.0" />
@@ -30,7 +30,7 @@
             </Button>
             <Button fx:id="booksButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#gotoBooks" prefHeight="25.0" prefWidth="150.0" text="Book search">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
                <VBox.margin>
                   <Insets left="10.0" right="10.0" />
@@ -41,7 +41,7 @@
             </Button>
             <Button fx:id="borrowsButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#gotoBorrows" prefHeight="25.0" prefWidth="150.0" text="Borrows">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
                <graphic>
                   <ImageView fx:id="borrowsIcon" fitHeight="50.0" fitWidth="50.0" onMouseClicked="#gotoBooks" pickOnBounds="true" preserveRatio="true" />
@@ -56,7 +56,7 @@
          <children>
             <Label fx:id="titleLabel" prefHeight="38.0" prefWidth="653.0" text="titleLabel">
                <font>
-                  <Font name="Candara Bold" size="31.0" />
+                  <Font name="Segoe UI Bold" size="31.0" />
                </font>
                <HBox.margin>
                   <Insets left="15.0" />
@@ -64,7 +64,7 @@
             </Label>
             <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" prefHeight="59.0" prefWidth="1021.0">
                <font>
-                  <Font name="Candara" size="24.0" />
+                  <Font name="Segoe UI" size="24.0" />
                </font>
                <padding>
                   <Insets right="30.0" />

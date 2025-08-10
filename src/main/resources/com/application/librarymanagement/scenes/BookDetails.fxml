@@ -44,7 +44,7 @@
                <children>
                   <Label fx:id="title" text="Title" wrapText="true">
                      <font>
-                        <Font name="Candara Bold" size="24.0" />
+                        <Font name="Segoe UI Bold" size="24.0" />
                      </font>
                      <VBox.margin>
                         <Insets top="5.0" />
@@ -52,17 +52,17 @@
                   </Label>
                   <Label fx:id="authors" text="Authors + Published date" wrapText="true">
                      <font>
-                        <Font name="Candara" size="18.0" />
+                        <Font name="Segoe UI" size="18.0" />
                      </font>
                   </Label>
                   <Label fx:id="publisher" text="Publisher" wrapText="true">
                      <font>
-                        <Font name="Candara" size="18.0" />
+                        <Font name="Segoe UI" size="18.0" />
                      </font>
                   </Label>
                   <Label fx:id="description" text="Description" wrapText="true">
                      <font>
-                        <Font name="Candara" size="18.0" />
+                        <Font name="Segoe UI" size="18.0" />
                      </font>
                   </Label>
                   <HBox spacing="10.0">
@@ -72,12 +72,12 @@
                      <children>
                         <Button fx:id="copyLinkToClipboardButton" mnemonicParsing="false" onAction="#copyLinkToClipboard" text="Copy link to Google Books">
                            <font>
-                              <Font name="Candara" size="14.0" />
+                              <Font name="Segoe UI" size="14.0" />
                            </font>
                         </Button>
                         <Button fx:id="showQrCodeButton" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#openQrCodeWindow" text="View QR link to Google Books">
                            <font>
-                              <Font name="Candara" size="14.0" />
+                              <Font name="Segoe UI" size="14.0" />
                            </font>
                         </Button>
                      </children>
@@ -93,12 +93,12 @@
                   </Text>
                   <Label fx:id="quantity" text="quantity">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </Label>
                   <Button fx:id="borrowButton" mnemonicParsing="false" onAction="#borrow" text="Borrow">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </Button>
                   <Text fx:id="changeQuantityText" strokeType="OUTSIDE" strokeWidth="0.0" text="Add/remove:" wrappingWidth="126.6171875">
@@ -112,7 +112,7 @@
                      </VBox.margin></Spinner>
                   <Button fx:id="changeQuantityButton" mnemonicParsing="false" onAction="#changeQuantity" text="Ok!">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </Button>
                </children>

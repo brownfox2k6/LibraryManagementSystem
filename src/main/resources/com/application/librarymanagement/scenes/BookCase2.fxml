@@ -18,7 +18,7 @@
          <children>
             <Label fx:id="title" text="Title" wrapText="true">
                <font>
-                  <Font name="Candara Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -26,17 +26,17 @@
             </Label>
             <Label fx:id="author" text="Authors + Publish date" wrapText="true">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Label>
             <Label fx:id="publisher" text="Publisher" wrapText="true">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Label>
             <Label fx:id="description" text="Description" wrapText="true">
                <font>
-                  <Font name="Candara" size="18.0" />
+                  <Font name="Segoe UI" size="18.0" />
                </font>
             </Label>
          </children>

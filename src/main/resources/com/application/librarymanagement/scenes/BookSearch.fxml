@@ -19,7 +19,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="General search">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" />
@@ -27,12 +27,12 @@
                   </Text>
                   <TextField fx:id="q" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Category">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" top="10.0" />
@@ -40,7 +40,7 @@
                   </Text>
                   <TextField fx:id="subject" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                      <VBox.margin>
                         <Insets />
@@ -55,7 +55,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Title">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" />
@@ -63,12 +63,12 @@
                   </Text>
                   <TextField fx:id="intitle" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ISBN identifier">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" top="10.0" />
@@ -76,7 +76,7 @@
                   </Text>
                   <TextField fx:id="isbn" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                </children>
@@ -85,7 +85,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Author">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" />
@@ -93,12 +93,12 @@
                   </Text>
                   <TextField fx:id="inauthor" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="LCCN identifier">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" top="10.0" />
@@ -106,7 +106,7 @@
                   </Text>
                   <TextField fx:id="lccn" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                </children>
@@ -115,7 +115,7 @@
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Publisher">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" />
@@ -123,12 +123,12 @@
                   </Text>
                   <TextField fx:id="inpublisher" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="OCLC identifier">
                      <font>
-                        <Font name="Candara Bold" size="18.0" />
+                        <Font name="Segoe UI Bold" size="18.0" />
                      </font>
                      <VBox.margin>
                         <Insets left="5.0" top="10.0" />
@@ -136,7 +136,7 @@
                   </Text>
                   <TextField fx:id="oclc" onAction="#doSearch">
                      <font>
-                        <Font name="Candara" size="20.0" />
+                        <Font name="Segoe UI" size="20.0" />
                      </font>
                   </TextField>
                </children>
@@ -146,7 +146,7 @@
                   <ImageView fx:id="searchIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
                <font>
-                  <Font name="Candara" size="16.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
                <HBox.margin>
                   <Insets />

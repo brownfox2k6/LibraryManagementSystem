@@ -21,7 +21,7 @@
          <children>
             <Label fx:id="titleLabel" text="titleLabel" wrapText="true">
                <font>
-                  <Font name="Candara Bold" size="24.0" />
+                  <Font name="Segoe UI Bold" size="24.0" />
                </font>
                <VBox.margin>
                   <Insets top="5.0" />
@@ -35,12 +35,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Borrow ID:  #">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="borrowIdLabel" text="borrowIdLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -49,12 +49,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Book ID:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="bookIdLabel" text="bookIdLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -63,12 +63,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Username:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="usernameLabel" text="usernameLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -77,12 +77,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Status:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="statusLabel" text="statusLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -95,12 +95,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Requested time:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="requestedTimeLabel" text="requestedTimeLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -109,12 +109,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Borrowed time:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="borrowedTimeLabel" text="borrowedTimeLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -123,12 +123,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Returned time:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="returnedTimeLabel" text="returnedTimeLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>
@@ -137,12 +137,12 @@
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Canceled time:  ">
                                  <font>
-                                    <Font name="Candara Bold" size="18.0" />
+                                    <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
                               <Label fx:id="canceledTimeLabel" text="canceledTimeLabel">
                                  <font>
-                                    <Font name="Candara" size="18.0" />
+                                    <Font name="Segoe UI" size="18.0" />
                                  </font>
                               </Label>
                            </children>

@@ -11,11 +11,11 @@
       <ImageView fx:id="thumbnail" fitHeight="202.0" fitWidth="160.0" pickOnBounds="true" preserveRatio="true" />
       <Label fx:id="title" prefHeight="78.0" prefWidth="158.0" text="Name" wrapText="true">
          <font>
-            <Font name="Candara Bold" size="14.0" />
+            <Font name="Segoe UI Bold" size="14.0" />
          </font></Label>
       <Label fx:id="author" prefHeight="89.0" prefWidth="158.0" text="Author" wrapText="true">
          <font>
-            <Font name="Candara" size="14.0" />
+            <Font name="Segoe UI" size="14.0" />
          </font></Label>
    </children>
    <padding>

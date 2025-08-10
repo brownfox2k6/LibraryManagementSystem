@@ -182,7 +182,7 @@ public final class BookDetailsController {
       {
         // 1) Make the label wrap and pick up computed height
         label.setWrapText(true);
-        label.setFont(Font.font("Candara", 18));
+        label.setFont(Font.font("Segoe UI", 18));
         label.setTextOverrun(OverrunStyle.CLIP);
         label.setMinHeight(Region.USE_PREF_SIZE);
         label.setPrefHeight(Region.USE_COMPUTED_SIZE);
