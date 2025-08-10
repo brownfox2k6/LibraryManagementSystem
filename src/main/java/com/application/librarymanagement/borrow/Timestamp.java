@@ -1,5 +1,7 @@
 package com.application.librarymanagement.borrow;
 
+import java.time.LocalDate;
+
 public final class Timestamp {
   private int year;
   private int month;
@@ -13,21 +15,6 @@ public final class Timestamp {
     this.date = date;
     this.hour = hour;
     this.minute = minute;
-  }
-
-  public Timestamp(String s) {
-    // Expected format: "hh:mm dd/mm/yyyy"
-    String[] parts = s.split(" ");
-    if (parts.length != 2) throw new IllegalArgumentException("Invalid timestamp format");
-
-    String[] datePart = parts[0].split("/");
-    String[] timePart = parts[1].split(":");
-
-    this.year = Integer.parseInt(datePart[0]);
-    this.month = Integer.parseInt(datePart[1]);
-    this.date = Integer.parseInt(datePart[2]);
-    this.hour = Integer.parseInt(timePart[0]);
-    this.minute = Integer.parseInt(timePart[1]);
   }
 
   public static Timestamp now() {

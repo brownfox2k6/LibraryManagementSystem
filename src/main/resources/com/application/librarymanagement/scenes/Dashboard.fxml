@@ -24,21 +24,21 @@
             </Text>
             <TableView fx:id="mostBorrowsTable" prefHeight="584.0" prefWidth="348.0">
                <columns>
-                  <TableColumn fx:id="rankColumn" prefWidth="42.0" resizable="false" text="#" />
-                  <TableColumn fx:id="titleColumn" prefWidth="229.0" resizable="false" text="Book name" />
-                  <TableColumn fx:id="borrowsCountColumn" prefWidth="76.0" resizable="false" text="Borrows" />
+                  <TableColumn fx:id="rankColumn" prefWidth="34.0" resizable="false" text="#" />
+                  <TableColumn fx:id="titleColumn" prefWidth="237.0" resizable="false" text="Book name" />
+                  <TableColumn fx:id="borrowsCountColumn" prefWidth="75.0" resizable="false" text="Borrows" />
                </columns>
             </TableView>
          </children>
       </VBox>
       <VBox alignment="CENTER" layoutX="14.0" layoutY="-7.0" prefHeight="635.0" prefWidth="745.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You may like">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You may like" wrappingWidth="130.23046875">
                <font>
-                  <Font name="System Bold" size="24.0" />
+                  <Font name="Candara Bold" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
             </Text>
             <ScrollPane prefHeight="380.0" prefWidth="745.0" vbarPolicy="NEVER">
@@ -46,7 +46,7 @@
                   <HBox fx:id="recommendations" prefHeight="380.0" spacing="8.0" />
                </content>
             </ScrollPane>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Borrows this week">
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Borrows in the past 30 days">
                <font>
                   <Font name="Candara Bold" size="24.0" />
                </font>
@@ -54,9 +54,9 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Text>
-            <BarChart prefHeight="161.0" prefWidth="745.0">
+            <BarChart fx:id="borrowsChart" prefHeight="161.0" prefWidth="745.0">
                <xAxis>
-                  <CategoryAxis side="BOTTOM" />
+                  <CategoryAxis prefWidth="688.0" side="BOTTOM" />
                </xAxis>
                <yAxis>
                   <NumberAxis side="LEFT" />

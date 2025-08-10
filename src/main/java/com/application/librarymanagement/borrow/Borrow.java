@@ -6,7 +6,12 @@ import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.util.Pair;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Stream;
 
 public final class Borrow {
@@ -127,5 +132,28 @@ public final class Borrow {
       }
     }
     assert false;
+  }
+
+  public static ArrayList<Pair<String, Integer>> getRecentBorrows(int days) {
+    ArrayList<Pair<String, Integer>> recentBorrows = new ArrayList<>();
+    LocalDate today = LocalDate.now();
+    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd");
+    for (int i = 0; i < days; ++i) {
+      recentBorrows.add(new Pair<>(today.minusDays(i).format(fmt), 0));
+    }
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
+      Borrow borrow = new Borrow(e.getAsJsonObject());
+      if (borrow.getStatus() == STATUS_CANCELED) {
+        continue;
+      }
+      LocalDate date = LocalDate.parse(borrow.getRequestedTime(),
+          DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+      int diff = (int) ChronoUnit.DAYS.between(date, today);
+      if (diff < days) {
+        Pair<String, Integer> p = recentBorrows.get(diff);
+        recentBorrows.set(diff, new Pair<>(p.getKey(), p.getValue() + 1));
+      }
+    }
+    return recentBorrows;
   }
 }
