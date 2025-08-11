@@ -59,6 +59,10 @@ public final class User {
     data.addProperty("password", hashedPassword);
   }
 
+  public String getPassword() {
+    return JsonUtils.getAsString(data, "password", "");
+  }
+
   public int getUserType() {
     return JsonUtils.getAsInt(data, "type", 0);
   }
