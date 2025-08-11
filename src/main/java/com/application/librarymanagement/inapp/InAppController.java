@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
@@ -24,6 +25,7 @@ public final class InAppController extends MainAppController {
   @FXML private ImageView borrowsIcon;
   @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
+  @FXML private ImageView changePasswordIcon;
 
   public static InAppController INSTANCE;
   public static User CURRENT_USER;
@@ -33,7 +35,7 @@ public final class InAppController extends MainAppController {
     super.initialize();
     loadCurrentUser();
     welcomeLabel.setText(String.format("Welcome, %s [%s] 👋",
-        CURRENT_USER.getName(), CURRENT_USER.getUsername()));
+            CURRENT_USER.getName(), CURRENT_USER.getUsername()));
     setSubscene("Dashboard", "Dashboard");
   }
 
@@ -41,7 +43,7 @@ public final class InAppController extends MainAppController {
     try {
       subsceneContainer.getChildren().clear();
       FXMLLoader fxmlLoader = new FXMLLoader(
-          MainApp.class.getResource(String.format("scenes/%s.fxml", name)));
+              MainApp.class.getResource(String.format("scenes/%s.fxml", name)));
       Node pane = fxmlLoader.load();
       subsceneContainer.getChildren().add(pane);
       titleLabel.setText(title);
@@ -66,6 +68,10 @@ public final class InAppController extends MainAppController {
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
     signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
     borrowsIcon.setImage(ImageUtils.getImage(type + "BorrowsButton.png"));
+    changePasswordIcon.setImage(
+            new Image(getClass().getResourceAsStream("/com/application/librarymanagement/images/LockChangePassButton.png"))
+    );
+
   }
 
   @FXML
@@ -73,6 +79,13 @@ public final class InAppController extends MainAppController {
     JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
     setScene("SignIn");
   }
+
+  @FXML
+  private void openChangePassword() {
+    setSubscene("ChangePassword", "Change Password");
+  }
+
+
 
   @FXML private void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
   @FXML private void gotoBooks() { setSubscene("BookSearch", "Book search"); }

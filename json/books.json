@@ -355,7 +355,8 @@
       "accessViewStatus": "NONE",
       "quoteSharingAllowed": false
     },
-    "quantity": 2
+    "quantity": 1,
+    "borrowsCount": 1
   },
   {
     "kind": "books#volume",
