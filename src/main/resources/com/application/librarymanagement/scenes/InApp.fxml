@@ -23,7 +23,7 @@
                   <Font name="Segoe UI" size="18.0" />
                </font>
                <VBox.margin>
-                  <Insets left="10.0" right="10.0" top="30.0" />
+                  <Insets left="10.0" right="10.0" top="80.0" />
                </VBox.margin>
                <graphic>
                   <ImageView fx:id="dashboardIcon" fitHeight="70.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true" />
@@ -74,7 +74,7 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" maxWidth="546.0" minWidth="454.0" prefHeight="47.0" prefWidth="546.0" text="Welcome, name [username]">
+            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" maxWidth="692.0" minWidth="454.0" prefHeight="47.0" prefWidth="692.0" text="Welcome, name [username]">
                <font>
                   <Font name="Segoe UI" size="24.0" />
                </font>
@@ -90,33 +90,6 @@
                   <Insets right="10.0" />
                </padding>
             </Label>
-            <VBox alignment="CENTER_LEFT">
-               <HBox.margin>
-                  <Insets right="10.0" />
-               </HBox.margin>
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Theme">
-                     <font>
-                        <Font name="Segoe UI Bold" size="13.0" />
-                     </font>
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin></Text>
-                  <ChoiceBox fx:id="themeChoiceBox" maxWidth="120.0" minWidth="120.0" onAction="#applyStylesheet" prefHeight="15.0" prefWidth="120.0" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 13px;">
-                     <items>
-                        <FXCollections fx:factory="observableArrayList">
-                           <String fx:value="cupertino-dark" />
-                           <String fx:value="cupertino-light" />
-                           <String fx:value="dracula" />
-                           <String fx:value="nord-dark" />
-                           <String fx:value="nord-light" />
-                           <String fx:value="primer-dark" />
-                           <String fx:value="primer-light" />
-                        </FXCollections>
-                     </items>
-                  </ChoiceBox>
-               </children>
-            </VBox>
             <Button maxHeight="44.0" maxWidth="95.0" minHeight="44.0" minWidth="95.0" mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="44.0" prefWidth="95.0" text="Account Settings" wrapText="true">
                <graphic>
                   <ImageView fx:id="changePasswordIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
@@ -143,5 +116,30 @@
          </children>
       </HBox>
       <VBox fx:id="subsceneContainer" layoutX="150.0" layoutY="59.0" prefHeight="635.0" prefWidth="1130.0" />
+      <VBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Theme">
+               <font>
+                  <Font name="Segoe UI Bold" size="18.0" />
+               </font>
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Text>
+            <ChoiceBox fx:id="themeChoiceBox" maxWidth="131.0" minWidth="120.0" onAction="#applyStylesheet" prefHeight="25.0" prefWidth="131.0" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 15px;">
+               <items>
+                  <FXCollections fx:factory="observableArrayList">
+                     <String fx:value="cupertino-dark" />
+                     <String fx:value="cupertino-light" />
+                     <String fx:value="dracula" />
+                     <String fx:value="nord-dark" />
+                     <String fx:value="nord-light" />
+                     <String fx:value="primer-dark" />
+                     <String fx:value="primer-light" />
+                  </FXCollections>
+               </items>
+            </ChoiceBox>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>
