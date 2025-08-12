@@ -20,7 +20,7 @@ public final class ChangePasswordController {
 
   private User currentUser;
 
-  private void initialize() {
+  public void initialize() {
     currentUser = InAppController.CURRENT_USER;
     nameField.setText(currentUser.getName());
     emailField.setText(currentUser.getEmail());

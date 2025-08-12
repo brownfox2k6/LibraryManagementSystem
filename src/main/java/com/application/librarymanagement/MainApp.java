@@ -1,5 +1,6 @@
 package com.application.librarymanagement;
 
+import com.application.librarymanagement.utils.InitializeDatabase;
 import com.application.librarymanagement.utils.JsonUtils;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
@@ -41,10 +42,10 @@ public class MainApp extends Application {
   /**
    * Initializes the main application interface.
    * @param primaryStage the primary JavaFX window (Stage)
-   * @throws IOException ìf the FXML file cannot be loaded
    */
   @Override
-  public void start(Stage primaryStage) throws IOException {
+  public void start(Stage primaryStage) {
+    InitializeDatabase.initialize();
     stage = primaryStage;
     stage.setTitle("Library Management System");
     stage.setResizable(false);
