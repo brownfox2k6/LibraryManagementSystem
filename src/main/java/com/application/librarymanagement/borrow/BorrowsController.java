@@ -4,7 +4,6 @@ import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,7 +14,6 @@ import javafx.scene.text.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 public final class BorrowsController {

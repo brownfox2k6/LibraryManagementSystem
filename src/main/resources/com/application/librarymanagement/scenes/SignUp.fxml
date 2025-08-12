@@ -50,7 +50,7 @@
             </Button>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="640.0" layoutY="68.0" prefHeight="652.0" prefWidth="640.0">
+      <VBox alignment="CENTER" layoutX="640.0" layoutY="24.0" prefHeight="696.0" prefWidth="640.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Sign up">
                <font>
@@ -160,14 +160,6 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="errorLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="103.0" prefWidth="443.0" textFill="RED" visible="false" wrapText="true">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-               <padding>
-                  <Insets top="25.0" />
-               </padding>
-            </Label>
          </children>
       </VBox>
       <MenuBar prefHeight="25.0" prefWidth="1280.0">

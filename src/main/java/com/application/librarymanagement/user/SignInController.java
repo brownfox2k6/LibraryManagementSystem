@@ -7,12 +7,10 @@ import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Paint;
-import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 /**
  * Controller class for handling user sign-in functionality in the Library Management System.
@@ -28,41 +26,22 @@ public final class SignInController extends MainAppController {
     MainApp.setScene("SignUp");
   }
 
-  /**
-   * Attempts to authenticate the user based on the provided username and password.
-   * <p>
-   * This method:
-   * <ul>
-   *   <li>Retrieves user credentials from local JSON storage.</li>
-   *   <li>Hashes the input password using SHA-256 before comparison.</li>
-   *   <li>Displays success or failure messages in the error label.</li>
-   *   <li>On successful sign-in, shows a success message and triggers a transition
-   *       (e.g., to dashboard) after a short delay.</li>
-   * </ul>
-   * If no matching username and password pair is found, an error message is displayed.
-   */
   @FXML
   private void trySignIn() {
     String username = usernameField.getText();
     String password = PasswordUtils.hashPassword(passwordField.getText());
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
+    JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
     for (JsonElement element : users) {
       JsonObject user = element.getAsJsonObject();
       String u = JsonUtils.getAsString(user, "username", "");
       String p = JsonUtils.getAsString(user, "password", "");
-      assert u != null && p != null;
       if (u.equals(username) && p.equals(password)) {
-        JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", u);
-        errorLabel.setTextFill(Paint.valueOf("GREEN"));
-        showErrorLabel("Sign in successful. Redirecting to dashboard...");
-        PauseTransition pause = new PauseTransition(Duration.millis(1000));
-        pause.setOnFinished(event -> {
-          setScene("InApp");
-        });
-        pause.play();
+        JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", u);
+        MainApp.showPopupMessage(String.format("Welcome, %s.", u), Color.DARKGREEN);
+        MainApp.setScene("InApp");
         return;
       }
     }
-    showErrorLabel("Wrong username or password. Please try again.");
+    MainApp.showPopupMessage("Wrong username or password. Please try again.", Color.DARKRED);
   }
 }

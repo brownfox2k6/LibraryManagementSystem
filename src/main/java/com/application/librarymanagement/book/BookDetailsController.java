@@ -15,15 +15,19 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.util.function.UnaryOperator;
 
 public final class BookDetailsController {
   @FXML private TableView<BookDetails> detailsTable;
@@ -99,6 +103,15 @@ public final class BookDetailsController {
     } else {
       changeQuantitySpinner.setValueFactory(
           new SpinnerValueFactory.IntegerSpinnerValueFactory(-getQuantity(), Integer.MAX_VALUE, 1));
+      UnaryOperator<Change> filter = change -> {
+        String newText = change.getControlNewText();
+        if (newText.matches("-?\\d*")) {
+          return change;
+        }
+        MainApp.showPopupMessage("Input must be an integer.", Color.DARKRED);
+        return null;
+      };
+      changeQuantitySpinner.getEditor().setTextFormatter(new TextFormatter<>(filter));
     }
   }
 
@@ -144,7 +157,7 @@ public final class BookDetailsController {
     ClipboardContent content = new ClipboardContent();
     content.putUrl(book.getInfoLink());
     clipboard.setContent(content);
-    MainApp.showPopupMessage("Link copied to clipboard!");
+    MainApp.showPopupMessage("Link copied to clipboard!", Color.DARKGREEN);
   }
 
   @FXML
@@ -159,12 +172,12 @@ public final class BookDetailsController {
     changeQuantitySpinner.setValueFactory(
         new SpinnerValueFactory.IntegerSpinnerValueFactory(-getQuantity(), Integer.MAX_VALUE, amount));
     String fmt = amount > 0 ? "Book(s) added: +%d (%d → %d)" : "Book(s) removed: %d (%d → %d)";
-    MainApp.showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()));
+    MainApp.showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()), Color.DARKGREEN);
   }
 
   @FXML
   private void borrow() {
-    MainApp.showPopupMessage("Ok! Please come to our library within one week to collect the book.");
+    MainApp.showPopupMessage("Ok! Please come to our library within one week to collect the book.", Color.DARKGREEN);
     int id = Borrow.addNewBorrow(user.getUsername(), book.getId());
     user.addBorrowId(id);
     makeNodeDisappear(borrowButton);
@@ -201,7 +214,6 @@ public final class BookDetailsController {
       @Override
       protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
-
         if (empty || item == null) {
           label.setText(null);
         } else {

@@ -14,6 +14,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -75,6 +76,8 @@ public final class InAppController extends MainAppController {
   @FXML
   private void signOut() {
     JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
+    MainApp.showPopupMessage(String.format("Goodbye, %s. Looking forward to seeing you again.",
+        CURRENT_USER.getUsername()), Color.DARKGREEN);
     setScene("SignIn");
   }
 

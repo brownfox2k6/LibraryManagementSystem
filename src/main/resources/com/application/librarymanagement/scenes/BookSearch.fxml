@@ -141,7 +141,7 @@
                   </TextField>
                </children>
             </VBox>
-            <Button contentDisplay="TOP" mnemonicParsing="false" onAction="#doSearch" prefHeight="100.0" prefWidth="61.0" text="Search">
+            <Button fx:id="searchButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#doSearch" prefHeight="100.0" prefWidth="61.0" text="Search">
                <graphic>
                   <ImageView fx:id="searchIcon" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>

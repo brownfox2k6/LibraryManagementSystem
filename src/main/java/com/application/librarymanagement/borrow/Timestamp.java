@@ -1,6 +1,6 @@
 package com.application.librarymanagement.borrow;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public final class Timestamp {
   private int year;
@@ -18,7 +18,7 @@ public final class Timestamp {
   }
 
   public static Timestamp now() {
-    java.time.LocalDateTime now = java.time.LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now();
     return new Timestamp(
         now.getYear(),
         now.getMonthValue(),

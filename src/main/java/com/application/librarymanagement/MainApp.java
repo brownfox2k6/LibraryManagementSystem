@@ -1,10 +1,6 @@
 package com.application.librarymanagement;
 
-import com.application.librarymanagement.book.Book;
-import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -37,6 +33,7 @@ public class MainApp extends Application {
   public static final Path USERS_DB_PATH = Paths.get("json/users.json");
   public static Stage stage;
   public static JsonObject config;
+  public static Popup currentPopup;
 
   /**
    * Initializes the main application interface.
@@ -94,48 +91,42 @@ public class MainApp extends Application {
     MainApp.setUserAgentStylesheet(url.toString());
   }
 
-  public static void showPopupMessage(String message) {
+  public static void showPopupMessage(String message, Color backgroundColor) {
+    if (currentPopup != null && currentPopup.isShowing()) {
+      currentPopup.hide();
+    }
+    backgroundColor = new Color(backgroundColor.getRed(),
+        backgroundColor.getGreen(), backgroundColor.getBlue(), 0.75);
     Label label = new Label(message);
     label.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
     StackPane pane = new StackPane(label);
     pane.setBackground(new Background(new BackgroundFill(
-        Color.rgb(6,64,43,0.75), new CornerRadii(5), Insets.EMPTY)));
+        backgroundColor, new CornerRadii(5), Insets.EMPTY)));
     pane.setPadding(new Insets(10));
     pane.setOpacity(0.9);
-
-    Popup popup = new Popup();
-    popup.getContent().add(pane);
-    popup.setAutoFix(true);
-    popup.setAutoHide(true);
-    popup.setHideOnEscape(true);
-
-    // Lấy tọa độ vùng nội dung (chuẩn hơn so với Window.getX/Y)
+    currentPopup = new Popup();
+    currentPopup.getContent().add(pane);
+    currentPopup.setAutoFix(true);
+    currentPopup.setAutoHide(true);
+    currentPopup.setHideOnEscape(true);
     Parent root = stage.getScene().getRoot();
     Bounds rootBounds = root.localToScreen(root.getBoundsInLocal());
-
-    // Tính vị trí mép dưới – chính giữa
     pane.applyCss();
     pane.layout();
-    double bottomMargin = 8;   // cách đáy nội dung
+    double bottomMargin = 8;
     double centerX = rootBounds.getMinX()
         + (rootBounds.getWidth() - pane.prefWidth(-1)) / 2.0;
     double targetY = rootBounds.getMaxY()
         - pane.prefHeight(-1) - bottomMargin;
-
-    // Hiển thị popup tại vị trí đích
-    popup.show(stage.getScene().getWindow(), centerX, targetY);
-
-    // Trượt nhẹ từ dưới lên (dịch bên trong popup)
-    double slideOffset = 16;   // độ trượt (px) — nhẹ nhàng
+    currentPopup.show(stage.getScene().getWindow(), centerX, targetY);
+    double slideOffset = 16;
     pane.setTranslateY(slideOffset);
     TranslateTransition slideUp = new TranslateTransition(Duration.millis(220), pane);
     slideUp.setFromY(slideOffset);
     slideUp.setToY(0);
     slideUp.play();
-
-    // Tự đóng sau 3 giây
-    PauseTransition wait = new PauseTransition(Duration.seconds(3));
-    wait.setOnFinished(e -> popup.hide());
+    PauseTransition wait = new PauseTransition(Duration.seconds(5));
+    wait.setOnFinished(e -> currentPopup.hide());
     wait.play();
   }
 

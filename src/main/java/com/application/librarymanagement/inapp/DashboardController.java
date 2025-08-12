@@ -6,9 +6,7 @@ import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.BookStats;
 import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,7 +20,6 @@ import javafx.scene.layout.VBox;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

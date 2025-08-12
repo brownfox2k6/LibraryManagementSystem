@@ -106,18 +106,13 @@
                   <Insets top="25.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="errorLabel" alignment="CENTER" prefHeight="0.0" prefWidth="443.0" textFill="RED" visible="false">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-               <padding>
-                  <Insets top="50.0" />
-               </padding>
-            </Label>
             <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="40.0" prefWidth="583.0" text="Forgot your password? Contact our administrator for help." textAlignment="CENTER">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="50.0" />
+               </VBox.margin>
             </Label>
          </children>
       </VBox>

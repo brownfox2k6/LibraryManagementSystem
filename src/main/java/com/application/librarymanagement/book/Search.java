@@ -1,15 +1,14 @@
 package com.application.librarymanagement.book;
 
+import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Builds and executes paginated search queries against the Google Books API.
@@ -171,9 +170,14 @@ public final class Search {
     return url;
   }
 
-  public JsonArray getBooks() throws IOException {
-    JsonObject result = JsonUtils.fetchJson(getUrl());
-    this.totalItems = result.get("totalItems").getAsInt();
+  public JsonArray getBooks() {
+    JsonObject result = null;
+    try {
+      result = JsonUtils.fetchJson(getUrl());
+    } catch (IOException ex) {
+      MainApp.showPopupMessage("Unable to load books", Color.DARKRED);
+    }
+    this.totalItems = JsonUtils.getAsInt(result, "totalItems", 0);
     return JsonUtils.getAsJsonArray(result, "items");
   }
 }

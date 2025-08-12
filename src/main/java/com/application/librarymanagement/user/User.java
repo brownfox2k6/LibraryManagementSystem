@@ -50,16 +50,12 @@ public final class User {
     data.addProperty("email", email);
   }
 
-  public String getHashedPassword() {
-    return JsonUtils.getAsString(data, "password", "");
-  }
-
   public void setPassword(String password) {
     String hashedPassword = PasswordUtils.hashPassword(password);
     data.addProperty("password", hashedPassword);
   }
 
-  public String getPassword() {
+  public String getHashedPassword() {
     return JsonUtils.getAsString(data, "password", "");
   }
 

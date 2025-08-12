@@ -2,12 +2,10 @@ package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.MainAppController;
-import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Paint;
-import javafx.util.Duration;
+import javafx.scene.paint.Color;
 
 /**
  * Controller class for handling the user sign-up process in the Library Management System.
@@ -53,24 +51,19 @@ public final class SignUpController extends MainAppController {
     String password = passwordField.getText();
     String password2 = passwordField2.getText();
     if (!username.matches("^[a-zA-Z0-9._-]{3,20}$")) {
-      showErrorLabel("Invalid username. Allowed characters: letters (a–z, A-Z), numbers (0–9), " +
-                     "underscore (_), period (.), dash (-). Length: 3–20 characters");
+      MainApp.showPopupMessage("Invalid username. Allowed characters: letters (a–z, A-Z), "
+          + "numbers (0–9), underscore (_), period (.), dash (-). Length: 3–20 characters", Color.DARKRED);
     } else if (!email.matches("^((?!\\.)[\\w-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$")) {
-      showErrorLabel("Invalid email.");
+      MainApp.showPopupMessage("Invalid email.", Color.DARKRED);
     } else if (password.isEmpty() || !password.equals(password2)) {
-      showErrorLabel("Password fields are empty or mismatched.");
+      MainApp.showPopupMessage("Password fields are empty or mismatched.", Color.DARKRED);
     } else {
       User member = new User(name, username, email, password, User.TYPE_MEMBER);
       if (!member.saveToDatabase(false)) {
-        showErrorLabel("Username or Email already exists.");
+        MainApp.showPopupMessage("Username or Email already exists.", Color.DARKRED);
       } else {
-        errorLabel.setTextFill(Paint.valueOf("GREEN"));
-        showErrorLabel("Registration successful. Redirecting to sign-in...");
-        PauseTransition pause = new PauseTransition(Duration.millis(1000));
-        pause.setOnFinished(event -> {
-          switchToSignIn();
-        });
-        pause.play();
+        MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
+        switchToSignIn();
       }
     }
   }
