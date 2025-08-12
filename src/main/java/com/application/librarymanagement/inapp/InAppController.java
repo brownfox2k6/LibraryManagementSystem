@@ -24,7 +24,7 @@ public final class InAppController extends MainAppController {
   @FXML private ImageView dashboardIcon;
   @FXML private ImageView booksIcon;
   @FXML private ImageView borrowsIcon;
-  @FXML private ImageView membersIcon;
+  @FXML private ImageView usersIcon;
   @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
   @FXML private ImageView changePasswordIcon;
@@ -73,7 +73,7 @@ public final class InAppController extends MainAppController {
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
     signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
     borrowsIcon.setImage(ImageUtils.getImage(type + "BorrowsButton.png"));
-    membersIcon.setImage(ImageUtils.getImage(type + "MembersButton.png"));
+    usersIcon.setImage(ImageUtils.getImage(type + "UsersButton.png"));
     changePasswordIcon.setImage(ImageUtils.getImage(type + "SettingsButton.png"));
   }
 
