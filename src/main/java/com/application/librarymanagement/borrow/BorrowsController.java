@@ -1,11 +1,15 @@
 package com.application.librarymanagement.borrow;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
-import com.sun.tools.javac.Main;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
@@ -13,10 +17,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
 
 public final class BorrowsController {
   @FXML private VBox borrows;
@@ -28,7 +28,7 @@ public final class BorrowsController {
 
   public void initialize() {
     user = InAppController.CURRENT_USER;
-    if (user.getUserType() == User.TYPE_MEMBER) {
+    if (user.isMember()) {
       usernameText.setVisible(false);
       usernameText.setManaged(false);
       usernameField.setVisible(false);
@@ -42,8 +42,7 @@ public final class BorrowsController {
     borrowList = new ArrayList<>();
     for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
       Borrow borrow = new Borrow(e.getAsJsonObject());
-      if (user.getUserType() == User.TYPE_ADMIN
-          || borrow.getUsername().equals(user.getUsername())) {
+      if (user.isAdmin() || borrow.getUsername().equals(user.getUsername())) {
         borrowList.add(borrow);
       }
     }

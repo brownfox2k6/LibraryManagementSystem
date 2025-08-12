@@ -5,6 +5,7 @@ import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.application.librarymanagement.utils.ValidateUtils;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -19,7 +20,7 @@ public final class ChangePasswordController {
 
   private User currentUser;
 
-  public void initialize() {
+  private void initialize() {
     currentUser = InAppController.CURRENT_USER;
     nameField.setText(currentUser.getName());
     emailField.setText(currentUser.getEmail());

@@ -10,8 +10,7 @@ public final class BookStats {
   private final StringProperty title = new SimpleStringProperty();
   private final IntegerProperty borrowsCount = new SimpleIntegerProperty();
 
-  public BookStats(int rank, String title, int borrowsCount) {
-    this.rank.set(rank);
+  public BookStats(String title, int borrowsCount) {
     this.title.set(title);
     this.borrowsCount.set(borrowsCount);
   }

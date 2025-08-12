@@ -3,8 +3,8 @@ package com.application.librarymanagement.borrow;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.inapp.InAppController;
-import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
+
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -49,7 +49,7 @@ public final class BorrowCaseController {
   }
 
   private void initializeButtons() {
-    if (InAppController.CURRENT_USER.getUserType() == User.TYPE_ADMIN) {
+    if (InAppController.CURRENT_USER.isAdmin()) {
       if (borrow.getStatus() != Borrow.STATUS_REQUESTED) {
         makeNodeDisappear(cancelBorrowButton);
         makeNodeDisappear(markBorrowedButton);

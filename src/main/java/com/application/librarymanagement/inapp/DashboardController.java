@@ -5,19 +5,14 @@ import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.BookStats;
 import com.application.librarymanagement.borrow.Borrow;
-import com.application.librarymanagement.utils.BarChartUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -34,18 +29,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public final class DashboardController {
-  @FXML
-  private HBox recommendations;
-  @FXML
-  private TableView<BookStats> mostBorrowsTable;
-  @FXML
-  private TableColumn<BookStats, Number> rankColumn;
-  @FXML
-  private TableColumn<BookStats, String> titleColumn;
-  @FXML
-  private TableColumn<BookStats, Number> borrowsCountColumn;
-  @FXML
-  private BarChart<String, Number> borrowsChart;
+  @FXML private HBox recommendations;
+  @FXML private TableView<BookStats> mostBorrowsTable;
+  @FXML private TableColumn<BookStats, Number> rankColumn;
+  @FXML private TableColumn<BookStats, String> titleColumn;
+  @FXML private TableColumn<BookStats, Number> borrowsCountColumn;
+  @FXML private BarChart<String, Number> borrowsChart;
 
   private ArrayList<Book> books;
 

@@ -1,5 +1,7 @@
 package com.application.librarymanagement.book;
 
+import java.util.function.UnaryOperator;
+
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.inapp.InAppController;
@@ -8,26 +10,39 @@ import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
+
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.Control;
+import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
+import javafx.scene.control.Spinner;
+import javafx.scene.control.SpinnerValueFactory;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.util.function.UnaryOperator;
 
 public final class BookDetailsController {
   @FXML private TableView<BookDetails> detailsTable;
@@ -77,7 +92,7 @@ public final class BookDetailsController {
     setTableData();
   }
 
-  public void setCase() {
+  private void setCase() {
     String thumbnailLink = book.getThumbnailLink();
     if (thumbnailLink.isEmpty()) {
       thumbnail.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
@@ -89,14 +104,14 @@ public final class BookDetailsController {
     publisher.setText(book.getPublisher());
     description.setText(book.getDescription());
     quantity.setText(getQuantity() + "");
-    if (user.getUserType() == User.TYPE_ADMIN || getQuantity() == 0) {
+    if (user.isAdmin() || getQuantity() == 0) {
       makeNodeDisappear(borrowButton);
     }
     if (book.getInfoLink().isEmpty()) {
       makeNodeDisappear(copyLinkToClipboardButton);
       makeNodeDisappear(showQrCodeButton);
     }
-    if (user.getUserType() == User.TYPE_MEMBER) {
+    if (user.isMember()) {
       makeNodeDisappear(changeQuantityText);
       makeNodeDisappear(changeQuantitySpinner);
       makeNodeDisappear(changeQuantityButton);
@@ -121,7 +136,7 @@ public final class BookDetailsController {
     }
   }
 
-  public void setTableData() {
+  private void setTableData() {
     tryAddRowToTable("ID", book.getId());
     tryAddRowToTable("Authors", book.getAuthorsString());
     tryAddRowToTable("Publisher", book.getPublisher());
@@ -191,26 +206,18 @@ public final class BookDetailsController {
   private void wrapTextInColumn(TableColumn<BookDetails,String> column) {
     column.setCellFactory(col -> new TableCell<BookDetails,String>() {
       private final Label label = new Label();
-
       {
-        // 1) Make the label wrap and pick up computed height
         label.setWrapText(true);
         label.setFont(Font.font("Segoe UI", 18));
         label.setTextOverrun(OverrunStyle.CLIP);
         label.setMinHeight(Region.USE_PREF_SIZE);
         label.setPrefHeight(Region.USE_COMPUTED_SIZE);
-        // bind its max width to the *column* width minus some padding
         label.maxWidthProperty().bind(col.widthProperty().subtract(10));
-
         setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
         setGraphic(label);
-
-        // 2) Bind the *cell’s* minHeight to the label’s height so the row
-        //    can expand to fit the wrapped content + any padding
         this.minHeightProperty().bind(label.heightProperty().add(16));
         this.setPrefHeight(Control.USE_COMPUTED_SIZE);
       }
-
       @Override
       protected void updateItem(String item, boolean empty) {
         super.updateItem(item, empty);
@@ -237,19 +244,13 @@ public final class BookDetailsController {
     detailsTable.getItems().addListener((ListChangeListener<BookDetails>) c -> {
       Platform.runLater(() -> {
         double newHeight = detailsTable.prefHeight(detailsTable.getWidth());
-        // Only set prefHeight—leave maxHeight alone
         detailsTable.setPrefHeight(newHeight);
       });
     });
-
-    // Initial kick
     Platform.runLater(() -> {
       double newHeight = detailsTable.prefHeight(detailsTable.getWidth());
       detailsTable.setPrefHeight(newHeight);
     });
-
-    // Allow the parent VBox (or AnchorPane) to let this table grow
-    // (if you did this in code; otherwise set it in FXML)
     VBox.setVgrow(detailsTable, Priority.ALWAYS);
   }
 }

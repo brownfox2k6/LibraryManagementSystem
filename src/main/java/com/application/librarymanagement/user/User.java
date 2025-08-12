@@ -3,12 +3,13 @@ package com.application.librarymanagement.user;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
-import com.google.gson.*;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public final class User {
   public static final int TYPE_ADMIN = 1;
   public static final int TYPE_MEMBER = 2;
-  private JsonObject data;
+  private final JsonObject data;
 
   public User(JsonObject data) {
     this.data = data;
@@ -63,13 +64,21 @@ public final class User {
     return JsonUtils.getAsInt(data, "type", 0);
   }
 
+  public boolean isAdmin() {
+    return getUserType() == TYPE_ADMIN;
+  }
+
+  public boolean isMember() {
+    return getUserType() == TYPE_MEMBER;
+  }
+
   public JsonArray getBorrows() {
-    assert getUserType() == TYPE_MEMBER;
+    assert isMember();
     return JsonUtils.getAsJsonArray(data, "borrows");
   }
 
   public void addBorrowId(int id) {
-    assert getUserType() == TYPE_MEMBER;
+    assert isMember();
     JsonArray borrows = getBorrows();
     borrows.add(id);
     saveToDatabase();

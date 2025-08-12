@@ -4,9 +4,8 @@ import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.MainAppController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -22,7 +21,8 @@ public final class SignInController extends MainAppController {
   @FXML private TextField usernameField;
   @FXML private PasswordField passwordField;
 
-  @FXML private void switchToSignUp() {
+  @FXML
+  private void switchToSignUp() {
     MainApp.setScene("SignUp");
   }
 

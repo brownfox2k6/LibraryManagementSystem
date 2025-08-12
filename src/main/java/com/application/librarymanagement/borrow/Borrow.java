@@ -20,7 +20,7 @@ public final class Borrow {
   public static final int STATUS_RETURNED = 3;
   public static final int STATUS_CANCELED = 4;
 
-  private JsonObject data;
+  private final JsonObject data;
 
   public Borrow(int borrowId, String username, String bookId) {
     data = new JsonObject();

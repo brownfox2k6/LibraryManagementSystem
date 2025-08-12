@@ -35,22 +35,28 @@ public final class BookSearchController {
   @FXML private TextField oclc;
   @FXML private VBox searchResults;
 
-  private ExecutorService executor = Executors.newSingleThreadExecutor();
+  private final ExecutorService executor = Executors.newSingleThreadExecutor();
   private Search search;
-  private ArrayList<String> availableIds;
+  private final ArrayList<String> availableIds = new ArrayList<>();
+  private static JsonArray results = new JsonArray();
+  private static final String[] queries = {"", "", "", "", "", "", "", ""};
 
   public void initialize() {
     searchIcon.setImage(ImageUtils.getImage("SearchButton.png"));
     search = new Search();
-    availableIds = new ArrayList<>();
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
-      availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
+    if (InAppController.CURRENT_USER.isMember()) {
+      for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+        availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
+      }
     }
+    showOldSearchQueries();
+    showResults(false);
   }
 
   @FXML
-  public void doSearch() {
+  private void doSearch() {
     MainApp.showPopupMessage("Searching... Please wait.", Color.DARKBLUE);
+    saveSearchQueries();
     search.setQ(q.getText());
     search.setIntitle(intitle.getText());
     search.setInauthor(inauthor.getText());
@@ -59,43 +65,70 @@ public final class BookSearchController {
     search.setIsbn(isbn.getText());
     search.setLccn(lccn.getText());
     search.setOclc(oclc.getText());
-    Task<JsonArray> task = new Task<>() {
+    Task<Void> task = new Task<>() {
       @Override
-      protected JsonArray call() {
+      protected Void call() {
         searchButton.setDisable(true);
-        return search.getBooks();
-      }
+        results = search.getBooks();
+        return null;
+      };
     };
-    task.setOnSucceeded(event -> {
-      searchButton.setDisable(false);
-      searchResults.getChildren().clear();
-      int count = 0;
-      for (JsonElement e : task.getValue()) {
-        Book book = Book.fromJsonObject(e.getAsJsonObject());
-        if (InAppController.CURRENT_USER.getUserType() == User.TYPE_MEMBER
-            && !availableIds.contains(book.getId())) {
-          continue;
-        }
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
-        HBox bookCaseBox = null;
-        try {
-          bookCaseBox = fxmlLoader.load();
-        } catch (IOException ex) {
-          MainApp.showPopupMessage("Failed to render search results.", Color.DARKRED);
-        }
-        BookCaseController bookCaseController = fxmlLoader.getController();
-        bookCaseController.setData(book);
-        searchResults.getChildren().add(bookCaseBox);
-        ++count;
-      }
-      if (count == 0) {
-        MainApp.showPopupMessage("No results found.", Color.DARKRED);
-      } else if (count == 1) {
-        MainApp.showPopupMessage("Found 1 result.", Color.DARKGREEN);
-      } else {
-        MainApp.showPopupMessage(String.format("Found %d results.", count), Color.DARKGREEN);
-      }
-    });
+    task.setOnSucceeded(e -> showResults(true));
     executor.execute(task);
+  }
+
+  private void showResults(boolean showPopup) {
+    searchButton.setDisable(false);
+    searchResults.getChildren().clear();
+    int count = 0;
+    for (JsonElement e : results) {
+      Book book = Book.fromJsonObject(e.getAsJsonObject());
+      if (InAppController.CURRENT_USER.isMember() && !availableIds.contains(book.getId())) {
+        continue;
+      }
+      FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
+      HBox bookCaseBox = null;
+      try {
+        bookCaseBox = fxmlLoader.load();
+      } catch (IOException ex) {
+        MainApp.showPopupMessage("Failed to render search results.", Color.DARKRED);
+      }
+      BookCaseController bookCaseController = fxmlLoader.getController();
+      bookCaseController.setData(book);
+      searchResults.getChildren().add(bookCaseBox);
+      ++count;
+    }
+    if (!showPopup) {
+      return;
+    }
+    if (count == 0) {
+      MainApp.showPopupMessage("No results found.", Color.DARKRED);
+    } else if (count == 1) {
+      MainApp.showPopupMessage("Found 1 result.", Color.DARKGREEN);
+    } else {
+      MainApp.showPopupMessage(String.format("Found %d results.", count), Color.DARKGREEN);
+    }
+  }
+
+  private void saveSearchQueries() {
+    queries[0] = q.getText();
+    queries[1] = intitle.getText();
+    queries[2] = inauthor.getText();
+    queries[3] = inpublisher.getText();
+    queries[4] = subject.getText();
+    queries[5] = isbn.getText();
+    queries[6] = lccn.getText();
+    queries[7] = oclc.getText();
+  }
+
+  private void showOldSearchQueries() {
+    q.setText(queries[0]);
+    intitle.setText(queries[1]);
+    inauthor.setText(queries[2]);
+    inpublisher.setText(queries[3]);
+    subject.setText(queries[4]);
+    isbn.setText(queries[5]);
+    lccn.setText(queries[6]);
+    oclc.setText(queries[7]);
   }
 }

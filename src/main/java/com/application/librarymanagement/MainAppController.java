@@ -2,10 +2,9 @@ package com.application.librarymanagement;
 
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
+
 import javafx.fxml.FXML;
-import javafx.event.ActionEvent;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 
 public class MainAppController extends MainApp {
@@ -16,7 +15,8 @@ public class MainAppController extends MainApp {
    * Initializes the controller after the FXML components have been loaded.
    * Sets the initial background image based on the current theme stored in configuration.
    */
-  @FXML public void initialize() {
+  @FXML
+  public void initialize() {
     themeChoiceBox.setValue(JsonUtils.getAsString(config, "theme", ""));
     setBackgroundImage();
     loadIcons();
@@ -37,7 +37,8 @@ public class MainAppController extends MainApp {
     backgroundImage.setImage(ImageUtils.getImage(getLightOrDark() + "Sky.jpg"));
   }
 
-  @FXML public void applyStylesheet() {
+  @FXML
+  public void applyStylesheet() {
     JsonUtils.addProperty(config, CONFIG_PATH,"theme", themeChoiceBox.getValue());
     setBackgroundImage();
     loadIcons();

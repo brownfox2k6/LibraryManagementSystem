@@ -3,11 +3,11 @@ package com.application.librarymanagement.borrow;
 import java.time.LocalDateTime;
 
 public final class Timestamp {
-  private int year;
-  private int month;
-  private int date;
-  private int hour;
-  private int minute;
+  private final int year;
+  private final int month;
+  private final int date;
+  private final int hour;
+  private final int minute;
 
   public Timestamp(int year, int month, int date, int hour, int minute) {
     this.year = year;
