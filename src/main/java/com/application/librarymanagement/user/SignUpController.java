@@ -2,6 +2,7 @@ package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.MainAppController;
+import com.application.librarymanagement.utils.ValidateUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -50,21 +51,22 @@ public final class SignUpController extends MainAppController {
     String email = emailField.getText();
     String password = passwordField.getText();
     String password2 = passwordField2.getText();
-    if (!username.matches("^[a-zA-Z0-9._-]{3,20}$")) {
+    if (!ValidateUtils.isValidUsername(username)) {
       MainApp.showPopupMessage("Invalid username. Allowed characters: letters (a–z, A-Z), "
           + "numbers (0–9), underscore (_), period (.), dash (-). Length: 3–20 characters", Color.DARKRED);
-    } else if (!email.matches("^((?!\\.)[\\w-_.]*[^.])(@\\w+)(\\.\\w+(\\.\\w+)?[^.\\W])$")) {
+    } else if (!ValidateUtils.isValidEmail(email)) {
       MainApp.showPopupMessage("Invalid email.", Color.DARKRED);
     } else if (password.isEmpty() || !password.equals(password2)) {
       MainApp.showPopupMessage("Password fields are empty or mismatched.", Color.DARKRED);
+    } else if (!ValidateUtils.isEmailExists(email)) {
+      MainApp.showPopupMessage("This email has been used by another user.", Color.DARKRED);
+    } else if (!ValidateUtils.isUsernameExists(username)) {
+      MainApp.showPopupMessage("This username has been used by another user.", Color.DARKRED);
     } else {
       User member = new User(name, username, email, password, User.TYPE_MEMBER);
-      if (!member.saveToDatabase(false)) {
-        MainApp.showPopupMessage("Username or Email already exists.", Color.DARKRED);
-      } else {
-        MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
-        switchToSignIn();
-      }
+      member.saveToDatabase();
+      MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
+      switchToSignIn();
     }
   }
 }

@@ -50,7 +50,7 @@ public final class BookSearchController {
 
   @FXML
   public void doSearch() {
-    MainApp.showPopupMessage("Searching... Please wait.", Color.DARKGREEN);
+    MainApp.showPopupMessage("Searching... Please wait.", Color.DARKBLUE);
     search.setQ(q.getText());
     search.setIntitle(intitle.getText());
     search.setInauthor(inauthor.getText());
@@ -68,10 +68,9 @@ public final class BookSearchController {
     };
     task.setOnSucceeded(event -> {
       searchButton.setDisable(false);
-      JsonArray result = task.getValue();
       searchResults.getChildren().clear();
       int count = 0;
-      for (JsonElement e : result) {
+      for (JsonElement e : task.getValue()) {
         Book book = Book.fromJsonObject(e.getAsJsonObject());
         if (InAppController.CURRENT_USER.getUserType() == User.TYPE_MEMBER
             && !availableIds.contains(book.getId())) {
@@ -90,11 +89,11 @@ public final class BookSearchController {
         ++count;
       }
       if (count == 0) {
-        MainApp.showPopupMessage("No books found.", Color.DARKRED);
+        MainApp.showPopupMessage("No results found.", Color.DARKRED);
       } else if (count == 1) {
-        MainApp.showPopupMessage("Found 1 book.", Color.DARKGREEN);
+        MainApp.showPopupMessage("Found 1 result.", Color.DARKGREEN);
       } else {
-        MainApp.showPopupMessage(String.format("Found %d books.", count), Color.DARKGREEN);
+        MainApp.showPopupMessage(String.format("Found %d results.", count), Color.DARKGREEN);
       }
     });
     executor.execute(task);

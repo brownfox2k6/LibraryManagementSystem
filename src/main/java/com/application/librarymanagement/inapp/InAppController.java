@@ -72,7 +72,7 @@ public final class InAppController extends MainAppController {
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
     signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
     borrowsIcon.setImage(ImageUtils.getImage(type + "BorrowsButton.png"));
-    changePasswordIcon.setImage(ImageUtils.getImage(type + "ChangePasswordButton.png"));
+    changePasswordIcon.setImage(ImageUtils.getImage(type + "SettingsButton.png"));
   }
 
   @FXML
@@ -83,7 +83,7 @@ public final class InAppController extends MainAppController {
         CURRENT_USER.getUsername()), Color.DARKBLUE);
   }
 
-  @FXML private void gotoChangePassword() { setSubscene("ChangePassword", "Change Password"); }
+  @FXML private void gotoChangePassword() { setSubscene("ChangePassword", "Account"); }
   @FXML private void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
   @FXML private void gotoBooks() { setSubscene("BookSearch", "Book Search"); }
   @FXML private void gotoBorrows() { setSubscene("Borrows", "Borrows"); }

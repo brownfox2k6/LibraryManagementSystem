@@ -15,44 +15,49 @@
          <children>
             <Text fx:id="usernameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Search by username:">
                <font>
-                  <Font name="Segoe UI Bold" size="18.0" />
+                  <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Text>
-            <TextField fx:id="usernameField" onAction="#filterByUsername" prefHeight="35.0" prefWidth="273.0" promptText="Username">
+            <TextField fx:id="usernameField" onAction="#filterByUsername" prefHeight="35.0" prefWidth="280.0" promptText="Username">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </TextField>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Filter by status:">
                <font>
-                  <Font name="Segoe UI Bold" size="18.0" />
+                  <Font name="Segoe UI Bold" size="16.0" />
                </font>
             </Text>
+            <Button mnemonicParsing="false" onAction="#filterByUsername" text="All">
+               <font>
+                  <Font name="Segoe UI" size="16.0" />
+               </font>
+            </Button>
             <Button mnemonicParsing="false" onAction="#filterByStatusRequested" text="REQUESTED">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" onAction="#filterByStatusBorrowed" text="BORROWED">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" onAction="#filterByStatusReturned" text="RETURNED">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </Button>
             <Button mnemonicParsing="false" onAction="#filterByStatusCanceled" text="CANCELED">
                <font>
-                  <Font name="Segoe UI" size="18.0" />
+                  <Font name="Segoe UI" size="16.0" />
                </font>
             </Button>
          </children>
       </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="60.0" prefHeight="562.0" prefWidth="1112.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="9.0" layoutY="50.0" prefHeight="585.0" prefWidth="1112.0">
          <content>
-            <VBox fx:id="borrows" prefHeight="560.0" prefWidth="1110.0" spacing="10.0" />
+            <VBox fx:id="borrows" prefHeight="583.0" prefWidth="1110.0" spacing="10.0" />
          </content>
       </ScrollPane>
    </children>

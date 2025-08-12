@@ -9,10 +9,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public final class JsonUtils {
   private static final int TIMEOUT = 10000;
@@ -104,53 +100,6 @@ public final class JsonUtils {
     }
   }
 
-  public static List<String> getAsList(JsonObject object, String key) {
-    if (!object.has(key)) {
-      return null;
-    }
-    List<String> list = new ArrayList<>();
-    JsonArray array = object.get(key).getAsJsonArray();
-    for (JsonElement e : array) {
-      list.add(e.getAsString());
-    }
-    return list;
-  }
-
-  public static Map<String, String> getAsMap(JsonObject object, String entity, String key, String value) {
-    if (!object.has(entity)) {
-      return null;
-    }
-    Map<String, String> map = new HashMap<>();
-    JsonArray array = object.get(entity).getAsJsonArray();
-    for (JsonElement e : array) {
-      JsonObject o = e.getAsJsonObject();
-      String k = o.get(key).getAsString();
-      String v = o.get(value).getAsString();
-      map.put(k, v);
-    }
-    return map;
-  }
-
-  /**
-   * Searches through a JSON array and returns the first JSON object
-   * that contains a property with the given key whose string value
-   * exactly matches the provided value.
-   * @param array the {@link JsonArray} to search through
-   * @param key   the property name to look for in each JSON object
-   * @param value the expected string value of the property
-   * @return the first {@link JsonObject} in the array with a matching key/value pair,
-   *         or {@code null} if no such object is found
-   */
-  public static JsonObject findJsonObjectByKeyValue(JsonArray array, String key, String value) {
-    for (JsonElement e : array) {
-      JsonObject o = e.getAsJsonObject();
-      if (o.has(key) && o.get(key).getAsString().equals(value)) {
-        return o;
-      }
-    }
-    return null;
-  }
-
   /**
    * Adds or updates a property in the given JSON object and writes the
    * resulting JSON back to the specified file path in a pretty-printed format.
@@ -167,18 +116,6 @@ public final class JsonUtils {
       Files.writeString(path, gson.toJson(object));
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  public static void setString(JsonObject obj, String key, String value) {
-    if (obj != null) {
-      obj.addProperty(key, value);
-    }
-  }
-
-  public static void setInt(JsonObject obj, String key, int value) {
-    if (obj != null) {
-      obj.addProperty(key, value);
     }
   }
 }

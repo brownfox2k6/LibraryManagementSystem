@@ -55,7 +55,7 @@
       </VBox>
       <HBox alignment="CENTER_RIGHT" layoutX="150.0" prefHeight="59.0" prefWidth="1130.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent gray transparent;">
          <children>
-            <Label fx:id="titleLabel" prefHeight="38.0" prefWidth="201.0" text="titleLabel">
+            <Label fx:id="titleLabel" prefHeight="38.0" prefWidth="425.0" text="titleLabel">
                <font>
                   <Font name="Segoe UI Bold" size="31.0" />
                </font>
@@ -91,7 +91,7 @@
                      <VBox.margin>
                         <Insets />
                      </VBox.margin></Text>
-                  <ChoiceBox fx:id="themeChoiceBox" onAction="#applyStylesheet" prefHeight="15.0" prefWidth="120.0" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 13px;">
+                  <ChoiceBox fx:id="themeChoiceBox" maxWidth="120.0" minWidth="120.0" onAction="#applyStylesheet" prefHeight="15.0" prefWidth="120.0" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 13px;">
                      <items>
                         <FXCollections fx:factory="observableArrayList">
                            <String fx:value="cupertino-dark" />
@@ -106,7 +106,7 @@
                   </ChoiceBox>
                </children>
             </VBox>
-            <Button maxHeight="44.0" maxWidth="109.0" minHeight="44.0" minWidth="109.0" mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="44.0" prefWidth="109.0" text="Change Password" wrapText="true">
+            <Button maxHeight="44.0" maxWidth="95.0" minHeight="44.0" minWidth="95.0" mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="44.0" prefWidth="95.0" text="Account Settings" wrapText="true">
                <graphic>
                   <ImageView fx:id="changePasswordIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>

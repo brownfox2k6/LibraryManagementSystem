@@ -68,42 +68,24 @@ public final class User {
     return JsonUtils.getAsJsonArray(data, "borrows");
   }
 
-  public JsonArray getAllBorrowsOfMembers() {
-    assert getUserType() == TYPE_ADMIN;
-    JsonArray borrows = new JsonArray();
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
-      User u = new User(e.getAsJsonObject());
-      if (u.getUserType() == TYPE_MEMBER) {
-        for (JsonElement ee : u.getBorrows()) {
-          borrows.add(ee.getAsJsonObject());
-        }
-      }
-    }
-    return borrows;
-  }
-
   public void addBorrowId(int id) {
     assert getUserType() == TYPE_MEMBER;
     JsonArray borrows = getBorrows();
     borrows.add(id);
-    saveToDatabase(true);
+    saveToDatabase();
   }
 
-  public boolean saveToDatabase(boolean canOverwrite) {
+  public void saveToDatabase() {
     JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
     for (int i = 0; i < users.size(); ++i) {
       JsonObject user = users.get(i).getAsJsonObject();
-      if (JsonUtils.getAsString(user, "username", "").equals(getUsername())
-          || JsonUtils.getAsString(user, "email", "").equals(getEmail())) {
-        if (canOverwrite) {
-          users.remove(user);
-          break;
-        }
-        return false;
+      if (JsonUtils.getAsString(user, "username", "").equals(getUsername())) {
+        users.set(i, data);
+        JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
+        return;
       }
     }
     users.add(data);
     JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
-    return true;
   }
 }

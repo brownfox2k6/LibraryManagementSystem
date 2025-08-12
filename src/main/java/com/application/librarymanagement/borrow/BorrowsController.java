@@ -68,14 +68,10 @@ public final class BorrowsController {
 
   private void displayBorrowsByUsernameAndStatus(int status) {
     ArrayList<Borrow> list = new ArrayList<>();
-    if (usernameField.getText().isEmpty()) {
-      list = borrowList;
-    } else {
-      for (Borrow borrow : borrowList) {
-        if (borrow.getUsername().contains(usernameField.getText())
-            && (status == 0 || borrow.getStatus() == status)) {
-          list.add(borrow);
-        }
+    for (Borrow borrow : borrowList) {
+      if (borrow.getUsername().contains(usernameField.getText())
+          && (status == 0 || borrow.getStatus() == status)) {
+        list.add(borrow);
       }
     }
     displayBorrows(list);
