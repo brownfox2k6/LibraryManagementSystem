@@ -29,16 +29,26 @@ public final class SignInController extends MainAppController {
   @FXML
   private void trySignIn() {
     String username = usernameField.getText();
-    String password = PasswordUtils.hashPassword(passwordField.getText());
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
-    for (JsonElement element : users) {
-      JsonObject user = element.getAsJsonObject();
-      String u = JsonUtils.getAsString(user, "username", "");
-      String p = JsonUtils.getAsString(user, "password", "");
-      if (u.equals(username) && p.equals(password)) {
-        JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", u);
-        MainApp.showPopupMessage(String.format("Welcome, %s.", u), Color.DARKGREEN);
+    String password = passwordField.getText();
+    if (username.isEmpty() && password.isEmpty()) {
+      MainApp.showPopupMessage("Both username and password are required.", Color.DARKRED);
+      return;
+    }
+    if (username.isEmpty()) {
+      MainApp.showPopupMessage("Username is empty.", Color.DARKRED);
+      return;
+    }
+    if (password.isEmpty()) {
+      MainApp.showPopupMessage("Password is empty.", Color.DARKRED);
+      return;
+    }
+    password = PasswordUtils.hashPassword(password);
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+      User user = new User(e.getAsJsonObject());
+      if (username.equals(user.getUsername()) && password.equals(user.getHashedPassword())) {
+        JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", user.getUsername());
         MainApp.setScene("InApp");
+        MainApp.showPopupMessage(String.format("Welcome, %s.", user.getUsername()), Color.DARKGREEN);
         return;
       }
     }

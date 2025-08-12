@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 
 import java.net.URL;
 
-public class ImageUtils {
+public final class ImageUtils {
 
   /**
    * Utility for loading JavaFX images from the application’s classpath.

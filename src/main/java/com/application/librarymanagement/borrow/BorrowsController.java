@@ -5,11 +5,13 @@ import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -33,7 +35,7 @@ public final class BorrowsController {
       usernameField.setManaged(false);
     }
     loadBorrows();
-    displayBorrows(borrowList);
+    displayBorrowsByUsernameAndStatus(0);
   }
 
   private void loadBorrows() {
@@ -66,13 +68,43 @@ public final class BorrowsController {
 
   private void displayBorrowsByUsernameAndStatus(int status) {
     ArrayList<Borrow> list = new ArrayList<>();
-    for (Borrow borrow : borrowList) {
-      if (borrow.getUsername().contains(usernameField.getText())
-          && (status == 0 || borrow.getStatus() == status)) {
-        list.add(borrow);
+    if (usernameField.getText().isEmpty()) {
+      list = borrowList;
+    } else {
+      for (Borrow borrow : borrowList) {
+        if (borrow.getUsername().contains(usernameField.getText())
+            && (status == 0 || borrow.getStatus() == status)) {
+          list.add(borrow);
+        }
       }
     }
     displayBorrows(list);
+    StringBuilder sb = new StringBuilder("Filtered by: ");
+    if (!usernameField.getText().isEmpty()) {
+      sb.append("username contains ");
+      sb.append('"');
+      sb.append(usernameField.getText());
+      sb.append('"');
+      sb.append(status == 0? ". " : ", ");
+    }
+    if (status != 0) {
+      sb.append("status=");
+      sb.append(Borrow.getStatusText(status));
+      sb.append(". ");
+    }
+    if (usernameField.getText().isEmpty() && status == 0) {
+      sb.setLength(0);
+    }
+    if (list.isEmpty()) {
+      sb.append("No records found.");
+      MainApp.showPopupMessage(sb.toString(), Color.DARKRED);
+    } else if (list.size() == 1) {
+      sb.append("Found 1 record.");
+      MainApp.showPopupMessage(sb.toString(), Color.DARKGREEN);
+    } else {
+      sb.append(String.format("Found %d records.", list.size()));
+      MainApp.showPopupMessage(sb.toString(), Color.DARKGREEN);
+    }
   }
 
   @FXML

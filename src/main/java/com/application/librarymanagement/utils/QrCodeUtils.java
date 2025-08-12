@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class QrCodeUtils {
+public final class QrCodeUtils {
   public static ImageView createQrCode(String text, int size) {
     try {
       QRCodeWriter writer = new QRCodeWriter();

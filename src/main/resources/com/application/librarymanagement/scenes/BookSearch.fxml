@@ -154,9 +154,9 @@
             </Button>
          </children>
       </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutX="10.0" layoutY="148.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="9.0" layoutY="155.0">
          <content>
-            <VBox fx:id="searchResults" prefHeight="463.0" prefWidth="1110.0" spacing="10.0" />
+            <VBox fx:id="searchResults" prefHeight="478.0" prefWidth="1110.0" spacing="10.0" />
          </content>
       </ScrollPane>
    </children>

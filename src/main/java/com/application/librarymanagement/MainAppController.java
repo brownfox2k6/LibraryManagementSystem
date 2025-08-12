@@ -4,10 +4,12 @@ import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.ImageView;
 
 public class MainAppController extends MainApp {
+  @FXML public ChoiceBox<String> themeChoiceBox;
   @FXML public ImageView backgroundImage;
 
   /**
@@ -15,6 +17,7 @@ public class MainAppController extends MainApp {
    * Sets the initial background image based on the current theme stored in configuration.
    */
   @FXML public void initialize() {
+    themeChoiceBox.setValue(JsonUtils.getAsString(config, "theme", ""));
     setBackgroundImage();
     loadIcons();
   }
@@ -34,18 +37,11 @@ public class MainAppController extends MainApp {
     backgroundImage.setImage(ImageUtils.getImage(getLightOrDark() + "Sky.jpg"));
   }
 
-  /**
-   * Handles theme selection from the menu. Retrieves the clicked MenuItem's text
-   * (which corresponds to a theme name) and applies the matching stylesheet
-   * to the application.
-   * @param event the ActionEvent triggered by selecting a theme MenuItem
-   */
-  @FXML public void applyStylesheet(ActionEvent event) {
-    String theme = ((MenuItem) event.getSource()).getText();
-    JsonUtils.addProperty(config, CONFIG_PATH,"theme", theme);
+  @FXML public void applyStylesheet() {
+    JsonUtils.addProperty(config, CONFIG_PATH,"theme", themeChoiceBox.getValue());
     setBackgroundImage();
     loadIcons();
-    applyStylesheet(theme);
+    applyStylesheet(themeChoiceBox.getValue());
   }
 
   protected void loadIcons() {}

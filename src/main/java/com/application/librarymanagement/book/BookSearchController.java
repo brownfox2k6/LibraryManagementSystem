@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +59,6 @@ public final class BookSearchController {
     search.setIsbn(isbn.getText());
     search.setLccn(lccn.getText());
     search.setOclc(oclc.getText());
-
     Task<JsonArray> task = new Task<>() {
       @Override
       protected JsonArray call() {
@@ -66,34 +66,37 @@ public final class BookSearchController {
         return search.getBooks();
       }
     };
-
     task.setOnSucceeded(event -> {
       searchButton.setDisable(false);
       JsonArray result = task.getValue();
       searchResults.getChildren().clear();
-      if (result == null || result.isEmpty()) {
-        MainApp.showPopupMessage("No books found.", Color.DARKRED);
-        return;
-      }
-      MainApp.showPopupMessage(String.format("Found %d books.", result.size()), Color.DARKGREEN);
-      try {
-        for (JsonElement e : result) {
-          Book book = Book.fromJsonObject(e.getAsJsonObject());
-          if (InAppController.CURRENT_USER.getUserType() == User.TYPE_MEMBER
-              && !availableIds.contains(book.getId())) {
-            continue;
-          }
-          FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
-          HBox bookCaseBox = fxmlLoader.load();
-          BookCaseController bookCaseController = fxmlLoader.getController();
-          bookCaseController.setData(book);
-          searchResults.getChildren().add(bookCaseBox);
+      int count = 0;
+      for (JsonElement e : result) {
+        Book book = Book.fromJsonObject(e.getAsJsonObject());
+        if (InAppController.CURRENT_USER.getUserType() == User.TYPE_MEMBER
+            && !availableIds.contains(book.getId())) {
+          continue;
         }
-      } catch (Exception ex) {
-        MainApp.showPopupMessage("Failed to render search results.", Color.DARKRED);
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
+        HBox bookCaseBox = null;
+        try {
+          bookCaseBox = fxmlLoader.load();
+        } catch (IOException ex) {
+          MainApp.showPopupMessage("Failed to render search results.", Color.DARKRED);
+        }
+        BookCaseController bookCaseController = fxmlLoader.getController();
+        bookCaseController.setData(book);
+        searchResults.getChildren().add(bookCaseBox);
+        ++count;
+      }
+      if (count == 0) {
+        MainApp.showPopupMessage("No books found.", Color.DARKRED);
+      } else if (count == 1) {
+        MainApp.showPopupMessage("Found 1 book.", Color.DARKGREEN);
+      } else {
+        MainApp.showPopupMessage(String.format("Found %d books.", count), Color.DARKGREEN);
       }
     });
-
     executor.execute(task);
   }
 }

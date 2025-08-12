@@ -5,31 +5,47 @@ import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.BookStats;
 import com.application.librarymanagement.borrow.Borrow;
+import com.application.librarymanagement.utils.BarChartUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Pair;
+import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
 public final class DashboardController {
-  @FXML private HBox recommendations;
-  @FXML private TableView<BookStats> mostBorrowsTable;
-  @FXML private TableColumn<BookStats, Number> rankColumn;
-  @FXML private TableColumn<BookStats, String> titleColumn;
-  @FXML private TableColumn<BookStats, Number> borrowsCountColumn;
-  @FXML private BarChart<String, Integer> borrowsChart;
+  @FXML
+  private HBox recommendations;
+  @FXML
+  private TableView<BookStats> mostBorrowsTable;
+  @FXML
+  private TableColumn<BookStats, Number> rankColumn;
+  @FXML
+  private TableColumn<BookStats, String> titleColumn;
+  @FXML
+  private TableColumn<BookStats, Number> borrowsCountColumn;
+  @FXML
+  private BarChart<String, Number> borrowsChart;
 
   private ArrayList<Book> books;
 
@@ -45,8 +61,7 @@ public final class DashboardController {
     for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
       books.add(Book.fromJsonObject(e.getAsJsonObject()));
     }
-    books.sort(Comparator.comparing(Book::getBorrowsCount, Comparator.reverseOrder())
-                         .thenComparing(Book::getTitle));
+    books.sort(Comparator.comparing(Book::getBorrowsCount, Comparator.reverseOrder()).thenComparing(Book::getTitle));
   }
 
   private void showRecommendations() {
@@ -75,10 +90,45 @@ public final class DashboardController {
   }
 
   private void showBorrowsChart() {
-    XYChart.Series<String, Integer> series = new XYChart.Series<>();
+    NumberAxis yAxis = (NumberAxis) borrowsChart.getYAxis();
+    yAxis.setMinorTickVisible(false);
+    yAxis.tickLabelFormatterProperty().setValue(new StringConverter<>() {
+      @Override
+      public String toString(Number object) {
+        if (object.intValue() != object.doubleValue()) {
+          return "";
+        }
+        return "" + object.intValue();
+      }
+      @Override
+      public Number fromString(String string) {
+        Number val = Double.parseDouble(string);
+        return val.intValue();
+      }
+    });
+    XYChart.Series<String, Number> series = new XYChart.Series<>();
     for (Pair<String, Integer> p : Borrow.getRecentBorrows(30)) {
-      series.getData().add(new XYChart.Data<>(p.getKey(), p.getValue()));
+      XYChart.Data<String, Number> data = new XYChart.Data<>(p.getKey(), p.getValue());
+      data.nodeProperty().addListener((observableValue, oldNode, node) -> {
+        if (node != null) {
+          displayLabelForData(data);
+        }
+      });
+      series.getData().add(data);
     }
     borrowsChart.getData().add(series);
+  }
+
+  private void displayLabelForData(XYChart.Data<String, Number> data) {
+    final Node node = data.getNode();
+    final Text dataText = new Text(data.getYValue() + "");
+    node.parentProperty().addListener((observableValue, oldParent, parent) -> {
+      Group parentGroup = (Group) parent;
+      parentGroup.getChildren().add(dataText);
+    });
+    node.boundsInParentProperty().addListener((ov, oldBounds, bounds) -> {
+      dataText.setLayoutX(Math.round(bounds.getMinX() + bounds.getWidth() / 2 - dataText.prefWidth(-1) / 2));
+      dataText.setLayoutY(Math.round(bounds.getMinY() - dataText.prefHeight(-1) * 0.5));
+    });
   }
 }

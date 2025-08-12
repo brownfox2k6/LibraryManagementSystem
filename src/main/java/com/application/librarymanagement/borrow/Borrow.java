@@ -99,6 +99,20 @@ public final class Borrow {
     return JsonUtils.getAsInt(data, "status", 0);
   }
 
+  public static String getStatusText(int status) {
+    return switch (status) {
+      case Borrow.STATUS_REQUESTED -> "REQUESTED";
+      case Borrow.STATUS_RETURNED -> "RETURNED";
+      case Borrow.STATUS_CANCELED -> "CANCELED";
+      case Borrow.STATUS_BORROWED -> "BORROWED";
+      default -> throw new IllegalStateException("Unexpected value: " + status);
+    };
+  }
+
+  public String getStatusText() {
+    return getStatusText(getStatus());
+  }
+
   public void setBorrowed() {
     data.addProperty("borrowedTime", Timestamp.now().toString());
     data.addProperty("status", STATUS_BORROWED);

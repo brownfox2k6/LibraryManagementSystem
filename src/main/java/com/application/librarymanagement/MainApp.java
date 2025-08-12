@@ -1,19 +1,20 @@
 package com.application.librarymanagement;
 
 import com.application.librarymanagement.utils.JsonUtils;
+import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -33,7 +34,9 @@ public class MainApp extends Application {
   public static final Path USERS_DB_PATH = Paths.get("json/users.json");
   public static Stage stage;
   public static JsonObject config;
-  public static Popup currentPopup;
+  private static Node currentToast;
+  private static Animation currentSlide;
+  private static PauseTransition currentWait;
 
   /**
    * Initializes the main application interface.
@@ -47,8 +50,8 @@ public class MainApp extends Application {
     stage.setResizable(false);
     config = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
     assert config != null;
-    applyStylesheet(config.get("theme").getAsString());
-    if (config.get("currentSession").getAsString().isEmpty()) {
+    applyStylesheet(JsonUtils.getAsString(config, "theme", ""));
+    if (JsonUtils.getAsString(config, "currentSession", "").isEmpty()) {
       setScene("SignIn");
     } else {
       setScene("InApp");
@@ -91,42 +94,64 @@ public class MainApp extends Application {
     MainApp.setUserAgentStylesheet(url.toString());
   }
 
-  public static void showPopupMessage(String message, Color backgroundColor) {
-    if (currentPopup != null && currentPopup.isShowing()) {
-      currentPopup.hide();
-    }
-    backgroundColor = new Color(backgroundColor.getRed(),
-        backgroundColor.getGreen(), backgroundColor.getBlue(), 0.75);
-    Label label = new Label(message);
-    label.setStyle("-fx-text-fill: white; -fx-font-size: 18px;");
-    StackPane pane = new StackPane(label);
-    pane.setBackground(new Background(new BackgroundFill(
-        backgroundColor, new CornerRadii(5), Insets.EMPTY)));
-    pane.setPadding(new Insets(10));
-    pane.setOpacity(0.9);
-    currentPopup = new Popup();
-    currentPopup.getContent().add(pane);
-    currentPopup.setAutoFix(true);
-    currentPopup.setAutoHide(true);
-    currentPopup.setHideOnEscape(true);
+  public static void showPopupMessage(String message, Color bg) {
     Parent root = stage.getScene().getRoot();
-    Bounds rootBounds = root.localToScreen(root.getBoundsInLocal());
-    pane.applyCss();
-    pane.layout();
-    double bottomMargin = 8;
-    double centerX = rootBounds.getMinX()
-        + (rootBounds.getWidth() - pane.prefWidth(-1)) / 2.0;
-    double targetY = rootBounds.getMaxY()
-        - pane.prefHeight(-1) - bottomMargin;
-    currentPopup.show(stage.getScene().getWindow(), centerX, targetY);
-    double slideOffset = 16;
-    pane.setTranslateY(slideOffset);
-    TranslateTransition slideUp = new TranslateTransition(Duration.millis(220), pane);
-    slideUp.setFromY(slideOffset);
-    slideUp.setToY(0);
-    slideUp.play();
-    PauseTransition wait = new PauseTransition(Duration.seconds(5));
-    wait.setOnFinished(e -> currentPopup.hide());
+    if (!(root instanceof StackPane)) {
+      StackPane wrapper = new StackPane(root);
+      stage.getScene().setRoot(wrapper);
+      root = wrapper;
+    }
+    StackPane stack = (StackPane) root;
+    if (currentSlide != null) {
+      currentSlide.stop();
+    }
+    if (currentWait != null) {
+      currentWait.stop();
+    }
+    if (currentToast != null) {
+      stack.getChildren().remove(currentToast);
+      currentToast = null;
+    }
+    Label label = new Label(message);
+    label.setStyle("-fx-text-fill: white; -fx-font-size: 20px;");
+    label.setWrapText(true);
+    StackPane toast = new StackPane(label);
+    toast.setBackground(new Background(new BackgroundFill(
+        new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 0.75),
+        new CornerRadii(8, 8, 0, 0, false), Insets.EMPTY)));
+    toast.setPadding(new Insets(8));
+    toast.setMaxHeight(Region.USE_PREF_SIZE);
+    toast.setMinWidth(1280);
+    StackPane.setAlignment(toast, Pos.BOTTOM_CENTER);
+    toast.setTranslateY(toast.prefHeight(-1));
+    stack.getChildren().add(toast);
+    currentToast = toast;
+    TranslateTransition slideIn = new TranslateTransition(Duration.millis(180), toast);
+    slideIn.setFromY(toast.prefHeight(-1));
+    slideIn.setToY(0);
+    currentSlide = slideIn;
+    slideIn.play();
+    PauseTransition wait = new PauseTransition(Duration.seconds(3));
+    currentWait = wait;
+    wait.setOnFinished(e -> {
+      if (currentToast == null) {
+        return;
+      }
+      Node t = currentToast;
+      TranslateTransition slideOut = new TranslateTransition(Duration.millis(250), toast);
+      slideOut.setFromY(0);
+      slideOut.setToY(toast.getHeight());
+      currentSlide = slideOut;
+      slideOut.setOnFinished(ev -> {
+        stack.getChildren().remove(t);
+        if (currentToast == t) {
+          currentToast = null;
+        }
+        currentSlide = null;
+        currentWait = null;
+      });
+      slideOut.play();
+    });
     wait.play();
   }
 

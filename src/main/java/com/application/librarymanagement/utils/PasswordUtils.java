@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
  * <p>
  * Provides a method to securely hash passwords using the SHA-256 algorithm.
  */
-public class PasswordUtils {
+public final class PasswordUtils {
 
   /**
    * Hashes the given password using the SHA-256 cryptographic hash function.

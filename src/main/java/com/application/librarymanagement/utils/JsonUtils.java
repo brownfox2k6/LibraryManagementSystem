@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class JsonUtils {
+public final class JsonUtils {
   private static final int TIMEOUT = 10000;
 
   /**

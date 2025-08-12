@@ -157,7 +157,7 @@ public final class BookDetailsController {
     ClipboardContent content = new ClipboardContent();
     content.putUrl(book.getInfoLink());
     clipboard.setContent(content);
-    MainApp.showPopupMessage("Link copied to clipboard!", Color.DARKGREEN);
+    MainApp.showPopupMessage("Link copied to clipboard!", Color.DARKBLUE);
   }
 
   @FXML
@@ -171,7 +171,7 @@ public final class BookDetailsController {
     quantity.setText(book.getQuantity() + "");
     changeQuantitySpinner.setValueFactory(
         new SpinnerValueFactory.IntegerSpinnerValueFactory(-getQuantity(), Integer.MAX_VALUE, amount));
-    String fmt = amount > 0 ? "Book(s) added: +%d (%d → %d)" : "Book(s) removed: %d (%d → %d)";
+    String fmt = (amount > 0 ? "Book(s) added: +" : "Book(s) removed: ") + "%d (%d → %d)";
     MainApp.showPopupMessage(String.format(fmt, amount, book.getQuantity() - amount, book.getQuantity()), Color.DARKGREEN);
   }
 

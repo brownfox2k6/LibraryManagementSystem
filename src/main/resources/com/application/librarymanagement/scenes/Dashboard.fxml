@@ -34,7 +34,7 @@
             </TableView>
          </children>
       </VBox>
-      <VBox alignment="CENTER" layoutX="14.0" layoutY="-7.0" prefHeight="635.0" prefWidth="745.0">
+      <VBox alignment="CENTER" prefHeight="635.0" prefWidth="768.0">
          <children>
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="You may like" textAlignment="CENTER" wrappingWidth="294.23046875">
                <font>
@@ -44,7 +44,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Text>
-            <ScrollPane prefHeight="380.0" prefWidth="745.0" vbarPolicy="NEVER">
+            <ScrollPane maxHeight="380.0" maxWidth="745.0" minHeight="380.0" minWidth="745.0" prefHeight="380.0" prefWidth="745.0" vbarPolicy="NEVER">
                <content>
                   <HBox fx:id="recommendations" prefHeight="380.0" spacing="8.0" />
                </content>
@@ -57,7 +57,7 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </Text>
-            <BarChart fx:id="borrowsChart" prefHeight="161.0" prefWidth="745.0">
+            <BarChart fx:id="borrowsChart" prefHeight="175.0" prefWidth="768.0">
                <xAxis>
                   <CategoryAxis prefWidth="688.0" side="BOTTOM" />
                </xAxis>

@@ -6,18 +6,17 @@ import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public final class InAppController extends MainAppController {
   @FXML private Label titleLabel;
@@ -36,7 +35,7 @@ public final class InAppController extends MainAppController {
     INSTANCE = this;
     super.initialize();
     loadCurrentUser();
-    welcomeLabel.setText(String.format("Welcome, %s [%s] 👋",
+    welcomeLabel.setText(String.format("Welcome, %s [%s]",
             CURRENT_USER.getName(), CURRENT_USER.getUsername()));
     setSubscene("Dashboard", "Dashboard");
   }
@@ -57,10 +56,13 @@ public final class InAppController extends MainAppController {
 
   private void loadCurrentUser() {
     String username = JsonUtils.getAsString(config, "currentSession", "");
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
-    JsonObject user = JsonUtils.findJsonObjectByKeyValue(users, "username", username);
-    assert user != null;
-    CURRENT_USER = new User(user);
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH)) {
+      User user = new User(e.getAsJsonObject());
+      if (user.getUsername().equals(username)) {
+        CURRENT_USER = user;
+        return;
+      }
+    }
   }
 
   @Override
@@ -76,9 +78,9 @@ public final class InAppController extends MainAppController {
   @FXML
   private void signOut() {
     JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
+    MainApp.setScene("SignIn");
     MainApp.showPopupMessage(String.format("Goodbye, %s. Looking forward to seeing you again.",
-        CURRENT_USER.getUsername()), Color.DARKGREEN);
-    setScene("SignIn");
+        CURRENT_USER.getUsername()), Color.DARKBLUE);
   }
 
   @FXML private void gotoChangePassword() { setSubscene("ChangePassword", "Change Password"); }

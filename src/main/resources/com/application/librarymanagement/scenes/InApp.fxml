@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.inapp.InAppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.inapp.InAppController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="150.0" />
-      <VBox layoutY="40.0" prefHeight="680.0" prefWidth="150.0" spacing="30.0">
+      <VBox prefHeight="690.0" prefWidth="150.0" spacing="30.0">
          <children>
             <Button fx:id="dashboardButton" contentDisplay="TOP" mnemonicParsing="false" onAction="#gotoDashboard" onMouseClicked="#gotoDashboard" prefHeight="81.0" prefWidth="130.0" text="Dashboard">
                <font>
@@ -52,9 +53,9 @@
             </Button>
          </children>
       </VBox>
-      <HBox alignment="CENTER_RIGHT" layoutX="150.0" layoutY="40.0" prefHeight="49.0" prefWidth="1130.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent gray transparent;">
+      <HBox alignment="CENTER_RIGHT" layoutX="150.0" prefHeight="59.0" prefWidth="1130.0" style="-fx-border-width: 0 0 2 0; -fx-border-color: transparent transparent gray transparent;">
          <children>
-            <Label fx:id="titleLabel" prefHeight="38.0" prefWidth="327.0" text="titleLabel">
+            <Label fx:id="titleLabel" prefHeight="38.0" prefWidth="201.0" text="titleLabel">
                <font>
                   <Font name="Segoe UI Bold" size="31.0" />
                </font>
@@ -62,15 +63,50 @@
                   <Insets left="15.0" />
                </HBox.margin>
             </Label>
-            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" prefHeight="47.0" prefWidth="484.0" text="Welcome, name [username] 👋">
+            <Label fx:id="welcomeLabel" alignment="CENTER_RIGHT" maxWidth="546.0" minWidth="454.0" prefHeight="47.0" prefWidth="546.0" text="Welcome, name [username]">
                <font>
                   <Font name="Segoe UI" size="24.0" />
                </font>
                <padding>
-                  <Insets right="30.0" />
+                  <Insets right="3.0" />
                </padding>
             </Label>
-            <Button mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="35.0" prefWidth="170.0" text="Change Password">
+            <Label fx:id="welcomeLabel1" alignment="CENTER_RIGHT" maxHeight="47.0" maxWidth="34.0" minHeight="47.0" minWidth="34.0" prefHeight="47.0" prefWidth="34.0" text="👋">
+               <font>
+                  <Font name="Segoe UI" size="24.0" />
+               </font>
+               <padding>
+                  <Insets right="10.0" />
+               </padding>
+            </Label>
+            <VBox alignment="CENTER_LEFT">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+               <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Theme">
+                     <font>
+                        <Font name="Segoe UI Bold" size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Text>
+                  <ChoiceBox fx:id="themeChoiceBox" onAction="#applyStylesheet" prefHeight="15.0" prefWidth="120.0" style="-fx-font-family: 'Segoe UI'; -fx-font-size: 13px;">
+                     <items>
+                        <FXCollections fx:factory="observableArrayList">
+                           <String fx:value="cupertino-dark" />
+                           <String fx:value="cupertino-light" />
+                           <String fx:value="dracula" />
+                           <String fx:value="nord-dark" />
+                           <String fx:value="nord-light" />
+                           <String fx:value="primer-dark" />
+                           <String fx:value="primer-light" />
+                        </FXCollections>
+                     </items>
+                  </ChoiceBox>
+               </children>
+            </VBox>
+            <Button maxHeight="44.0" maxWidth="109.0" minHeight="44.0" minWidth="109.0" mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="44.0" prefWidth="109.0" text="Change Password" wrapText="true">
                <graphic>
                   <ImageView fx:id="changePasswordIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
@@ -78,11 +114,11 @@
                   <Insets right="10.0" />
                </HBox.margin>
                <font>
-                  <Font name="Segoe UI" size="14.0" />
+                  <Font name="Segoe UI" size="11.0" />
                </font>
             </Button>
 
-            <Button mnemonicParsing="false" onMouseClicked="#signOut" text="Sign Out">
+            <Button maxHeight="44.0" maxWidth="77.0" minHeight="44.0" minWidth="77.0" mnemonicParsing="false" onMouseClicked="#signOut" prefHeight="44.0" prefWidth="77.0" text="Sign Out" wrapText="true">
                <graphic>
                   <ImageView fx:id="signOutIcon" fitHeight="28.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
@@ -90,26 +126,11 @@
                   <Insets right="10.0" />
                </HBox.margin>
                <font>
-                  <Font name="Segoe UI" size="14.0" />
+                  <Font name="Segoe UI" size="11.0" />
                </font>
             </Button>
          </children>
       </HBox>
-      <MenuBar prefHeight="40.0" prefWidth="1280.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="Theme">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-dark" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="cupertino-light" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="dracula" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-dark" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="nord-light" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-dark" />
-                  <MenuItem mnemonicParsing="false" onAction="#applyStylesheet" text="primer-light" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <VBox fx:id="subsceneContainer" layoutX="150.0" layoutY="91.0" prefHeight="635.0" prefWidth="1130.0" />
+      <VBox fx:id="subsceneContainer" layoutX="150.0" layoutY="59.0" prefHeight="635.0" prefWidth="1130.0" />
    </children>
 </AnchorPane>
