@@ -48,7 +48,20 @@ public class UserManagementController {
 
     @FXML
     private void handleSearchUser() {
-        System.out.println("Search User clicked");
+        String keyword = searchField.getText().trim().toLowerCase();
+        if (keyword.isEmpty()) {
+            loadUsers();
+            return;
+        }
+        ObservableList<User> filtered = FXCollections.observableArrayList();
+        for (User u : userList) {
+            if (u.getUsername().toLowerCase().contains(keyword) ||
+                    u.getName().toLowerCase().contains(keyword) ||
+                    u.getEmail().toLowerCase().contains(keyword)) {
+                filtered.add(u);
+            }
+        }
+        userTable.setItems(filtered);
     }
 
     @FXML
