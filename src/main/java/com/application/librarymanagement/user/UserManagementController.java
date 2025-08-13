@@ -1,8 +1,10 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -70,6 +72,17 @@ public class UserManagementController {
         System.out.println("Add New User clicked");
     }
 
+    private boolean hasUnreturnedBooks(User user) {
+        for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
+            Borrow borrow = new Borrow(e.getAsJsonObject());
+            if (borrow.getUsername().equals(user.getUsername())
+                    && borrow.getStatus() == Borrow.STATUS_BORROWED) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @FXML
     private void handleDeleteUser() {
         User selected = userTable.getSelectionModel().getSelectedItem();
@@ -78,16 +91,11 @@ public class UserManagementController {
             return;
         }
 
-        // 🔹 Check if user still has borrowed books
-        if (selected.isMember() && selected.getBorrows().size() > 0) {
-            MainApp.showPopupMessage(
-                    "Cannot delete: User has borrowed books.",
-                    Color.RED
-            );
+        if (selected.isMember() && hasUnreturnedBooks(selected)) {
+            MainApp.showPopupMessage("Cannot delete: User has borrowed books.", Color.RED);
             return;
         }
 
-        // 🔹 Remove user from JSON
         JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
         for (int i = 0; i < users.size(); i++) {
             JsonObject obj = users.get(i).getAsJsonObject();
