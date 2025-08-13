@@ -58,9 +58,9 @@ public final class SignUpController extends MainAppController {
       MainApp.showPopupMessage("Invalid email.", Color.DARKRED);
     } else if (password.isEmpty() || !password.equals(password2)) {
       MainApp.showPopupMessage("Password fields are empty or mismatched.", Color.DARKRED);
-    } else if (!ValidateUtils.isEmailExists(email)) {
+    } else if (ValidateUtils.isEmailExists(email)) {
       MainApp.showPopupMessage("This email has been used by another user.", Color.DARKRED);
-    } else if (!ValidateUtils.isUsernameExists(username)) {
+    } else if (ValidateUtils.isUsernameExists(username)) {
       MainApp.showPopupMessage("This username has been used by another user.", Color.DARKRED);
     } else {
       User member = new User(name, username, email, password, User.TYPE_MEMBER);
