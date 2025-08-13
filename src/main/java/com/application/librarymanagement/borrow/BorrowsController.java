@@ -3,6 +3,7 @@ package com.application.librarymanagement.borrow;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
@@ -40,14 +41,27 @@ public final class BorrowsController {
 
   private void loadBorrows() {
     borrowList = new ArrayList<>();
+
+    HashSet<String> existingUsernames = new HashSet<>();
+    for (JsonElement ue : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+      existingUsernames.add(ue.getAsJsonObject().get("username").getAsString());
+    }
+
     for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
       Borrow borrow = new Borrow(e.getAsJsonObject());
-      if (user.isAdmin() || borrow.getUsername().equals(user.getUsername())) {
+
+      if (user.isAdmin()) {
+        if (existingUsernames.contains(borrow.getUsername())) {
+          borrowList.add(borrow);
+        }
+      } else if (borrow.getUsername().equals(user.getUsername())) {
         borrowList.add(borrow);
       }
     }
+
     borrowList.sort(Comparator.comparing(Borrow::getLatestTimestamp, Comparator.reverseOrder()));
   }
+
 
   private void displayBorrows(ArrayList<Borrow> borrowList) {
     borrows.getChildren().clear();
@@ -113,9 +127,7 @@ public final class BorrowsController {
   }
 
   @FXML
-  private void filterByStatusReturned() {
-    displayBorrowsByUsernameAndStatus(Borrow.STATUS_RETURNED);
-  }
+  private void filterByStatusReturned() { displayBorrowsByUsernameAndStatus(Borrow.STATUS_RETURNED); }
 
   @FXML
   private void filterByStatusCanceled() {
