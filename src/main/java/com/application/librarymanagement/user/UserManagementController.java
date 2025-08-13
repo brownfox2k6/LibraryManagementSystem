@@ -71,6 +71,18 @@ public class UserManagementController {
 
     @FXML
     private void handleDeleteUser() {
-        System.out.println("Delete User clicked");
+        User selected = userTable.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
+            for (int i = 0; i < users.size(); i++) {
+                JsonObject obj = users.get(i).getAsJsonObject();
+                if (obj.get("username").getAsString().equals(selected.getUsername())) {
+                    users.remove(i);
+                    break;
+                }
+            }
+            JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
+            loadUsers();
+        }
     }
 }
