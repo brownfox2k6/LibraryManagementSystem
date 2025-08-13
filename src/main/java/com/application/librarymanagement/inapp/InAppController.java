@@ -89,5 +89,5 @@ public final class InAppController extends MainAppController {
   @FXML private void gotoDashboard() { setSubscene("Dashboard", "Dashboard"); }
   @FXML private void gotoBooks() { setSubscene("BookSearch", "Book Search"); }
   @FXML private void gotoBorrows() { setSubscene("Borrows", "Borrows"); }
-  @FXML private void gotoUsers() { setSubscene("Users", "Users"); }
+  @FXML private void gotoUsers() { setSubscene("UserManagement", "Users"); }
 }

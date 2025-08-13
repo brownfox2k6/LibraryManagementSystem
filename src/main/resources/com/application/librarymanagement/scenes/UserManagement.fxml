@@ -1,6 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 
+<AnchorPane xmlns="http://javafx.com/javafx/17.0.2"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.application.librarymanagement.user.UserManagementController">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" />
+    <children>
+        <VBox spacing="8"
+              AnchorPane.topAnchor="8.0"
+              AnchorPane.leftAnchor="8.0"
+              AnchorPane.rightAnchor="8.0"
+              AnchorPane.bottomAnchor="8.0">
+
+            <children>
+
+                <HBox spacing="8">
+                    <children>
+                        <Button fx:id="addUserBtn" text="Add New User" onAction="#handleAddUser"/>
+                        <TextField fx:id="searchField" promptText="Search users..."/>
+                        <Button text="Search" onAction="#handleSearchUser"/>
+                        <Button fx:id="deleteBtn" text="Delete Selected" onAction="#handleDeleteUser"/>
+                    </children>
+                </HBox>
+
+                <TableView fx:id="userTable" VBox.vgrow="ALWAYS" prefHeight="400.0">
+                    <columns>
+                        <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>
+                        <TableColumn fx:id="nameColumn" text="Name" prefWidth="160.0"/>
+                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="220.0"/>
+                        <TableColumn fx:id="roleColumn" text="Role" prefWidth="120.0"/>
+                        <TableColumn fx:id="borrowedColumn" text="Books Borrowed" prefWidth="140.0"/>
+                    </columns>
+                </TableView>
+
+            </children>
+
+            <padding>
+                <Insets topRightBottomLeft="8"/>
+            </padding>
+        </VBox>
+    </children>
+</AnchorPane>
