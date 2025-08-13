@@ -8,6 +8,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 
 public class UserManagementController {
 
@@ -72,17 +73,36 @@ public class UserManagementController {
     @FXML
     private void handleDeleteUser() {
         User selected = userTable.getSelectionModel().getSelectedItem();
-        if (selected != null) {
-            JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
-            for (int i = 0; i < users.size(); i++) {
-                JsonObject obj = users.get(i).getAsJsonObject();
-                if (obj.get("username").getAsString().equals(selected.getUsername())) {
-                    users.remove(i);
-                    break;
-                }
-            }
-            JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
-            loadUsers();
+        if (selected == null) {
+            MainApp.showPopupMessage("Select a user to delete.", Color.RED);
+            return;
         }
+
+        // 🔹 Check if user still has borrowed books
+        if (selected.isMember() && selected.getBorrows().size() > 0) {
+            MainApp.showPopupMessage(
+                    "Cannot delete: User has borrowed books.",
+                    Color.RED
+            );
+            return;
+        }
+
+        // 🔹 Remove user from JSON
+        JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
+        for (int i = 0; i < users.size(); i++) {
+            JsonObject obj = users.get(i).getAsJsonObject();
+            if (obj.get("username").getAsString().equals(selected.getUsername())) {
+                users.remove(i);
+                break;
+            }
+        }
+        JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
+        loadUsers();
+
+        MainApp.showPopupMessage(
+                "User deleted successfully.",
+                Color.GREEN
+        );
     }
+
 }
