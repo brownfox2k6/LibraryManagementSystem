@@ -26,7 +26,7 @@
                     </children>
                 </HBox>
 
-                <TableView fx:id="userTable" VBox.vgrow="ALWAYS" prefHeight="400.0">
+                <TableView fx:id="userTable" VBox.vgrow="ALWAYS" prefHeight="1000.0">
                     <columns>
                         <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>
                         <TableColumn fx:id="nameColumn" text="Name" prefWidth="160.0"/>

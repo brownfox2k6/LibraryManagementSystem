@@ -26,15 +26,21 @@ public class UserManagementController {
 
     @FXML
     public void initialize() {
+        userTable.setPlaceholder(new Label(""));
+
         usernameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getUsername()));
         nameColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getName()));
         emailColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail()));
         roleColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(
                 data.getValue().isAdmin() ? "Admin" : "Member"
         ));
-        borrowedColumn.setCellValueFactory(data -> new javafx.beans.property.SimpleObjectProperty<>(
-                data.getValue().isMember() ? data.getValue().getBorrows().size() : 0
-        ));
+        borrowedColumn.setCellValueFactory(data -> {
+            if (data.getValue().isMember()) {
+                return new javafx.beans.property.SimpleObjectProperty<>(data.getValue().getBorrows().size());
+            } else {
+                return new javafx.beans.property.SimpleObjectProperty<>(null);
+            }
+        });
 
         loadUsers();
     }
@@ -65,6 +71,10 @@ public class UserManagementController {
             }
         }
         userTable.setItems(filtered);
+
+        if (filtered.isEmpty()) {
+            MainApp.showPopupMessage("No results found.", Color.DARKRED);
+        }
     }
 
     @FXML
@@ -87,12 +97,12 @@ public class UserManagementController {
     private void handleDeleteUser() {
         User selected = userTable.getSelectionModel().getSelectedItem();
         if (selected == null) {
-            MainApp.showPopupMessage("Select a user to delete.", Color.RED);
+            MainApp.showPopupMessage("Select a user to delete.", Color.DARKRED);
             return;
         }
 
         if (selected.isMember() && hasUnreturnedBooks(selected)) {
-            MainApp.showPopupMessage("Cannot delete: User has borrowed books.", Color.RED);
+            MainApp.showPopupMessage("Cannot delete: User has borrowed books.", Color.DARKRED);
             return;
         }
 
@@ -109,7 +119,7 @@ public class UserManagementController {
 
         MainApp.showPopupMessage(
                 "User deleted successfully.",
-                Color.GREEN
+                Color.DARKGREEN
         );
     }
 
