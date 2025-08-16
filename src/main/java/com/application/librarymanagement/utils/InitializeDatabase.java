@@ -1,12 +1,13 @@
 package com.application.librarymanagement.utils;
 
-import com.application.librarymanagement.MainApp;
-import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+
+import com.application.librarymanagement.MainApp;
+
+import javafx.scene.paint.Color;
 
 public final class InitializeDatabase {
   private static final String books = """
@@ -38,7 +39,6 @@ public final class InitializeDatabase {
     createFile(MainApp.BORROWS_DB_PATH, borrows);
     createFile(MainApp.CONFIG_PATH, config);
     createFile(MainApp.USERS_DB_PATH, users);
-    System.out.println("here");
   }
 
   private static void createJsonFolder() {

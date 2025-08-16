@@ -27,6 +27,10 @@ public final class User {
     }
   }
 
+  public JsonObject getData() {
+    return data;
+  }
+
   public String getUsername() {
     return JsonUtils.getAsString(data, "username", "");
   }

@@ -127,7 +127,9 @@ public final class BorrowsController {
   }
 
   @FXML
-  private void filterByStatusReturned() { displayBorrowsByUsernameAndStatus(Borrow.STATUS_RETURNED); }
+  private void filterByStatusReturned() {
+    displayBorrowsByUsernameAndStatus(Borrow.STATUS_RETURNED);
+  }
 
   @FXML
   private void filterByStatusCanceled() {

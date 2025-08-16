@@ -1,6 +1,7 @@
 package com.application.librarymanagement.borrow;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public final class Timestamp {
   private final int year;
@@ -15,6 +16,15 @@ public final class Timestamp {
     this.date = date;
     this.hour = hour;
     this.minute = minute;
+  }
+
+  public Timestamp(long epochSeconds) {
+    LocalDateTime dt = LocalDateTime.ofEpochSecond(epochSeconds, 0, ZoneOffset.UTC);
+    this.year = dt.getYear();
+    this.month = dt.getMonthValue();
+    this.date = dt.getDayOfMonth();
+    this.hour = dt.getHour();
+    this.minute = dt.getMinute();
   }
 
   public static Timestamp now() {

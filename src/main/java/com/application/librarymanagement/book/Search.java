@@ -174,6 +174,7 @@ public final class Search {
     JsonObject result = null;
     try {
       result = JsonUtils.fetchJson(getUrl());
+      System.out.println(getUrl());
     } catch (IOException ex) {
       MainApp.showPopupMessage("Unable to load books", Color.DARKRED);
     }
