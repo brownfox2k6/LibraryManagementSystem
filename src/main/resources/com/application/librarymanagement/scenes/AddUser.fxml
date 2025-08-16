@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.application.librarymanagement.user.AddUserController"
+            prefWidth="400" prefHeight="350">
+
+    <fx:define>
+        <ToggleGroup fx:id="userTypeGroup"/>
+    </fx:define>
+
+    <VBox spacing="10">
+        <padding>
+            <Insets top="20" right="20" bottom="20" left="20"/>
+        </padding>
+
+        <Label text="Add New User" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+        <TextField fx:id="txtName" promptText="Full Name"/>
+        <TextField fx:id="txtUsername" promptText="Username"/>
+        <TextField fx:id="txtEmail" promptText="Email"/>
+        <PasswordField fx:id="txtPassword" promptText="Password"/>
+
+        <HBox spacing="15">
+            <Label text="Account Type:"/>
+            <RadioButton fx:id="radioAdmin" text="Admin" toggleGroup="$userTypeGroup"/>
+            <RadioButton fx:id="radioMember" text="Member" toggleGroup="$userTypeGroup"/>
+        </HBox>
+
+        <Button text="Add User" onAction="#handleAddUser"
+                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;"/>
+    </VBox>
+</AnchorPane>

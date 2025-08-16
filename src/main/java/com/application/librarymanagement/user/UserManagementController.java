@@ -9,8 +9,15 @@ import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class UserManagementController {
 
@@ -79,7 +86,17 @@ public class UserManagementController {
 
     @FXML
     private void handleAddUser() {
-        System.out.println("Add New User clicked");
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/application/librarymanagement/scenes/AddUser.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.setTitle("Add New User");
+                stage.setScene(new Scene(root));
+                stage.initModality(Modality.APPLICATION_MODAL);
+                stage.showAndWait();
+
+                loadUsers();
+            } catch (IOException e) {e.printStackTrace();}
     }
 
     private boolean hasUnreturnedBooks(User user) {
