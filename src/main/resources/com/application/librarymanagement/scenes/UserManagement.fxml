@@ -22,7 +22,6 @@
                         <Button fx:id="addUserBtn" text="Add New User" onAction="#handleAddUser"/>
                         <TextField fx:id="searchField" promptText="Search users..."/>
                         <Button text="Search" onAction="#handleSearchUser"/>
-                        <Button fx:id="deleteBtn" text="Delete Selected" onAction="#handleDeleteUser"/>
                     </children>
                 </HBox>
 

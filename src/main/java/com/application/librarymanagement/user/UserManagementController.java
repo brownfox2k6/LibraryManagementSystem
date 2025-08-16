@@ -98,46 +98,4 @@ public class UserManagementController {
                 loadUsers();
             } catch (IOException e) {e.printStackTrace();}
     }
-
-    private boolean hasUnreturnedBooks(User user) {
-        for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
-            Borrow borrow = new Borrow(e.getAsJsonObject());
-            if (borrow.getUsername().equals(user.getUsername())
-                    && borrow.getStatus() == Borrow.STATUS_BORROWED) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @FXML
-    private void handleDeleteUser() {
-        User selected = userTable.getSelectionModel().getSelectedItem();
-        if (selected == null) {
-            MainApp.showPopupMessage("Select a user to delete.", Color.DARKRED);
-            return;
-        }
-
-        if (selected.isMember() && hasUnreturnedBooks(selected)) {
-            MainApp.showPopupMessage("Cannot delete: User has borrowed books.", Color.DARKRED);
-            return;
-        }
-
-        JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
-        for (int i = 0; i < users.size(); i++) {
-            JsonObject obj = users.get(i).getAsJsonObject();
-            if (obj.get("username").getAsString().equals(selected.getUsername())) {
-                users.remove(i);
-                break;
-            }
-        }
-        JsonUtils.saveToFile(users, MainApp.USERS_DB_PATH);
-        loadUsers();
-
-        MainApp.showPopupMessage(
-                "User deleted successfully.",
-                Color.DARKGREEN
-        );
-    }
-
 }
