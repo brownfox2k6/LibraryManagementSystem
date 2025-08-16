@@ -16,11 +16,9 @@
           AnchorPane.bottomAnchor="12.0">
 
       <children>
-        <!-- Thanh công cụ: trái Filter by username, phải Add -->
-        <HBox spacing="10" alignment="CENTER_LEFT">
+        <HBox fx:id="toolbar" spacing="10" alignment="CENTER_LEFT">
           <children>
-            <!-- Label + TextField -->
-            <HBox spacing="8" alignment="CENTER_LEFT">
+            <HBox fx:id="searchBox" spacing="8" alignment="CENTER_LEFT">
               <children>
                 <Label text="Filter by username:" style="-fx-font-weight: bold;"/>
                 <TextField fx:id="searchField"
@@ -30,7 +28,6 @@
               </children>
             </HBox>
 
-            <!-- Spacer đẩy nút sang phải -->
             <Region HBox.hgrow="ALWAYS"/>
 
             <Button fx:id="addUserBtn"
@@ -40,7 +37,6 @@
           </children>
         </HBox>
 
-        <!-- Bảng users -->
         <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
           <columns>
             <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>

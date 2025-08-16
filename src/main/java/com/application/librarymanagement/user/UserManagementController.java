@@ -1,6 +1,7 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -11,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -25,77 +26,111 @@ public class UserManagementController {
   @FXML private TableColumn<User, String> emailColumn;
   @FXML private TableColumn<User, String> roleColumn;
   @FXML private TableColumn<User, Integer> borrowedColumn;
-  @FXML private TextField searchField;
 
-  private ObservableList<User> userList = FXCollections.observableArrayList();
+  @FXML private TextField searchField;
+  @FXML private Button addUserBtn;
+  @FXML private HBox searchBox;
+
+  private final ObservableList<User> userList    = FXCollections.observableArrayList();
+  private final ObservableList<User> displayList = FXCollections.observableArrayList();
 
   @FXML
   public void initialize() {
     userTable.setPlaceholder(new Label(""));
 
-    usernameColumn.setCellValueFactory(data ->
-            new javafx.beans.property.SimpleStringProperty(data.getValue().getUsername())
+    usernameColumn.setCellValueFactory(cd ->
+            new javafx.beans.property.SimpleStringProperty(cd.getValue().getUsername())
     );
-    nameColumn.setCellValueFactory(data ->
-            new javafx.beans.property.SimpleStringProperty(data.getValue().getName())
+    nameColumn.setCellValueFactory(cd ->
+            new javafx.beans.property.SimpleStringProperty(cd.getValue().getName())
     );
-    emailColumn.setCellValueFactory(data ->
-            new javafx.beans.property.SimpleStringProperty(data.getValue().getEmail())
+    emailColumn.setCellValueFactory(cd ->
+            new javafx.beans.property.SimpleStringProperty(cd.getValue().getEmail())
     );
-    roleColumn.setCellValueFactory(data ->
-            new javafx.beans.property.SimpleStringProperty(
-                    data.getValue().isAdmin() ? "Admin" : "Member"
-            )
+    roleColumn.setCellValueFactory(cd ->
+            new javafx.beans.property.SimpleStringProperty(cd.getValue().isAdmin() ? "Admin" : "Member")
     );
-    borrowedColumn.setCellValueFactory(data -> {
-      if (data.getValue().isMember()) {
-        return new javafx.beans.property.SimpleObjectProperty<>(
-                data.getValue().getBorrows().size()
-        );
+    borrowedColumn.setCellValueFactory(cd -> {
+      if (cd.getValue().isMember()) {
+        return new javafx.beans.property.SimpleObjectProperty<>(cd.getValue().getBorrows().size());
       } else {
         return new javafx.beans.property.SimpleObjectProperty<>(null);
       }
     });
 
     loadUsers();
+
+    applyRoleView();
+
+    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isAdmin()) {
+      searchField.textProperty().addListener((obs, o, n) -> filterByUsername(n));
+    }
   }
 
   private void loadUsers() {
     userList.clear();
     JsonArray usersData = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
-    for (int i = 0; i < usersData.size(); i++) {
-      JsonObject obj = usersData.get(i).getAsJsonObject();
-      userList.add(new User(obj));
+    if (usersData != null) {
+      for (int i = 0; i < usersData.size(); i++) {
+        JsonObject obj = usersData.get(i).getAsJsonObject();
+        userList.add(new User(obj));
+      }
     }
-    userTable.setItems(userList);
+  }
+
+  private void applyRoleView() {
+    User current = InAppController.CURRENT_USER;
+
+    displayList.clear();
+    if (current != null && current.isMember()) {
+      addUserBtn.setVisible(false);
+      if (searchBox != null) searchBox.setVisible(false);
+
+      for (User u : userList) {
+        if (u.isAdmin() || u.getUsername().equals(current.getUsername())) {
+          displayList.add(u);
+        }
+      }
+    } else {
+      displayList.addAll(userList);
+      addUserBtn.setVisible(true);
+      if (searchBox != null) searchBox.setVisible(true);
+    }
+
+    userTable.setItems(displayList);
   }
 
   @FXML
   private void handleSearchUser() {
-    String keyword = searchField.getText().trim().toLowerCase();
-    if (keyword.isEmpty()) {
-      loadUsers();
-      return;
+    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isAdmin()) {
+      filterByUsername(searchField.getText());
     }
+  }
 
-    ObservableList<User> filtered = FXCollections.observableArrayList();
-    for (User u : userList) {
-      if (u.getUsername().toLowerCase().contains(keyword)) {
-        filtered.add(u);
+  private void filterByUsername(String keyword) {
+    if (keyword == null) keyword = "";
+    String q = keyword.trim().toLowerCase();
+
+    displayList.clear();
+    if (q.isEmpty()) {
+      displayList.addAll(userList);
+    } else {
+      for (User u : userList) {
+        if (u.getUsername().toLowerCase().contains(q)) {
+          displayList.add(u);
+        }
       }
     }
-    userTable.setItems(filtered);
-
-    if (filtered.isEmpty()) {
-      MainApp.showPopupMessage("No results found.", Color.DARKRED);
-    }
+    userTable.setItems(displayList);
   }
 
   @FXML
   private void handleAddUser() {
+    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isMember()) return;
+
     try {
       FXMLLoader loader = new FXMLLoader(
-              getClass().getResource("/com/application/librarymanagement/scenes/AddUser.fxml")
+              MainApp.class.getResource("scenes/AddUser.fxml")
       );
       Parent root = loader.load();
       Stage stage = new Stage();
@@ -105,6 +140,7 @@ public class UserManagementController {
       stage.showAndWait();
 
       loadUsers();
+      applyRoleView();
     } catch (IOException e) {
       e.printStackTrace();
     }
