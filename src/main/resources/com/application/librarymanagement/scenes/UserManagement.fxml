@@ -8,38 +8,53 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.application.librarymanagement.user.UserManagementController">
 
-    <children>
-        <VBox spacing="8"
-              AnchorPane.topAnchor="8.0"
-              AnchorPane.leftAnchor="8.0"
-              AnchorPane.rightAnchor="8.0"
-              AnchorPane.bottomAnchor="8.0">
+  <children>
+    <VBox spacing="12"
+          AnchorPane.topAnchor="12.0"
+          AnchorPane.leftAnchor="12.0"
+          AnchorPane.rightAnchor="12.0"
+          AnchorPane.bottomAnchor="12.0">
 
-            <children>
+      <children>
+        <!-- Thanh công cụ: trái Filter by username, phải Add -->
+        <HBox spacing="10" alignment="CENTER_LEFT">
+          <children>
+            <!-- Label + TextField -->
+            <HBox spacing="8" alignment="CENTER_LEFT">
+              <children>
+                <Label text="Filter by username:" style="-fx-font-weight: bold;"/>
+                <TextField fx:id="searchField"
+                           promptText="Username"
+                           onAction="#handleSearchUser"
+                           style="-fx-background-radius: 6; -fx-padding: 6;"/>
+              </children>
+            </HBox>
 
-                <HBox spacing="8">
-                    <children>
-                        <Button fx:id="addUserBtn" text="Add New User" onAction="#handleAddUser"/>
-                        <TextField fx:id="searchField" promptText="Search users..."/>
-                        <Button text="Search" onAction="#handleSearchUser"/>
-                    </children>
-                </HBox>
+            <!-- Spacer đẩy nút sang phải -->
+            <Region HBox.hgrow="ALWAYS"/>
 
-                <TableView fx:id="userTable" VBox.vgrow="ALWAYS" prefHeight="1000.0">
-                    <columns>
-                        <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>
-                        <TableColumn fx:id="nameColumn" text="Name" prefWidth="160.0"/>
-                        <TableColumn fx:id="emailColumn" text="Email" prefWidth="220.0"/>
-                        <TableColumn fx:id="roleColumn" text="Role" prefWidth="120.0"/>
-                        <TableColumn fx:id="borrowedColumn" text="Books Borrowed" prefWidth="140.0"/>
-                    </columns>
-                </TableView>
+            <Button fx:id="addUserBtn"
+                    text="Add New User"
+                    onAction="#handleAddUser"
+                    style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;"/>
+          </children>
+        </HBox>
 
-            </children>
+        <!-- Bảng users -->
+        <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
+          <columns>
+            <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="160.0"/>
+            <TableColumn fx:id="emailColumn" text="Email" prefWidth="220.0"/>
+            <TableColumn fx:id="roleColumn" text="Role" prefWidth="120.0"/>
+            <TableColumn fx:id="borrowedColumn" text="Books Borrowed" prefWidth="140.0"/>
+          </columns>
+        </TableView>
+      </children>
 
-            <padding>
-                <Insets topRightBottomLeft="8"/>
-            </padding>
-        </VBox>
-    </children>
+      <padding>
+        <Insets top="8" right="8" bottom="8" left="8"/>
+      </padding>
+    </VBox>
+  </children>
 </AnchorPane>
