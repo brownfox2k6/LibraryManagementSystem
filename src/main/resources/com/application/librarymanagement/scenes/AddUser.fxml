@@ -23,6 +23,7 @@
         <TextField fx:id="txtUsername" promptText="Username"/>
         <TextField fx:id="txtEmail" promptText="Email"/>
         <PasswordField fx:id="txtPassword" promptText="Password"/>
+        <PasswordField fx:id="txtConfirmPassword" promptText="Confirm Password"/>
 
         <HBox spacing="15">
             <Label text="Account Type:"/>
