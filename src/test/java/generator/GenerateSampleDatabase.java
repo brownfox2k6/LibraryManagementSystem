@@ -1,4 +1,4 @@
-package create_sample_db;
+package generator;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
@@ -17,13 +17,13 @@ import java.time.ZoneOffset;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public final class Main {
+public final class GenerateSampleDatabase {
   private static final List<String> bookIds = new ArrayList<>();
   private static final List<String> usernames = new ArrayList<>();
   private static final Map<String, List<Integer>> borrowsOfUsername = new HashMap<>();
 
   public static void loadUsernames() {
-    try (InputStream in = Main.class.getResourceAsStream("/names-dataset.txt")) {
+    try (InputStream in = GenerateSampleDatabase.class.getResourceAsStream("/names-dataset.txt")) {
       assert in != null;
       try (Scanner sc = new Scanner(in)) {
         while (sc.hasNextLine()) {
@@ -39,7 +39,7 @@ public final class Main {
 
   public static void createSampleBooks() {
     System.out.println("----- Creating sample books -----");
-    try (InputStream in = Main.class.getResourceAsStream("/isbn-dataset.txt")) {
+    try (InputStream in = GenerateSampleDatabase.class.getResourceAsStream("/isbn-dataset.txt")) {
       assert in != null;
       try (Scanner sc = new Scanner(in)) {
         Search search = new Search();
