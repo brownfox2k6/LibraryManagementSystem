@@ -8,6 +8,7 @@ import com.application.librarymanagement.borrow.Timestamp;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -21,6 +22,7 @@ public final class GenerateSampleDatabase {
   private static final List<String> bookIds = new ArrayList<>();
   private static final List<String> usernames = new ArrayList<>();
   private static final Map<String, List<Integer>> borrowsOfUsername = new HashMap<>();
+  private static final Map<String, Integer> borrowsCount = new HashMap<>();
 
   public static void loadUsernames() {
     try (InputStream in = GenerateSampleDatabase.class.getResourceAsStream("/names-dataset.txt")) {
@@ -62,10 +64,16 @@ public final class GenerateSampleDatabase {
             book.setQuantity(5);
             books.add(book.getData());
             bookIds.add(book.getId());
+            borrowsCount.put(book.getId(), 0);
             System.out.printf("Success. (%d)\n", ++count);
           } else {
             System.out.println("Failed.");
           }
+        }
+        createSampleBorrows();
+        for (JsonElement e : books) {
+          JsonObject book = e.getAsJsonObject();
+          book.addProperty("borrowsCount", borrowsCount.get(JsonUtils.getAsString(book, "id", "")));
         }
         JsonUtils.saveToFile(books, MainApp.BOOKS_DB_PATH);
       }
@@ -125,6 +133,9 @@ public final class GenerateSampleDatabase {
       d.addProperty("status", status);
       borrows.add(d);
       borrowsOfUsername.get(username).add(i);
+      if (status != Borrow.STATUS_CANCELED) {
+        borrowsCount.put(bookId, borrowsCount.get(bookId) + 1);
+      }
       System.out.printf("Added borrow #%d.\n", i);
     }
     JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
@@ -133,7 +144,6 @@ public final class GenerateSampleDatabase {
   public static void main(String[] args) {
     loadUsernames();
     createSampleBooks();
-    createSampleBorrows();
     createSampleMembers();
   }
 }

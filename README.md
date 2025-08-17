@@ -73,6 +73,39 @@ Search for books using the Google Books API by title, authors, publisher, catego
 ![](readme-images/borrows_admin_filtered.png)
 </details>
 
+### Users Management
+- View all users' information (username, name, email, role and borrows count). Members can only view their and admins' information
+- (Admins only) Filter users by username
+- (Admins only) Add a new user
+
+<details><summary><strong>[Image] Users Management – Admin View</strong></summary>
+
+![](readme-images/users_admin_view.png)
+</details>
+
+<details><summary><strong>[Image] Users Management – Admin View – Filtered</strong></summary>
+
+![](readme-images/users_admin_view_filtered.png)
+</details>
+
+<details><summary><strong>[Image] Users Management – Admin View – Add a new user</strong></summary>
+
+![](readme-images/users_admin_view_addnewuser.png)
+</details>
+
+<details><summary><strong>[Image] Users Management – Member View</strong></summary>
+
+![](readme-images/users_member_view.png)
+</details>
+
+### Account Settings
+Users can change their name, their email as well as their password
+
+<details><summary><strong>[Image] Account Settings</strong></summary>
+
+![](readme-images/account_settings.png)
+</details>
+
 ## Tech Stack
 - **Java** – Core application logic and API integration
 - **Google Books API** – Retrieving and displaying book data
