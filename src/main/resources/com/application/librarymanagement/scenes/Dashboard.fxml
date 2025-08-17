@@ -27,9 +27,9 @@
             </Text>
             <TableView fx:id="mostBorrowsTable" prefHeight="584.0" prefWidth="348.0">
                <columns>
-                  <TableColumn fx:id="rankColumn" prefWidth="34.0" resizable="false" text="#" />
-                  <TableColumn fx:id="titleColumn" prefWidth="237.0" resizable="false" text="Book name" />
-                  <TableColumn fx:id="borrowsCountColumn" prefWidth="75.0" resizable="false" text="Borrows" />
+                  <TableColumn fx:id="rankColumn" prefWidth="34.0" text="#" />
+                  <TableColumn fx:id="titleColumn" prefWidth="237.0" text="Book name" />
+                  <TableColumn fx:id="borrowsCountColumn" prefWidth="75.0" text="Borrows" />
                </columns>
             </TableView>
          </children>
