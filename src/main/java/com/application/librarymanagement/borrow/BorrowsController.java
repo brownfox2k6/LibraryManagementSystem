@@ -154,4 +154,22 @@ public final class BorrowsController {
   private void filterByUsername() {
     displayBorrowsByUsernameAndStatus(0);
   }
+
+  public void filterByUsernameExternal(String username) {
+    page = 1;
+    filteredList.clear();
+    for (Borrow borrow : borrowList) {
+      if (borrow.getUsername().contains(username)) {
+        filteredList.add(borrow);
+      }
+    }
+    displayBorrows(filteredList);
+
+    if (filteredList.isEmpty()) {
+      MainApp.showPopupMessage("No records found for username: " + username, Color.DARKRED);
+    } else {
+      MainApp.showPopupMessage("Found " + filteredList.size() + " records for username: " + username, Color.DARKGREEN);
+    }
+  }
+
 }

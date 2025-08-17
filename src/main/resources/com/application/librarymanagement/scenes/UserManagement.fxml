@@ -40,10 +40,12 @@
         <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
           <columns>
             <TableColumn fx:id="usernameColumn" text="Username" prefWidth="150.0"/>
-            <TableColumn fx:id="nameColumn" text="Name" prefWidth="160.0"/>
+            <TableColumn fx:id="nameColumn" text="Name" prefWidth="150.0"/>
             <TableColumn fx:id="emailColumn" text="Email" prefWidth="220.0"/>
-            <TableColumn fx:id="roleColumn" text="Role" prefWidth="120.0"/>
-            <TableColumn fx:id="borrowedColumn" text="Books Borrowed" prefWidth="140.0"/>
+            <TableColumn fx:id="roleColumn" text="Role" prefWidth="150.0"/>
+            <TableColumn fx:id="borrowedColumn" text="Books Borrowed" prefWidth="150.0"/>
+            <!-- NEW: cột chứa nút View (sẽ ẩn với member) -->
+            <TableColumn fx:id="borrowsActionColumn" text="Borrows" prefWidth="150.0"/>
           </columns>
         </TableView>
       </children>

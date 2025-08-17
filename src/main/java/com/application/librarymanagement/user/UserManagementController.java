@@ -2,21 +2,15 @@ package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.borrow.BorrowsController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class UserManagementController {
 
@@ -27,6 +21,7 @@ public class UserManagementController {
   @FXML private TableColumn<User, String> roleColumn;
   @FXML private TableColumn<User, Integer> borrowedColumn;
 
+  @FXML private TableColumn<User, Void> borrowsActionColumn;
   @FXML private TextField searchField;
   @FXML private Button addUserBtn;
   @FXML private HBox searchBox;
@@ -58,8 +53,38 @@ public class UserManagementController {
       }
     });
 
-    loadUsers();
+    if (borrowsActionColumn != null) {
+      borrowsActionColumn.setCellFactory(col -> new TableCell<>() {
+        private final Button viewBtn = new Button("View");
+        {
+          viewBtn.setOnAction(evt -> {
+            User rowUser = getTableView().getItems().get(getIndex());
+            if (InAppController.INSTANCE != null) {
+              BorrowsController bc = InAppController.INSTANCE.setSubscene("Borrows", "Borrows");
+              if (bc != null) {
+                bc.filterByUsernameExternal(rowUser.getUsername());
+              }
+            }
+          });
+          viewBtn.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-background-radius: 6;");
+        }
+        @Override
+        protected void updateItem(Void item, boolean empty) {
+          super.updateItem(item, empty);
+          if (empty) {
+            setGraphic(null);
+          } else {
+            User rowUser = getTableView().getItems().get(getIndex());
+            boolean showBtn = InAppController.CURRENT_USER != null
+                    && InAppController.CURRENT_USER.isAdmin()
+                    && rowUser.isMember();
+            setGraphic(showBtn ? viewBtn : null);
+          }
+        }
+      });
+    }
 
+    loadUsers();
     applyRoleView();
 
     if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isAdmin()) {
@@ -86,6 +111,10 @@ public class UserManagementController {
       addUserBtn.setVisible(false);
       if (searchBox != null) searchBox.setVisible(false);
 
+      if (borrowsActionColumn != null) {
+        borrowsActionColumn.setVisible(false);
+      }
+
       for (User u : userList) {
         if (u.isAdmin() || u.getUsername().equals(current.getUsername())) {
           displayList.add(u);
@@ -95,6 +124,10 @@ public class UserManagementController {
       displayList.addAll(userList);
       addUserBtn.setVisible(true);
       if (searchBox != null) searchBox.setVisible(true);
+
+      if (borrowsActionColumn != null) {
+        borrowsActionColumn.setVisible(true);
+      }
     }
 
     userTable.setItems(displayList);
@@ -129,19 +162,19 @@ public class UserManagementController {
     if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isMember()) return;
 
     try {
-      FXMLLoader loader = new FXMLLoader(
+      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
               MainApp.class.getResource("scenes/AddUser.fxml")
       );
-      Parent root = loader.load();
-      Stage stage = new Stage();
+      javafx.scene.Parent root = loader.load();
+      javafx.stage.Stage stage = new javafx.stage.Stage();
       stage.setTitle("Add New User");
-      stage.setScene(new Scene(root));
-      stage.initModality(Modality.APPLICATION_MODAL);
+      stage.setScene(new javafx.scene.Scene(root));
+      stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
       stage.showAndWait();
 
       loadUsers();
       applyRoleView();
-    } catch (IOException e) {
+    } catch (java.io.IOException e) {
       e.printStackTrace();
     }
   }
