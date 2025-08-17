@@ -1,6 +1,8 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.MainAppController;
+import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ValidateUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -10,8 +12,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-public class AddUserController {
-
+public final class AddUserController {
   @FXML private TextField txtName;
   @FXML private TextField txtUsername;
   @FXML private TextField txtEmail;
@@ -79,7 +80,6 @@ public class AddUserController {
 
   @FXML
   private void handleCancel() {
-    Stage stage = (Stage) txtName.getScene().getWindow();
-    stage.close();
+    InAppController.INSTANCE.setSubscene("UserManagement", "Users");
   }
 }

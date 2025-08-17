@@ -164,7 +164,7 @@ public final class BorrowsController {
       }
     }
     displayBorrows(filteredList);
-
+    usernameField.setText(username);
     if (filteredList.isEmpty()) {
       MainApp.showPopupMessage("No records found for username: " + username, Color.DARKRED);
     } else {

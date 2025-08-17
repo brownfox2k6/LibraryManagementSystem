@@ -11,8 +11,9 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
-public class UserManagementController {
+public final class UserManagementController {
 
   @FXML private TableView<User> userTable;
   @FXML private TableColumn<User, String> usernameColumn;
@@ -25,6 +26,7 @@ public class UserManagementController {
   @FXML private TextField searchField;
   @FXML private Button addUserBtn;
   @FXML private HBox searchBox;
+  @FXML private Label resultLabel;
 
   private final ObservableList<User> userList    = FXCollections.observableArrayList();
   private final ObservableList<User> displayList = FXCollections.observableArrayList();
@@ -131,6 +133,7 @@ public class UserManagementController {
     }
 
     userTable.setItems(displayList);
+    resultLabel.setText(String.format("Found %d records.", displayList.size()));
   }
 
   @FXML
@@ -141,41 +144,20 @@ public class UserManagementController {
   }
 
   private void filterByUsername(String keyword) {
-    if (keyword == null) keyword = "";
     String q = keyword.trim().toLowerCase();
-
     displayList.clear();
-    if (q.isEmpty()) {
-      displayList.addAll(userList);
-    } else {
-      for (User u : userList) {
-        if (u.getUsername().toLowerCase().contains(q)) {
-          displayList.add(u);
-        }
+    for (User u : userList) {
+      if (u.getUsername().toLowerCase().contains(q)) {
+        displayList.add(u);
       }
     }
     userTable.setItems(displayList);
+    resultLabel.setText(String.format("Found %d records.", displayList.size()));
   }
 
   @FXML
   private void handleAddUser() {
-    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isMember()) return;
-
-    try {
-      javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(
-              MainApp.class.getResource("scenes/AddUser.fxml")
-      );
-      javafx.scene.Parent root = loader.load();
-      javafx.stage.Stage stage = new javafx.stage.Stage();
-      stage.setTitle("Add New User");
-      stage.setScene(new javafx.scene.Scene(root));
-      stage.initModality(javafx.stage.Modality.APPLICATION_MODAL);
-      stage.showAndWait();
-
-      loadUsers();
-      applyRoleView();
-    } catch (java.io.IOException e) {
-      e.printStackTrace();
-    }
+    assert InAppController.CURRENT_USER.isMember();
+    InAppController.INSTANCE.setSubscene("AddUser", "Add A New User");
   }
 }
