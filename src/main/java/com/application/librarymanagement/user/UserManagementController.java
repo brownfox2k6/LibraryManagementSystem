@@ -20,7 +20,6 @@ public final class UserManagementController {
   @FXML private TableColumn<User, String> emailColumn;
   @FXML private TableColumn<User, String> roleColumn;
   @FXML private TableColumn<User, Integer> borrowedColumn;
-
   @FXML private TableColumn<User, Void> borrowsActionColumn;
   @FXML private TextField searchField;
   @FXML private Button addUserBtn;
@@ -32,28 +31,22 @@ public final class UserManagementController {
 
   @FXML
   public void initialize() {
-    userTable.setPlaceholder(new Label(""));
-
     usernameColumn.setCellValueFactory(cd ->
-            new javafx.beans.property.SimpleStringProperty(cd.getValue().getUsername())
+        new javafx.beans.property.SimpleStringProperty(cd.getValue().getUsername())
     );
     nameColumn.setCellValueFactory(cd ->
-            new javafx.beans.property.SimpleStringProperty(cd.getValue().getName())
+        new javafx.beans.property.SimpleStringProperty(cd.getValue().getName())
     );
     emailColumn.setCellValueFactory(cd ->
-            new javafx.beans.property.SimpleStringProperty(cd.getValue().getEmail())
+        new javafx.beans.property.SimpleStringProperty(cd.getValue().getEmail())
     );
     roleColumn.setCellValueFactory(cd ->
-            new javafx.beans.property.SimpleStringProperty(cd.getValue().isAdmin() ? "Admin" : "Member")
+        new javafx.beans.property.SimpleStringProperty(cd.getValue().isAdmin() ? "Admin" : "Member")
     );
-    borrowedColumn.setCellValueFactory(cd -> {
-      if (cd.getValue().isMember()) {
-        return new javafx.beans.property.SimpleObjectProperty<>(cd.getValue().getBorrows().size());
-      } else {
-        return new javafx.beans.property.SimpleObjectProperty<>(null);
-      }
-    });
-
+    borrowedColumn.setCellValueFactory(cd ->
+        new javafx.beans.property.SimpleObjectProperty<>(
+          cd.getValue().isMember() ? cd.getValue().getBorrows().size() : null)
+    );
     if (borrowsActionColumn != null) {
       borrowsActionColumn.setCellFactory(col -> new TableCell<>() {
         private final Button viewBtn = new Button("View");
@@ -72,21 +65,14 @@ public final class UserManagementController {
             setGraphic(null);
           } else {
             User rowUser = getTableView().getItems().get(getIndex());
-            boolean showBtn = InAppController.CURRENT_USER != null
-                    && InAppController.CURRENT_USER.isAdmin()
-                    && rowUser.isMember();
-            setGraphic(showBtn ? viewBtn : null);
+            setGraphic(rowUser.isMember() ? viewBtn : null);
           }
         }
       });
     }
-
     loadUsers();
     applyRoleView();
-
-    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isAdmin()) {
-      searchField.textProperty().addListener((obs, o, n) -> filterByUsername(n));
-    }
+    searchField.textProperty().addListener((obs, o, n) -> filterByUsername(n));
   }
 
   private void loadUsers() {
@@ -102,16 +88,10 @@ public final class UserManagementController {
 
   private void applyRoleView() {
     User current = InAppController.CURRENT_USER;
-
     displayList.clear();
-    if (current != null && current.isMember()) {
+    if (current.isMember()) {
       addUserBtn.setVisible(false);
-      if (searchBox != null) searchBox.setVisible(false);
-
-      if (borrowsActionColumn != null) {
-        borrowsActionColumn.setVisible(false);
-      }
-
+      searchBox.setVisible(false);
       for (User u : userList) {
         if (u.isAdmin() || u.getUsername().equals(current.getUsername())) {
           displayList.add(u);
@@ -121,12 +101,8 @@ public final class UserManagementController {
       displayList.addAll(userList);
       addUserBtn.setVisible(true);
       if (searchBox != null) searchBox.setVisible(true);
-
-      if (borrowsActionColumn != null) {
-        borrowsActionColumn.setVisible(true);
-      }
+      borrowsActionColumn.setVisible(true);
     }
-
     userTable.setItems(displayList);
     resultLabel.setText(String.format("Found %d records.", displayList.size()));
   }

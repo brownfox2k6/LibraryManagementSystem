@@ -87,6 +87,8 @@ public final class BorrowCaseController {
     canceledTimeLabel.setText(borrow.getCanceledTime());
     statusLabel.setText("CANCELED");
     MainApp.showPopupMessage("Marked as CANCELED", Color.DARKGREEN);
+    makeNodeDisappear(markBorrowedButton);
+    makeNodeDisappear(markReturnedButton);
     makeNodeDisappear(cancelBorrowButton);
   }
 
