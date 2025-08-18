@@ -6,6 +6,7 @@ import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.application.librarymanagement.utils.ValidateUtils;
 
+import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -47,6 +48,7 @@ public final class ChangePasswordController {
       MainApp.showPopupMessage("This email has been used by another user.", Color.DARKRED);
       return;
     }
+    boolean passwordChanged = false;
     if (!oldPass.isEmpty() || !newPass.isEmpty() || !confirmPass.isEmpty()) {
       if (oldPass.isEmpty() || newPass.isEmpty() || confirmPass.isEmpty()) {
         MainApp.showPopupMessage("Please fill in all required fields.", Color.DARKRED);
@@ -61,13 +63,20 @@ public final class ChangePasswordController {
         return;
       }
       currentUser.setPassword(newPass);
+      passwordChanged = true;
     }
     currentUser.setName(fullName);
     currentUser.setEmail(email);
     currentUser.saveToDatabase();
-    JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", "");
-    MainApp.setScene("SignIn");
-    MainApp.showPopupMessage("Account info updated. Please sign in again.", Color.DARKGREEN);
+    if (passwordChanged) {
+      JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", "");
+      MainApp.setScene("SignIn");
+      MainApp.showPopupMessage("Account info updated. Please sign in again.", Color.DARKGREEN);
+    } else {
+      InAppController.INSTANCE.setSubscene("Dashboard", "Dashboard");
+      InAppController.INSTANCE.setWelcomeText();
+      MainApp.showPopupMessage("Account info updated.", Color.DARKGREEN);
+    }
   }
 
   @FXML

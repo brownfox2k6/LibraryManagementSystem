@@ -34,8 +34,7 @@ public final class InAppController extends MainAppController {
     INSTANCE = this;
     super.initialize();
     loadCurrentUser();
-    welcomeLabel.setText(String.format("Welcome, %s [%s]",
-            CURRENT_USER.getName(), CURRENT_USER.getUsername()));
+    setWelcomeText();
     setSubscene("Dashboard", "Dashboard");
   }
 
@@ -62,6 +61,11 @@ public final class InAppController extends MainAppController {
         return;
       }
     }
+  }
+
+  public void setWelcomeText() {
+    welcomeLabel.setText(String.format("Welcome, %s [%s]",
+        CURRENT_USER.getName(), CURRENT_USER.getUsername()));
   }
 
   @Override
