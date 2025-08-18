@@ -58,12 +58,7 @@ public final class BookCaseController {
   }
 
   private void setThumbnail() {
-    String thumbnailLink = book.getThumbnailLink();
-    if (thumbnailLink.isEmpty()) {
-      thumbnail.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
-    } else {
-      thumbnail.setImage(new Image(thumbnailLink, 0, 0, true, true, true));
-    }
+    thumbnail.setImage(Thumbnail.getThumbnail(book));
   }
 
   private void setContainerEffects() {

@@ -4,11 +4,11 @@ import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.ImageView;
 
 public class MainAppController extends MainApp {
-  @FXML public ChoiceBox<String> themeChoiceBox;
+  @FXML public ComboBox<String> themeComboBox;
   @FXML public ImageView backgroundImage;
 
   /**
@@ -17,7 +17,7 @@ public class MainAppController extends MainApp {
    */
   @FXML
   public void initialize() {
-    themeChoiceBox.setValue(JsonUtils.getAsString(config, "theme", ""));
+    themeComboBox.setValue(JsonUtils.getAsString(config, "theme", ""));
     setBackgroundImage();
     loadIcons();
   }
@@ -39,10 +39,10 @@ public class MainAppController extends MainApp {
 
   @FXML
   public void applyStylesheet() {
-    JsonUtils.addProperty(config, CONFIG_PATH,"theme", themeChoiceBox.getValue());
+    JsonUtils.addProperty(config, CONFIG_PATH,"theme", themeComboBox.getValue());
     setBackgroundImage();
     loadIcons();
-    applyStylesheet(themeChoiceBox.getValue());
+    applyStylesheet(themeComboBox.getValue());
   }
 
   protected void loadIcons() {}

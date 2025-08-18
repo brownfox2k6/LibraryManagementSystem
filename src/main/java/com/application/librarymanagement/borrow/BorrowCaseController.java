@@ -2,6 +2,7 @@ package com.application.librarymanagement.borrow;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
+import com.application.librarymanagement.book.Thumbnail;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ImageUtils;
 
@@ -67,12 +68,7 @@ public final class BorrowCaseController {
   }
 
   private void setThumbnail() {
-    String thumbnailLink = book.getThumbnailLink();
-    if (thumbnailLink.isEmpty()) {
-      thumbnail.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
-    } else {
-      thumbnail.setImage(new Image(thumbnailLink, 0, 0, true, true, true));
-    }
+    thumbnail.setImage(Thumbnail.getThumbnail(book));
   }
 
   private void makeNodeDisappear(Node node) {

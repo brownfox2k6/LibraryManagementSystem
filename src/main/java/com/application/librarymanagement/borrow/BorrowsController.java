@@ -11,11 +11,18 @@ import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -28,27 +35,110 @@ public final class BorrowsController {
   @FXML private Label resultLabel;
   @FXML private Button previousPageButton;
   @FXML private Button nextPageButton;
+  @FXML private ListView<String> userSuggestionsList;
 
   private static final int PAGE_SIZE = 20;
   private int page;
   private User user;
-  private ArrayList<Borrow> borrowList;
-  private ArrayList<Borrow> filteredList = new ArrayList<>();
+  private final ArrayList<Borrow> borrowList = new ArrayList<>();
+  private final ArrayList<Borrow> filteredList = new ArrayList<>();
+  private FilteredList<String> filteredUsernames;
+  private SortedList<String> sortedUsernames;
 
   public void initialize() {
+    HashSet<String> set = new HashSet<>();
+    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+      set.add(new User(e.getAsJsonObject()).getUsername());
+    }
+    ObservableList<String> usernameItems = FXCollections.observableArrayList(set);
+    filteredUsernames = new FilteredList<>(usernameItems, s -> false);
+    sortedUsernames = new SortedList<>(filteredUsernames);
+    sortedUsernames.setComparator(Comparator.comparing(String::toLowerCase));
+    userSuggestionsList.setItems(sortedUsernames);
+    makeNodeDisappear(userSuggestionsList);
+    userSuggestionsList.setMaxHeight(200);
     user = InAppController.CURRENT_USER;
     if (user.isMember()) {
-      usernameText.setVisible(false);
-      usernameText.setManaged(false);
-      usernameField.setVisible(false);
-      usernameField.setManaged(false);
+      makeNodeDisappear(usernameText);
+      makeNodeDisappear(usernameField);
     }
+    usernameField.textProperty().addListener((obs, oldText, newText) -> {
+      String q = (newText == null ? "" : newText.trim()).toLowerCase();
+      sortedUsernames.setComparator((a, b) -> {
+        String la = a.toLowerCase(), lb = b.toLowerCase();
+        boolean aStarts = !q.isEmpty() && la.startsWith(q);
+        boolean bStarts = !q.isEmpty() && lb.startsWith(q);
+        if (aStarts && !bStarts) return -1;
+        if (!aStarts && bStarts) return 1;
+        return la.compareTo(lb);
+      });
+      if (q.isEmpty()) {
+        filteredUsernames.setPredicate(s -> false);
+        makeNodeDisappear(userSuggestionsList);
+      } else {
+        filteredUsernames.setPredicate(name -> name != null && name.toLowerCase().contains(q));
+        boolean has = !filteredUsernames.isEmpty();
+        userSuggestionsList.setVisible(has);
+        userSuggestionsList.setManaged(has);
+        if (has) {
+          userSuggestionsList.getSelectionModel().clearSelection();
+          userSuggestionsList.scrollTo(0);
+        }
+      }
+    });
+    userSuggestionsList.setOnMouseClicked(e -> {
+      String sel = userSuggestionsList.getSelectionModel().getSelectedItem();
+      if (sel != null) {
+        applyUsernameSuggestion(sel);
+      }
+    });
+    usernameField.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.DOWN) {
+        if (userSuggestionsList.isVisible()) {
+          userSuggestionsList.requestFocus();
+          userSuggestionsList.getSelectionModel().selectFirst();
+          e.consume();
+        }
+      } else if (e.getCode() == KeyCode.ENTER) {
+        if (!userSuggestionsList.isVisible()) {
+          filterByUsername();
+        } else {
+          String sel = userSuggestionsList.getSelectionModel().getSelectedItem();
+          if (sel == null && !sortedUsernames.isEmpty()) {
+            sel = sortedUsernames.get(0);
+          }
+          if (sel != null) {
+            applyUsernameSuggestion(sel);
+            e.consume();
+          }
+        }
+      } else if (e.getCode() == KeyCode.ESCAPE) {
+        makeNodeDisappear(userSuggestionsList);
+      }
+    });
+    userSuggestionsList.setOnKeyPressed(e -> {
+      if (e.getCode() == KeyCode.ENTER) {
+        String sel = userSuggestionsList.getSelectionModel().getSelectedItem();
+        if (sel != null) {
+          applyUsernameSuggestion(sel);
+          e.consume();
+        }
+      } else if (e.getCode() == KeyCode.ESCAPE) {
+        makeNodeDisappear(userSuggestionsList);
+        usernameField.requestFocus();
+      }
+    });
     loadBorrows();
     displayBorrowsByUsernameAndStatus(0);
   }
 
+  private void applyUsernameSuggestion(String username) {
+    usernameField.setText(username);
+    makeNodeDisappear(userSuggestionsList);
+    filterByUsername();
+  }
+
   private void loadBorrows() {
-    borrowList = new ArrayList<>();
     for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
       Borrow borrow = new Borrow(e.getAsJsonObject());
       if (user.isAdmin() || borrow.getUsername().equals(user.getUsername())) {
@@ -90,6 +180,11 @@ public final class BorrowsController {
   private void gotoNextPage() {
     ++page;
     displayBorrows(filteredList);
+  }
+
+  private void makeNodeDisappear(Node node) {
+    node.setVisible(false);
+    node.setManaged(false);
   }
 
   private void displayBorrowsByUsernameAndStatus(int status) {
@@ -156,6 +251,8 @@ public final class BorrowsController {
   }
 
   public void filterByUsernameExternal(String username) {
+    usernameField.setText(username);
+    makeNodeDisappear(userSuggestionsList);
     page = 1;
     filteredList.clear();
     for (Borrow borrow : borrowList) {
@@ -164,12 +261,10 @@ public final class BorrowsController {
       }
     }
     displayBorrows(filteredList);
-    usernameField.setText(username);
     if (filteredList.isEmpty()) {
       MainApp.showPopupMessage("No records found for username: " + username, Color.DARKRED);
     } else {
       MainApp.showPopupMessage("Found " + filteredList.size() + " records for username: " + username, Color.DARKGREEN);
     }
   }
-
 }

@@ -6,6 +6,7 @@ module com.application.librarymanagement {
   requires com.google.zxing;
   requires java.desktop;
   requires java.sql;
+  requires jcommander;
 
   opens com.application.librarymanagement to javafx.fxml;
   opens com.application.librarymanagement.scenes to javafx.fxml;

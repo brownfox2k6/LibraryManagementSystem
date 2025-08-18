@@ -14,7 +14,6 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public final class UserManagementController {
-
   @FXML private TableView<User> userTable;
   @FXML private TableColumn<User, String> usernameColumn;
   @FXML private TableColumn<User, String> nameColumn;
@@ -61,12 +60,8 @@ public final class UserManagementController {
         {
           viewBtn.setOnAction(evt -> {
             User rowUser = getTableView().getItems().get(getIndex());
-            if (InAppController.INSTANCE != null) {
-              BorrowsController bc = InAppController.INSTANCE.setSubscene("Borrows", "Borrows");
-              if (bc != null) {
-                bc.filterByUsernameExternal(rowUser.getUsername());
-              }
-            }
+            BorrowsController bc = InAppController.INSTANCE.setSubscene("Borrows", "Borrows");
+              bc.filterByUsernameExternal(rowUser.getUsername());
           });
           viewBtn.setStyle("-fx-background-color: #1e88e5; -fx-text-fill: white; -fx-background-radius: 6;");
         }
@@ -138,9 +133,8 @@ public final class UserManagementController {
 
   @FXML
   private void handleSearchUser() {
-    if (InAppController.CURRENT_USER != null && InAppController.CURRENT_USER.isAdmin()) {
-      filterByUsername(searchField.getText());
-    }
+    assert InAppController.CURRENT_USER.isMember();
+    filterByUsername(searchField.getText());
   }
 
   private void filterByUsername(String keyword) {
@@ -158,6 +152,6 @@ public final class UserManagementController {
   @FXML
   private void handleAddUser() {
     assert InAppController.CURRENT_USER.isMember();
-    InAppController.INSTANCE.setSubscene("AddUser", "Add A New User");
+    InAppController.INSTANCE.setSubscene("AddUser", "Users");
   }
 }
