@@ -6,13 +6,19 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 public final class BookStats {
+  private final Book book;
   private final IntegerProperty rank = new SimpleIntegerProperty();
   private final StringProperty title = new SimpleStringProperty();
   private final IntegerProperty borrowsCount = new SimpleIntegerProperty();
 
-  public BookStats(String title, int borrowsCount) {
-    this.title.set(title);
-    this.borrowsCount.set(borrowsCount);
+  public BookStats(Book book) {
+    this.book = book;
+    this.title.set(book.getTitle());
+    this.borrowsCount.set(book.getBorrowsCount());
+  }
+
+  public Book getBook() {
+    return book;
   }
 
   public int getRank() {

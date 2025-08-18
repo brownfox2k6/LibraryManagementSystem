@@ -3,6 +3,7 @@ package com.application.librarymanagement.inapp;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
+import com.application.librarymanagement.book.BookDetailsController;
 import com.application.librarymanagement.book.BookStats;
 import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.utils.JsonUtils;
@@ -18,6 +19,7 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -76,6 +78,21 @@ public final class DashboardController {
     List<BookStats> stats = Book.toBookStatsList(books);
     ObservableList<BookStats> tableData = FXCollections.observableArrayList(stats);
     mostBorrowsTable.setItems(tableData);
+    Runnable openDetails = () -> {
+      BookStats bs = mostBorrowsTable.getSelectionModel().getSelectedItem();
+      BookDetailsController bdc = InAppController.INSTANCE.setSubscene("BookDetails", "Book details");
+      bdc.setData(bs.getBook());
+    };
+    mostBorrowsTable.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 2) {
+        openDetails.run();
+      }
+    });
+    mostBorrowsTable.setOnKeyPressed(event -> {
+      if (event.getCode() == KeyCode.ENTER) {
+        openDetails.run();
+      }
+    });
   }
 
   private void showBorrowsChart() {

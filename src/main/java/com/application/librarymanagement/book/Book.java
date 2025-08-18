@@ -226,7 +226,7 @@ public final class Book {
   }
 
   public BookStats toBookStats() {
-    return new BookStats(getTitle(), getBorrowsCount());
+    return new BookStats(this);
   }
 
   public static List<BookStats> toBookStatsList(ArrayList<Book> books) {
