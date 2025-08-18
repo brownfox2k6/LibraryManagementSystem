@@ -5,10 +5,7 @@ import com.application.librarymanagement.MainAppController;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ValidateUtils;
 import javafx.fxml.FXML;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -18,53 +15,48 @@ public final class AddUserController {
   @FXML private TextField txtEmail;
   @FXML private PasswordField txtPassword;
   @FXML private PasswordField txtConfirmPassword;
-  @FXML private RadioButton radioAdmin;
-  @FXML private RadioButton radioMember;
-  @FXML private ToggleGroup userTypeGroup;
+  @FXML private ChoiceBox<String> roleChoiceBox;
 
-  @FXML private void handleAddUser() {
+  public void initialize() {
+    roleChoiceBox.setValue("Member");
+  }
+
+  @FXML
+  private void handleAddUser() {
     String name = txtName.getText().trim();
     String username = txtUsername.getText().trim();
     String email = txtEmail.getText().trim();
     String password = txtPassword.getText().trim();
     String confirmPassword = txtConfirmPassword.getText().trim();
-
-    int type = radioAdmin.isSelected() ? User.TYPE_ADMIN : User.TYPE_MEMBER;
-
+    int type = roleChoiceBox.getSelectionModel().getSelectedItem().equals("Admin") ?
+        User.TYPE_ADMIN : User.TYPE_MEMBER;
     if (name.isEmpty() || username.isEmpty() || email.isEmpty()
             || password.isEmpty() || confirmPassword.isEmpty()) {
       MainApp.showPopupMessage("Please fill in all fields!", Color.DARKRED);
       return;
     }
-
     if (!password.equals(confirmPassword)) {
       MainApp.showPopupMessage("Passwords do not match!", Color.DARKRED);
       return;
     }
-
     if (!ValidateUtils.isValidEmail(email)) {
       MainApp.showPopupMessage("Invalid email format!", Color.DARKRED);
       return;
     }
-
     if (!ValidateUtils.isValidUsername(username)) {
       MainApp.showPopupMessage("Invalid username format!", Color.DARKRED);
       return;
     }
-
     if (ValidateUtils.isEmailExists(email)) {
       MainApp.showPopupMessage("This email already exists in the system!", Color.DARKRED);
       return;
     }
-
     if (ValidateUtils.isUsernameExists(username)) {
       MainApp.showPopupMessage("This username already exists in the system!", Color.DARKRED);
       return;
     }
-
     User newUser = new User(name, username, email, password, type);
     newUser.saveToDatabase();
-
     MainApp.showPopupMessage("User added successfully!", Color.DARKGREEN);
     clearForm();
   }
@@ -75,7 +67,6 @@ public final class AddUserController {
     txtEmail.clear();
     txtPassword.clear();
     txtConfirmPassword.clear();
-    userTypeGroup.selectToggle(null);
   }
 
   @FXML
