@@ -29,7 +29,7 @@
                      </font></TextField>
                </children>
             </HBox>
-            <Label fx:id="resultLabel" prefHeight="25.0" prefWidth="550.0" text="Found %d records.">
+            <Label fx:id="resultLabel" prefHeight="25.0" prefWidth="566.0" text="Found %d records.">
                <font>
                   <Font size="16.0" />
                </font>
@@ -37,7 +37,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="addUserBtn" onAction="#handleAddUser" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" text="Add A New User">
+            <Button fx:id="addUserBtn" onAction="#handleAddUser" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" text="Add New User">
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font></Button>
