@@ -1,18 +1,30 @@
 package com.application.librarymanagement.book;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public final class BookDetails {
-  private final SimpleStringProperty key;
-  private final SimpleStringProperty value;
+  private final StringProperty key = new SimpleStringProperty();
+  private final StringProperty value = new SimpleStringProperty();
 
   public BookDetails(String key, String value) {
-    this.key = new SimpleStringProperty(key);
-    this.value = new SimpleStringProperty(value);
+    this.key.set(key);
+    this.value.set(value);
   }
 
-  public String getKey() { return key.get(); }
-  public String getValue() { return value.get(); }
-  public SimpleStringProperty keyProperty() { return key; }
-  public SimpleStringProperty valueProperty() { return value; }
+  public String getKey() {
+    return key.get();
+  }
+
+  public StringProperty keyProperty() {
+    return key;
+  }
+
+  public String getValue() {
+    return value.get();
+  }
+
+  public StringProperty valueProperty() {
+    return value;
+  }
 }

@@ -28,7 +28,7 @@
             <Font name="Segoe UI Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="txtName">
+      <TextField fx:id="name">
          <font>
             <Font name="Segoe UI" size="24.0" />
          </font>
@@ -40,7 +40,7 @@
             <Font name="Segoe UI Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="txtUsername">
+      <TextField fx:id="username">
          <font>
             <Font name="Segoe UI" size="24.0" />
          </font>
@@ -52,7 +52,7 @@
             <Font name="Segoe UI Bold" size="20.0" />
          </font>
       </Text>
-      <TextField fx:id="txtEmail">
+      <TextField fx:id="email">
          <font>
             <Font name="Segoe UI" size="24.0" />
          </font>
@@ -64,7 +64,7 @@
             <Font name="Segoe UI Bold" size="20.0" />
          </font>
       </Text>
-      <PasswordField fx:id="txtPassword">
+      <PasswordField fx:id="password">
          <font>
             <Font name="Segoe UI" size="24.0" />
          </font>
@@ -76,7 +76,7 @@
             <Font name="Segoe UI Bold" size="20.0" />
          </font>
       </Text>
-      <PasswordField fx:id="txtConfirmPassword">
+      <PasswordField fx:id="password2">
          <font>
             <Font name="Segoe UI" size="24.0" />
          </font>
@@ -101,11 +101,11 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="10">
          <children>
-            <Button onAction="#handleAddUser" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Add User">
+            <Button onAction="#save" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" text="Add User">
                <font>
                   <Font size="24.0" />
                </font></Button>
-            <Button onAction="#handleCancel" text="Go Back">
+            <Button onAction="#cancel" text="Go Back">
                <font>
                   <Font size="24.0" />
                </font></Button>

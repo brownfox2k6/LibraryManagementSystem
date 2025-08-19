@@ -1,18 +1,18 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.utils.ValidateUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 
 public final class AddUserController {
-  @FXML private TextField txtName;
-  @FXML private TextField txtUsername;
-  @FXML private TextField txtEmail;
-  @FXML private PasswordField txtPassword;
-  @FXML private PasswordField txtConfirmPassword;
+  @FXML private TextField name;
+  @FXML private TextField username;
+  @FXML private TextField email;
+  @FXML private PasswordField password;
+  @FXML private PasswordField password2;
   @FXML private ChoiceBox<String> roleChoiceBox;
 
   public void initialize() {
@@ -20,20 +20,20 @@ public final class AddUserController {
   }
 
   @FXML
-  private void handleAddUser() {
-    String name = txtName.getText().trim();
-    String username = txtUsername.getText().trim();
-    String email = txtEmail.getText().trim();
-    String password = txtPassword.getText().trim();
-    String confirmPassword = txtConfirmPassword.getText().trim();
+  private void save() {
+    String name = this.name.getText().trim();
+    String username = this.username.getText().trim();
+    String email = this.email.getText().trim();
+    String password = this.password.getText().trim();
+    String password2 = this.password2.getText().trim();
     int type = roleChoiceBox.getSelectionModel().getSelectedItem().equals("Admin") ?
         User.TYPE_ADMIN : User.TYPE_MEMBER;
     if (name.isEmpty() || username.isEmpty() || email.isEmpty()
-            || password.isEmpty() || confirmPassword.isEmpty()) {
+            || password.isEmpty() || password2.isEmpty()) {
       MainApp.showPopupMessage("Please fill in all fields!", Color.DARKRED);
       return;
     }
-    if (!password.equals(confirmPassword)) {
+    if (!password.equals(password2)) {
       MainApp.showPopupMessage("Passwords do not match!", Color.DARKRED);
       return;
     }
@@ -59,16 +59,16 @@ public final class AddUserController {
     clearForm();
   }
 
-  private void clearForm() {
-    txtName.clear();
-    txtUsername.clear();
-    txtEmail.clear();
-    txtPassword.clear();
-    txtConfirmPassword.clear();
+  @FXML
+  private void cancel() {
+    InAppController.INSTANCE.setSubscene("UserManagement", "Users");
   }
 
-  @FXML
-  private void handleCancel() {
-    InAppController.INSTANCE.setSubscene("UserManagement", "Users");
+  private void clearForm() {
+    name.clear();
+    username.clear();
+    email.clear();
+    password.clear();
+    password2.clear();
   }
 }

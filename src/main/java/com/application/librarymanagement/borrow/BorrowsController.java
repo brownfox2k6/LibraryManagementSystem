@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
+import java.util.List;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.user.User;
 import com.google.gson.JsonElement;
 
@@ -38,9 +39,8 @@ public final class BorrowsController {
 
   private static final int PAGE_SIZE = 20;
   private int page;
-  private User user;
-  private final ArrayList<Borrow> borrowList = new ArrayList<>();
-  private final ArrayList<Borrow> filteredList = new ArrayList<>();
+  private final List<Borrow> borrowList = new ArrayList<>();
+  private final List<Borrow> filteredList = new ArrayList<>();
   private FilteredList<String> filteredUsernames;
   private SortedList<String> sortedUsernames;
 
@@ -56,8 +56,7 @@ public final class BorrowsController {
     userSuggestionsList.setItems(sortedUsernames);
     makeNodeDisappear(userSuggestionsList);
     userSuggestionsList.setMaxHeight(200);
-    user = InAppController.CURRENT_USER;
-    if (user.isMember()) {
+    if (InAppController.CURRENT_USER.isMember()) {
       makeNodeDisappear(usernameText);
       makeNodeDisappear(usernameField);
     }
@@ -140,14 +139,15 @@ public final class BorrowsController {
   private void loadBorrows() {
     for (JsonElement e : MainApp.BORROWS) {
       Borrow borrow = new Borrow(e.getAsJsonObject());
-      if (user.isAdmin() || borrow.getUsername().equals(user.getUsername())) {
+      if (InAppController.CURRENT_USER.isAdmin()
+          || borrow.getUsername().equals(InAppController.CURRENT_USER.getUsername())) {
         borrowList.add(borrow);
       }
     }
     borrowList.sort(Comparator.comparing(Borrow::getLatestTimestamp, Comparator.reverseOrder()));
   }
 
-  private void displayBorrows(ArrayList<Borrow> borrowList) {
+  private void displayBorrows(List<Borrow> borrowList) {
     borrows.getChildren().clear();
     int start = PAGE_SIZE * (page - 1);
     int end = Math.min(PAGE_SIZE * page, borrowList.size());

@@ -72,10 +72,6 @@ public final class JsonUtils {
     return object != null && object.has(key) ? object.get(key).getAsInt() : defaultValue;
   }
 
-  public static double getAsDouble(JsonObject object, String key, double defaultValue) {
-    return object != null && object.has(key) ? object.get(key).getAsDouble() : defaultValue;
-  }
-
   public static JsonArray getAsJsonArray(JsonObject object, String key) {
     return object != null && object.has(key) ? object.get(key).getAsJsonArray() : new JsonArray();
   }
@@ -91,10 +87,10 @@ public final class JsonUtils {
     return sb.toString();
   }
 
-  public static void saveToFile(JsonElement obj, Path path) {
+  public static void saveToFile(JsonElement object, Path path) {
     try {
       Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-      Files.writeString(path, gson.toJson(obj));
+      Files.writeString(path, gson.toJson(object));
     } catch (Exception e) {
       throw new RuntimeException(e);
     }

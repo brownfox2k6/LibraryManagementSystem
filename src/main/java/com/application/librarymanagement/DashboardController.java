@@ -1,6 +1,5 @@
-package com.application.librarymanagement.inapp;
+package com.application.librarymanagement;
 
-import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.BookDetailsController;
@@ -32,12 +31,12 @@ import java.util.List;
 public final class DashboardController {
   @FXML private HBox recommendations;
   @FXML private TableView<BookStats> mostBorrowsTable;
-  @FXML private TableColumn<BookStats, Number> rankColumn;
-  @FXML private TableColumn<BookStats, String> titleColumn;
-  @FXML private TableColumn<BookStats, Number> borrowsCountColumn;
+  @FXML private TableColumn<BookStats, Number> rankCol;
+  @FXML private TableColumn<BookStats, String> titleCol;
+  @FXML private TableColumn<BookStats, Number> countCol;
   @FXML private BarChart<String, Number> borrowsChart;
 
-  private ArrayList<Book> books;
+  private List<Book> books;
 
   public void initialize() {
     loadBooks();
@@ -71,9 +70,9 @@ public final class DashboardController {
   }
 
   private void showMostBorrowsTable() {
-    rankColumn.setCellValueFactory(c -> c.getValue().rankProperty());
-    titleColumn.setCellValueFactory(c -> c.getValue().titleProperty());
-    borrowsCountColumn.setCellValueFactory(c -> c.getValue().borrowsCountProperty());
+    rankCol.setCellValueFactory(c -> c.getValue().rankProperty());
+    titleCol.setCellValueFactory(c -> c.getValue().titleProperty());
+    countCol.setCellValueFactory(c -> c.getValue().borrowsCountProperty());
     List<BookStats> stats = Book.toBookStatsList(books);
     ObservableList<BookStats> tableData = FXCollections.observableArrayList(stats);
     mostBorrowsTable.setItems(tableData);

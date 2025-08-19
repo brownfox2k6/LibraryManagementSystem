@@ -23,7 +23,7 @@
                      <HBox.margin>
                         <Insets left="10.0" />
                      </HBox.margin></Label>
-                  <TextField fx:id="searchField" onAction="#handleSearchUser" promptText="Username">
+                  <TextField fx:id="searchField" onAction="#searchUser" promptText="Username">
                      <font>
                         <Font name="Segoe UI" size="16.0" />
                      </font></TextField>
@@ -37,7 +37,7 @@
                   <Insets left="20.0" />
                </HBox.margin>
             </Label>
-            <Button fx:id="addUserBtn" onAction="#handleAddUser" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" text="Add New User">
+            <Button fx:id="addUserButton" onAction="#gotoAddUser" style="-fx-background-color: #28a745; -fx-text-fill: white; -fx-font-weight: bold;" text="Add New User">
                <font>
                   <Font name="Segoe UI" size="16.0" />
                </font></Button>
@@ -45,12 +45,12 @@
       </HBox>
       <TableView fx:id="userTable" VBox.vgrow="ALWAYS">
          <columns>
-            <TableColumn fx:id="usernameColumn" prefWidth="150.0" text="Username" />
-            <TableColumn fx:id="nameColumn" prefWidth="150.0" text="Name" />
-            <TableColumn fx:id="emailColumn" prefWidth="220.0" text="Email" />
-            <TableColumn fx:id="roleColumn" prefWidth="150.0" text="Role" />
-            <TableColumn fx:id="borrowedColumn" prefWidth="150.0" text="Books Borrowed" />
-            <TableColumn fx:id="borrowsActionColumn" prefWidth="150.0" text="Borrows" />
+            <TableColumn fx:id="usernameCol" prefWidth="150.0" text="Username" />
+            <TableColumn fx:id="nameCol" prefWidth="150.0" text="Name" />
+            <TableColumn fx:id="emailCol" prefWidth="220.0" text="Email" />
+            <TableColumn fx:id="roleCol" prefWidth="150.0" text="Role" />
+            <TableColumn fx:id="borrowedCol" prefWidth="150.0" text="Books Borrowed" />
+            <TableColumn fx:id="borrowsActionCol" prefWidth="150.0" text="Borrows" />
          </columns>
       </TableView>
    </children>

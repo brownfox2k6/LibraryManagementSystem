@@ -2,8 +2,7 @@ package com.application.librarymanagement.borrow;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
-import com.application.librarymanagement.book.Thumbnail;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,15 +13,15 @@ import javafx.scene.paint.Color;
 
 public final class BorrowCaseController {
   @FXML private ImageView thumbnail;
-  @FXML private Label titleLabel;
-  @FXML private Label borrowIdLabel;
-  @FXML private Label bookIdLabel;
-  @FXML private Label usernameLabel;
-  @FXML private Label statusLabel;
-  @FXML private Label requestedTimeLabel;
-  @FXML private Label borrowedTimeLabel;
-  @FXML private Label returnedTimeLabel;
-  @FXML private Label canceledTimeLabel;
+  @FXML private Label title;
+  @FXML private Label borrowId;
+  @FXML private Label bookId;
+  @FXML private Label username;
+  @FXML private Label status;
+  @FXML private Label requestedTime;
+  @FXML private Label borrowedTime;
+  @FXML private Label returnedTime;
+  @FXML private Label canceledTime;
   @FXML private Button markBorrowedButton;
   @FXML private Button markReturnedButton;
   @FXML private Button cancelBorrowButton;
@@ -30,20 +29,20 @@ public final class BorrowCaseController {
   private Borrow borrow;
   private Book book;
 
-  public void setData(Borrow b) {
-    borrow = b;
+  public void setData(Borrow borrow) {
+    this.borrow = borrow;
     book = Book.findById(borrow.getBookId());
     assert book != null;
     setThumbnail();
-    titleLabel.setText(book.getTitle());
-    borrowIdLabel.setText(borrow.getBorrowId() + "");
-    bookIdLabel.setText(book.getId());
-    usernameLabel.setText(borrow.getUsername());
-    statusLabel.setText(borrow.getStatusText());
-    requestedTimeLabel.setText(borrow.getRequestedTime());
-    borrowedTimeLabel.setText(borrow.getBorrowedTime());
-    returnedTimeLabel.setText(borrow.getReturnedTime());
-    canceledTimeLabel.setText(borrow.getCanceledTime());
+    title.setText(book.getTitle());
+    borrowId.setText(borrow.getBorrowId() + "");
+    bookId.setText(book.getId());
+    username.setText(borrow.getUsername());
+    status.setText(borrow.getStatusText());
+    requestedTime.setText(borrow.getRequestedTime());
+    borrowedTime.setText(borrow.getBorrowedTime());
+    returnedTime.setText(borrow.getReturnedTime());
+    canceledTime.setText(borrow.getCanceledTime());
     initializeButtons();
   }
 
@@ -66,7 +65,7 @@ public final class BorrowCaseController {
   }
 
   private void setThumbnail() {
-    thumbnail.setImage(Thumbnail.getThumbnail(book));
+    thumbnail.setImage(book.getThumbnail());
   }
 
   private void makeNodeDisappear(Node node) {
@@ -80,10 +79,10 @@ public final class BorrowCaseController {
   }
 
   @FXML
-  private void cancelBorrow() {
+  private void markCanceled() {
     borrow.setCanceled();
-    canceledTimeLabel.setText(borrow.getCanceledTime());
-    statusLabel.setText("CANCELED");
+    canceledTime.setText(borrow.getCanceledTime());
+    status.setText("CANCELED");
     MainApp.showPopupMessage("Marked as CANCELED", Color.DARKGREEN);
     makeNodeDisappear(markBorrowedButton);
     makeNodeDisappear(markReturnedButton);
@@ -91,10 +90,10 @@ public final class BorrowCaseController {
   }
 
   @FXML
-  public void markBorrowed() {
+  private void markBorrowed() {
     borrow.setBorrowed();
-    borrowedTimeLabel.setText(borrow.getBorrowedTime());
-    statusLabel.setText("BORROWED");
+    borrowedTime.setText(borrow.getBorrowedTime());
+    status.setText("BORROWED");
     MainApp.showPopupMessage("Marked as BORROWED", Color.DARKGREEN);
     makeNodeDisappear(markBorrowedButton);
     makeNodeDisappear(cancelBorrowButton);
@@ -102,11 +101,11 @@ public final class BorrowCaseController {
   }
 
   @FXML
-  public void markReturned() {
+  private void markReturned() {
     borrow.setReturned();
-    statusLabel.setText("RETURNED");
+    status.setText("RETURNED");
     MainApp.showPopupMessage("Marked as RETURNED", Color.DARKGREEN);
-    returnedTimeLabel.setText(borrow.getReturnedTime());
+    returnedTime.setText(borrow.getReturnedTime());
     makeNodeDisappear(markReturnedButton);
     makeNodeDisappear(cancelBorrowButton);
   }

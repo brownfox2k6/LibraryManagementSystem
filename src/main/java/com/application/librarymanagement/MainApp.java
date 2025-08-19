@@ -19,7 +19,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -46,7 +45,7 @@ public class MainApp extends Application {
    */
   @Override
   public void start(Stage primaryStage) {
-    InitializeDatabase.initialize();
+    new InitializeDatabase();
     stage = primaryStage;
     stage.setTitle("Library Management System");
     stage.setResizable(false);

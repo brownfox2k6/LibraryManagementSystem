@@ -10,19 +10,19 @@ import com.application.librarymanagement.MainApp;
 import javafx.scene.paint.Color;
 
 public final class InitializeDatabase {
-  private static final String books = """
+  private static final String CONTENT_BOOKS = """
       []
       """.stripIndent();
-  private static final String borrows = """
+  private static final String CONTENT_BORROWS = """
       []
       """.stripIndent();
-  private static final String config = """
+  private static final String CONTENT_CONFIG = """
       {
         "theme": "cupertino-light",
         "currentSession": ""
       }
       """.stripIndent();
-  private static final String users = """
+  private static final String CONTENT_USERS = """
       [
         {
           "name": "admin",
@@ -33,15 +33,15 @@ public final class InitializeDatabase {
       ]
       """.stripIndent();
 
-  public static void initialize() {
+  public InitializeDatabase() {
     createJsonFolder();
-    createFile(MainApp.BOOKS_DB_PATH, books);
-    createFile(MainApp.BORROWS_DB_PATH, borrows);
-    createFile(MainApp.CONFIG_PATH, config);
-    createFile(MainApp.USERS_DB_PATH, users);
+    createFile(MainApp.BOOKS_DB_PATH, CONTENT_BOOKS);
+    createFile(MainApp.BORROWS_DB_PATH, CONTENT_BORROWS);
+    createFile(MainApp.CONFIG_PATH, CONTENT_CONFIG);
+    createFile(MainApp.USERS_DB_PATH, CONTENT_USERS);
   }
 
-  private static void createJsonFolder() {
+  private void createJsonFolder() {
     File dir = new File("json");
     if (!dir.exists()) {
       if (!dir.mkdir()) {
@@ -50,7 +50,7 @@ public final class InitializeDatabase {
     }
   }
 
-  private static void createFile(Path path, String content) {
+  private void createFile(Path path, String content) {
     File file = new File(path.toUri());
     if (!file.exists()) {
       try {
@@ -67,8 +67,8 @@ public final class InitializeDatabase {
     }
   }
 
-  private static void showErrorMessage(String msg) {
+  private void showErrorMessage(String message) {
     MainApp.showPopupMessage("An error occurred when initializing the database"
-        + (msg.isEmpty() ? "." : ": " + msg), Color.DARKRED);
+        + (message.isEmpty() ? "." : ": " + message), Color.DARKRED);
   }
 }

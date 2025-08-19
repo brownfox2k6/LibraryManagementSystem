@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.control.ComboBox?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.inapp.InAppController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="690.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.InAppController">
    <children>
       <ImageView fx:id="backgroundImage" fitHeight="720.0" fitWidth="150.0" />
       <VBox prefHeight="690.0" prefWidth="150.0" spacing="30.0">
@@ -93,7 +93,7 @@
             </Label>
             <Button maxHeight="44.0" maxWidth="95.0" minHeight="44.0" minWidth="95.0" mnemonicParsing="false" onAction="#gotoChangePassword" prefHeight="44.0" prefWidth="95.0" text="Account Settings" wrapText="true">
                <graphic>
-                  <ImageView fx:id="changePasswordIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+                  <ImageView fx:id="accountSettingsIcon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
                </graphic>
                <HBox.margin>
                   <Insets right="10.0" />

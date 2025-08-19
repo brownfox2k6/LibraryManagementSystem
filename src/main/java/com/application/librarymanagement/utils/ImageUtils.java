@@ -1,33 +1,21 @@
 package com.application.librarymanagement.utils;
 
 import com.application.librarymanagement.MainAppController;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.BlendMode;
-import javafx.scene.effect.ColorInput;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelWriter;
+import javafx.scene.image.WritableImage;
 import javafx.scene.paint.Color;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class ImageUtils {
-
-  /**
-   * Utility for loading JavaFX images from the application’s classpath.
-   * <p>
-   * Given a simple image name (e.g. {@code "icon.png"}), this method will look
-   * under the {@code images/} directory on the classpath and return a corresponding
-   * {@link javafx.scene.image.Image} instance.
-   * <p>
-   * Example usage:
-   * <pre>{@code
-   * Image logo = ImageUtils.getImage("logo.png");
-   * }</pre>
-   *
-   * @param name the filename of the image resource located in {@code images/} (e.g. {@code "logo.png"})
-   * @return a JavaFX {@code Image} loaded from {@code images/<name>} on the classpath
-   * @throws AssertionError if the resource cannot be found at {@code images/<name>}
-   */
   public static Image getImage(String name) {
     String path = String.format("images/%s", name);
     URL url = MainAppController.class.getResource(path);
@@ -35,11 +23,22 @@ public final class ImageUtils {
     return new Image(url.toExternalForm());
   }
 
-  public static void invertColor(ImageView imageView) {
-    double w = imageView.getBoundsInLocal().getWidth();
-    double h = imageView.getBoundsInLocal().getHeight();
-    ColorInput whiteOverlay = new ColorInput(0, 0, w, h, Color.WHITE);
-    Blend invert = new Blend(BlendMode.DIFFERENCE, whiteOverlay, null);
-    imageView.setEffect(invert);
+  public static ImageView createQrCode(String text, int size) {
+    try {
+      QRCodeWriter writer = new QRCodeWriter();
+      Map<EncodeHintType, Object> hints = new HashMap<>();
+      hints.put(EncodeHintType.MARGIN, 1);
+      BitMatrix matrix = writer.encode(text, BarcodeFormat.QR_CODE, size, size, hints);
+      WritableImage img = new WritableImage(size, size);
+      PixelWriter pw = img.getPixelWriter();
+      for (int x = 0; x < size; x++) {
+        for (int y = 0; y < size; y++) {
+          pw.setColor(x, y, matrix.get(x, y) ? Color.BLACK : Color.WHITE);
+        }
+      }
+      return new ImageView(img);
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
   }
 }

@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="dashboardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.inapp.DashboardController">
+<AnchorPane fx:id="dashboardPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="1130.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.application.librarymanagement.DashboardController">
    <children>
       <VBox layoutX="768.0" layoutY="3.0" prefHeight="618.0" prefWidth="348.0">
          <children>
@@ -27,9 +27,9 @@
             </Text>
             <TableView fx:id="mostBorrowsTable" prefHeight="584.0" prefWidth="348.0">
                <columns>
-                  <TableColumn fx:id="rankColumn" prefWidth="34.0" text="#" />
-                  <TableColumn fx:id="titleColumn" prefWidth="237.0" text="Book name" />
-                  <TableColumn fx:id="borrowsCountColumn" prefWidth="75.0" text="Borrows" />
+                  <TableColumn fx:id="rankCol" prefWidth="34.0" text="#" />
+                  <TableColumn fx:id="titleCol" prefWidth="237.0" text="Book name" />
+                  <TableColumn fx:id="countCol" prefWidth="75.0" text="Borrows" />
                </columns>
             </TableView>
          </children>

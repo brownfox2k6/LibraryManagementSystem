@@ -1,7 +1,7 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.application.librarymanagement.utils.ValidateUtils;
@@ -12,27 +12,24 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
 public final class ChangePasswordController {
-  @FXML private TextField nameField;
-  @FXML private TextField emailField;
-  @FXML private PasswordField oldPasswordField;
-  @FXML private PasswordField newPasswordField;
-  @FXML private PasswordField confirmPasswordField;
-
-  private User currentUser;
+  @FXML private TextField name;
+  @FXML private TextField email;
+  @FXML private PasswordField oldPassword;
+  @FXML private PasswordField newPassword;
+  @FXML private PasswordField newPassword2;
 
   public void initialize() {
-    currentUser = InAppController.CURRENT_USER;
-    nameField.setText(currentUser.getName());
-    emailField.setText(currentUser.getEmail());
+    name.setText(InAppController.CURRENT_USER.getName());
+    email.setText(InAppController.CURRENT_USER.getEmail());
   }
 
   @FXML
-  private void handleSave() {
-    String fullName = nameField.getText();
-    String email = emailField.getText();
-    String oldPass = oldPasswordField.getText();
-    String newPass = newPasswordField.getText();
-    String confirmPass = confirmPasswordField.getText();
+  private void save() {
+    String fullName = name.getText();
+    String email = this.email.getText();
+    String oldPass = oldPassword.getText();
+    String newPass = newPassword.getText();
+    String confirmPass = newPassword2.getText();
     if (fullName.isEmpty()) {
       MainApp.showPopupMessage("Full Name field is empty.", Color.DARKRED);
     }
@@ -43,7 +40,7 @@ public final class ChangePasswordController {
       MainApp.showPopupMessage("Invalid email.", Color.DARKRED);
       return;
     }
-    if (!currentUser.getEmail().equals(email) && ValidateUtils.isEmailExists(email)) {
+    if (!InAppController.CURRENT_USER.getEmail().equals(email) && ValidateUtils.isEmailExists(email)) {
       MainApp.showPopupMessage("This email has been used by another user.", Color.DARKRED);
       return;
     }
@@ -57,16 +54,16 @@ public final class ChangePasswordController {
         MainApp.showPopupMessage("New passwords do not match.", Color.DARKRED);
         return;
       }
-      if (!currentUser.getHashedPassword().equals(PasswordUtils.hashPassword(oldPass))) {
+      if (!InAppController.CURRENT_USER.getHashedPassword().equals(PasswordUtils.hashPassword(oldPass))) {
         MainApp.showPopupMessage("Incorrect old password.", Color.DARKRED);
         return;
       }
-      currentUser.setPassword(newPass);
+      InAppController.CURRENT_USER.setPassword(newPass);
       passwordChanged = true;
     }
-    currentUser.setName(fullName);
-    currentUser.setEmail(email);
-    currentUser.saveToDatabase();
+    InAppController.CURRENT_USER.setName(fullName);
+    InAppController.CURRENT_USER.setEmail(email);
+    InAppController.CURRENT_USER.saveToDatabase();
     if (passwordChanged) {
       JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH, "currentSession", "");
       MainApp.setScene("SignIn");
@@ -79,7 +76,7 @@ public final class ChangePasswordController {
   }
 
   @FXML
-  private void handleCancel() {
+  private void cancel() {
     MainApp.setScene("InApp");
     MainApp.showPopupMessage("Canceled changing password.", Color.DARKBLUE);
   }

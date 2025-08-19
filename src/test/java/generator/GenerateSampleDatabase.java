@@ -2,11 +2,11 @@ package generator;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
-import com.application.librarymanagement.book.Search;
+import com.application.librarymanagement.book.BookSearch;
 import com.application.librarymanagement.borrow.Borrow;
-import com.application.librarymanagement.borrow.Timestamp;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
+import com.application.librarymanagement.utils.Timestamp;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -44,7 +44,7 @@ public final class GenerateSampleDatabase {
     try (InputStream in = GenerateSampleDatabase.class.getResourceAsStream("/isbn-dataset.txt")) {
       assert in != null;
       try (Scanner sc = new Scanner(in)) {
-        Search search = new Search();
+        BookSearch search = new BookSearch();
         int count = 0;
         JsonArray books = new JsonArray();
         while (sc.hasNextLine()) {

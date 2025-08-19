@@ -19,7 +19,7 @@
       </ImageView>
       <VBox prefHeight="220.0" prefWidth="986.0" spacing="5.0">
          <children>
-            <Label fx:id="titleLabel" text="titleLabel" wrapText="true">
+            <Label fx:id="title" text="titleLabel" wrapText="true">
                <font>
                   <Font name="Segoe UI Bold" size="24.0" />
                </font>
@@ -38,7 +38,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="borrowIdLabel" text="borrowIdLabel">
+                              <Label fx:id="borrowId" text="borrowIdLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -52,7 +52,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="bookIdLabel" text="bookIdLabel">
+                              <Label fx:id="bookId" text="bookIdLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -66,7 +66,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="usernameLabel" text="usernameLabel">
+                              <Label fx:id="username" text="usernameLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -80,7 +80,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="statusLabel" text="statusLabel">
+                              <Label fx:id="status" text="statusLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -98,7 +98,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="requestedTimeLabel" text="requestedTimeLabel">
+                              <Label fx:id="requestedTime" text="requestedTimeLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -112,7 +112,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="borrowedTimeLabel" text="borrowedTimeLabel">
+                              <Label fx:id="borrowedTime" text="borrowedTimeLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -126,7 +126,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="returnedTimeLabel" text="returnedTimeLabel">
+                              <Label fx:id="returnedTime" text="returnedTimeLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -140,7 +140,7 @@
                                     <Font name="Segoe UI Bold" size="18.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="canceledTimeLabel" text="canceledTimeLabel">
+                              <Label fx:id="canceledTime" text="canceledTimeLabel">
                                  <font>
                                     <Font name="Segoe UI" size="18.0" />
                                  </font>
@@ -161,7 +161,7 @@
                               <Font size="18.0" />
                            </font>
                         </Button>
-                        <Button fx:id="cancelBorrowButton" mnemonicParsing="false" onAction="#cancelBorrow" prefHeight="39.0" prefWidth="170.0" text="Cancel borrow">
+                        <Button fx:id="cancelBorrowButton" mnemonicParsing="false" onAction="#markCanceled" prefHeight="39.0" prefWidth="170.0" text="Cancel borrow">
                            <font>
                               <Font size="18.0" />
                            </font>

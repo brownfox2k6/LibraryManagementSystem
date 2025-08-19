@@ -42,8 +42,8 @@ public class MainAppController extends MainApp {
     JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH,"theme", themeComboBox.getValue());
     setBackgroundImage();
     loadIcons();
-    applyStylesheet(themeComboBox.getValue());
+    MainApp.applyStylesheet(themeComboBox.getValue());
   }
 
-  protected void loadIcons() {}
+  public void loadIcons() {}
 }

@@ -1,7 +1,6 @@
-package com.application.librarymanagement.user;
+package com.application.librarymanagement;
 
-import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.MainAppController;
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.google.gson.JsonElement;
@@ -18,18 +17,18 @@ import javafx.scene.paint.Color;
  * user feedback via the error label, and scene transitions between sign-in and sign-up views.
  */
 public final class SignInController extends MainAppController {
-  @FXML private TextField usernameField;
-  @FXML private PasswordField passwordField;
+  @FXML private TextField username;
+  @FXML private PasswordField password;
 
   @FXML
-  private void switchToSignUp() {
+  private void gotoSignUp() {
     MainApp.setScene("SignUp");
   }
 
   @FXML
   private void trySignIn() {
-    String username = usernameField.getText();
-    String password = passwordField.getText();
+    String username = this.username.getText();
+    String password = this.password.getText();
     if (username.isEmpty() && password.isEmpty()) {
       MainApp.showPopupMessage("Both username and password are required.", Color.DARKRED);
       return;

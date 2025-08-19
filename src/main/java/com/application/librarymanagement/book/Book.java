@@ -1,12 +1,15 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
+import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.*;
+import javafx.scene.image.Image;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Holds all properties of a book.
@@ -14,14 +17,9 @@ import java.util.List;
  * is an example of what Google Books API returns when querying for a specific book.
  */
 public final class Book {
+  private static final Map<String, Image> thumbnails = new HashMap<>();
+  private static final Image DEFAULT_THUMBNAIL = ImageUtils.getImage("DefaultBookCover.jpg");
   private JsonObject data;
-
-  public static Book fromGoogleBooksApi(String id) throws IOException {
-    String urlString = "https://www.googleapis.com/books/v1/volumes/" + id;
-    Book book = new Book();
-    book.setData(JsonUtils.fetchJson(urlString));
-    return book;
-  }
 
   public static Book fromJsonObject(JsonObject obj) {
     Book book = new Book();
@@ -67,16 +65,16 @@ public final class Book {
     data.addProperty("quantity", quantity);
   }
 
+  public void adjustQuantity(int delta) {
+    data.addProperty("quantity", getQuantity() + delta);
+  }
+
   public int getBorrowsCount() {
     return JsonUtils.getAsInt(data, "borrowsCount", 0);
   }
 
   public void adjustBorrowsCount(int delta) {
     data.addProperty("borrowsCount", getBorrowsCount() + delta);
-  }
-
-  public void adjustQuantity(int delta) {
-    data.addProperty("quantity", getQuantity() + delta);
   }
 
   public String getId() {
@@ -87,12 +85,8 @@ public final class Book {
     return JsonUtils.getAsString(getVolumeInfo(), "title", "");
   }
 
-  public JsonArray getAuthorsArray() {
-    return JsonUtils.getAsJsonArray(getVolumeInfo(), "authors");
-  }
-
-  public String getAuthorsString() {
-    return JsonUtils.jsonArrayToString(getAuthorsArray());
+  public String getAuthors() {
+    return JsonUtils.jsonArrayToString(JsonUtils.getAsJsonArray(getVolumeInfo(), "authors"));
   }
 
   public String getPublisher() {
@@ -107,7 +101,7 @@ public final class Book {
     return JsonUtils.getAsString(getVolumeInfo(), "description", "").replaceAll("<[^>]*>", " ");
   }
 
-  public JsonArray getIndustryIdentifiers() {
+  private JsonArray getIndustryIdentifiers() {
     return JsonUtils.getAsJsonArray(getVolumeInfo(), "industryIdentifiers");
   }
 
@@ -137,12 +131,8 @@ public final class Book {
     return JsonUtils.getAsString(getVolumeInfo(), "pageCount", "");
   }
 
-  public JsonArray getCategoriesAsArray() {
-    return JsonUtils.getAsJsonArray(getVolumeInfo(), "categories");
-  }
-
-  public String getCategoriesAsString() {
-    return JsonUtils.jsonArrayToString(getCategoriesAsArray());
+  public String getCategories() {
+    return JsonUtils.jsonArrayToString(JsonUtils.getAsJsonArray(getVolumeInfo(), "categories"));
   }
 
   public String getMaturityRating() {
@@ -157,13 +147,22 @@ public final class Book {
     return JsonUtils.getAsString(getVolumeInfo(), "ratingsCount", "");
   }
 
-  public String getThumbnailLink() {
+  public Image getThumbnail() {
     JsonObject o = getVolumeInfo();
     if (o == null) {
-      return "";
+      return DEFAULT_THUMBNAIL;
     }
     JsonObject imageLinks = o.getAsJsonObject("imageLinks");
-    return JsonUtils.getAsString(imageLinks, "thumbnail", "");
+    String thumbnailLink = JsonUtils.getAsString(imageLinks, "thumbnail", "");
+    if (thumbnailLink.isEmpty()) {
+      return DEFAULT_THUMBNAIL;
+    }
+    if (thumbnails.containsKey(getId())) {
+      return thumbnails.get(getId());
+    }
+    Image image = new Image(thumbnailLink, 0, 0, true, true, true);
+    thumbnails.put(getId(), image);
+    return image;
   }
 
   public String getLanguage() {
@@ -237,7 +236,7 @@ public final class Book {
     return new BookStats(this);
   }
 
-  public static List<BookStats> toBookStatsList(ArrayList<Book> books) {
+  public static List<BookStats> toBookStatsList(List<Book> books) {
     List<BookStats> stats = new ArrayList<>();
     for (Book book : books) {
       stats.add(book.toBookStats());

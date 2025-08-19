@@ -4,10 +4,8 @@ import java.util.function.UnaryOperator;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.borrow.Borrow;
-import com.application.librarymanagement.inapp.InAppController;
-import com.application.librarymanagement.user.User;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.utils.ImageUtils;
-import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
 
 import javafx.application.Platform;
@@ -29,7 +27,6 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextFormatter.Change;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -61,7 +58,6 @@ public final class BookDetailsController {
   @FXML private Spinner<Integer> changeQuantitySpinner;
 
   private Book book;
-  private User user;
 
   @FXML
   public void initialize() {
@@ -82,7 +78,6 @@ public final class BookDetailsController {
     setAutoExpandHeight();
     wrapTextInColumn(keyCol);
     wrapTextInColumn(valueCol);
-    user = InAppController.CURRENT_USER;
   }
 
   public void setData(Book book) {
@@ -92,25 +87,20 @@ public final class BookDetailsController {
   }
 
   private void setCase() {
-    String thumbnailLink = book.getThumbnailLink();
-    if (thumbnailLink.isEmpty()) {
-      thumbnail.setImage(ImageUtils.getImage("DefaultBookCover.jpg"));
-    } else {
-      thumbnail.setImage(new Image(thumbnailLink, 0, 0, true, true, true));
-    }
+    thumbnail.setImage(book.getThumbnail());
     title.setText(book.getTitle());
-    authors.setText(book.getAuthorsString() + " · " + book.getPublishedDate());
+    authors.setText(book.getAuthors() + " · " + book.getPublishedDate());
     publisher.setText(book.getPublisher());
     description.setText(book.getDescription());
     quantity.setText(getQuantity() + "");
-    if (user.isAdmin() || getQuantity() == 0) {
+    if (InAppController.CURRENT_USER.isAdmin() || getQuantity() == 0) {
       makeNodeDisappear(borrowButton);
     }
     if (book.getInfoLink().isEmpty()) {
       makeNodeDisappear(copyLinkToClipboardButton);
       makeNodeDisappear(showQrCodeButton);
     }
-    if (user.isMember()) {
+    if (InAppController.CURRENT_USER.isMember()) {
       makeNodeDisappear(changeQuantityText);
       makeNodeDisappear(changeQuantitySpinner);
       makeNodeDisappear(changeQuantityButton);
@@ -137,13 +127,13 @@ public final class BookDetailsController {
 
   private void setTableData() {
     tryAddRowToTable("ID", book.getId());
-    tryAddRowToTable("Authors", book.getAuthorsString());
+    tryAddRowToTable("Authors", book.getAuthors());
     tryAddRowToTable("Description", book.getDescription());
     tryAddRowToTable("Publisher", book.getPublisher());
     tryAddRowToTable("Published on", book.getPublishedDate());
     tryAddRowToTable("Pages", book.getPageCount());
     tryAddRowToTable("Language", book.getLanguage());
-    tryAddRowToTable("Categories", book.getCategoriesAsString());
+    tryAddRowToTable("Categories", book.getCategories());
     tryAddRowToTable("ISBN 10", book.getIsbn10());
     tryAddRowToTable("ISBN 13", book.getIsbn13());
     tryAddRowToTable("Other industry identifier(s)", book.getOtherIndustryIdentifiers());
@@ -154,7 +144,7 @@ public final class BookDetailsController {
 
   @FXML
   private void openQrCodeWindow() {
-    ImageView imageView = QrCodeUtils.createQrCode(book.getInfoLink(), 300);
+    ImageView imageView = ImageUtils.createQrCode(book.getInfoLink(), 300);
     imageView.setFitHeight(300);
     imageView.setFitWidth(300);
     imageView.setPreserveRatio(true);
@@ -194,8 +184,8 @@ public final class BookDetailsController {
   @FXML
   private void borrow() {
     MainApp.showPopupMessage("Ok! Please come to our library within one week to collect the book.", Color.DARKGREEN);
-    int id = Borrow.addNewBorrow(user.getUsername(), book.getId());
-    user.addBorrowId(id);
+    int id = Borrow.addNewBorrow(InAppController.CURRENT_USER.getUsername(), book.getId());
+    InAppController.CURRENT_USER.addBorrowId(id);
     makeNodeDisappear(borrowButton);
   }
 
@@ -204,7 +194,7 @@ public final class BookDetailsController {
     node.setManaged(false);
   }
 
-  private void wrapTextInColumn(TableColumn<BookDetails,String> column) {
+  private void wrapTextInColumn(TableColumn<BookDetails, String> column) {
     column.setCellFactory(col -> new TableCell<BookDetails,String>() {
       private final Label label = new Label();
       {
@@ -231,16 +221,6 @@ public final class BookDetailsController {
     });
   }
 
-  private int getQuantity() {
-    for (JsonElement e : MainApp.BOOKS) {
-      Book b = Book.fromJsonObject(e.getAsJsonObject());
-      if (b.getId().equals(book.getId())) {
-        return b.getQuantity();
-      }
-    }
-    return 0;
-  }
-
   private void setAutoExpandHeight() {
     detailsTable.getItems().addListener((ListChangeListener<BookDetails>) c -> {
       Platform.runLater(() -> {
@@ -253,5 +233,15 @@ public final class BookDetailsController {
       detailsTable.setPrefHeight(newHeight);
     });
     VBox.setVgrow(detailsTable, Priority.ALWAYS);
+  }
+
+  private int getQuantity() {
+    for (JsonElement e : MainApp.BOOKS) {
+      Book b = Book.fromJsonObject(e.getAsJsonObject());
+      if (b.getId().equals(book.getId())) {
+        return b.getQuantity();
+      }
+    }
+    return 0;
   }
 }

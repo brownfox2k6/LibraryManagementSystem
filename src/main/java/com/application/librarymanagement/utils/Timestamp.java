@@ -1,4 +1,4 @@
-package com.application.librarymanagement.borrow;
+package com.application.librarymanagement.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -44,9 +44,9 @@ public final class Timestamp {
   }
 
   // Getters
+  public int getYear() { return year; }
+  public int getMonth() { return month; }
+  public int getDate() { return date; }
   public int getHour() { return hour; }
   public int getMinute() { return minute; }
-  public int getDate() { return date; }
-  public int getMonth() { return month; }
-  public int getYear() { return year; }
 }

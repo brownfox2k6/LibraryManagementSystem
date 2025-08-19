@@ -1,7 +1,6 @@
-package com.application.librarymanagement.user;
+package com.application.librarymanagement;
 
-import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.MainAppController;
+import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ValidateUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
@@ -15,18 +14,18 @@ import javafx.scene.paint.Color;
  * and handles scene transitions between sign-up and sign-in screens.
  */
 public final class SignUpController extends MainAppController {
-  @FXML private TextField nameField;
-  @FXML private TextField usernameField;
-  @FXML private TextField emailField;
-  @FXML private PasswordField passwordField;
-  @FXML private PasswordField passwordField2;
+  @FXML private TextField name;
+  @FXML private TextField username;
+  @FXML private TextField email;
+  @FXML private PasswordField password;
+  @FXML private PasswordField password2;
 
   /**
    * Switches from the sign-in scene to the sign-up scene.
    * This method is triggered by a UI event (e.g., clicking a "Sign In" link or button).
    */
   @FXML
-  private void switchToSignIn() {
+  private void gotoSignIn() {
     MainApp.setScene("SignIn");
   }
 
@@ -46,11 +45,11 @@ public final class SignUpController extends MainAppController {
    */
   @FXML
   private void trySignUp() {
-    String name = nameField.getText();
-    String username = usernameField.getText();
-    String email = emailField.getText();
-    String password = passwordField.getText();
-    String password2 = passwordField2.getText();
+    String name = this.name.getText();
+    String username = this.username.getText();
+    String email = this.email.getText();
+    String password = this.password.getText();
+    String password2 = this.password2.getText();
     if (!ValidateUtils.isValidUsername(username)) {
       MainApp.showPopupMessage("Invalid username. Allowed characters: letters (a–z, A-Z), "
           + "numbers (0–9), underscore (_), period (.), dash (-). Length: 3–20 characters", Color.DARKRED);
@@ -66,7 +65,7 @@ public final class SignUpController extends MainAppController {
       User member = new User(name, username, email, password, User.TYPE_MEMBER);
       member.saveToDatabase();
       MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
-      switchToSignIn();
+      gotoSignIn();
     }
   }
 }

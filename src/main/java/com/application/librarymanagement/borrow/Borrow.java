@@ -3,6 +3,7 @@ package com.application.librarymanagement.borrow;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.utils.JsonUtils;
+import com.application.librarymanagement.utils.Timestamp;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -32,27 +33,6 @@ public final class Borrow {
     changeQuantity(-1, 1);
   }
 
-  public static int addNewBorrow(String username, String bookId) {
-    JsonArray borrows = MainApp.BORROWS;
-    int borrowId = borrows.size() + 1;
-    Borrow borrow = new Borrow(borrowId, username, bookId);
-    borrows.add(borrow.getData());
-    JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
-    return borrowId;
-  }
-
-  public void saveToDatabase() {
-    JsonArray borrows = MainApp.BORROWS;
-    for (int i = 0; i < borrows.size(); i++) {
-      if (JsonUtils.getAsInt(borrows.get(i).getAsJsonObject(), "borrowId", 0) == getBorrowId()) {
-        borrows.set(i, data);
-        JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
-        return;
-      }
-    }
-    assert false;
-  }
-
   public Borrow(JsonObject data) {
     this.data = data;
   }
@@ -61,12 +41,12 @@ public final class Borrow {
     return data;
   }
 
-  public String getUsername() {
-    return JsonUtils.getAsString(data, "username", null);
-  }
-
   public int getBorrowId() {
     return JsonUtils.getAsInt(data, "borrowId", 0);
+  }
+
+  public String getUsername() {
+    return JsonUtils.getAsString(data, "username", null);
   }
 
   public String getBookId() {
@@ -147,8 +127,8 @@ public final class Borrow {
     assert false;
   }
 
-  public static ArrayList<Pair<String, Integer>> getRecentBorrows(int days) {
-    ArrayList<Pair<String, Integer>> recentBorrows = new ArrayList<>();
+  public static List<Pair<String, Integer>> getRecentBorrows(int days) {
+    List<Pair<String, Integer>> recentBorrows = new ArrayList<>();
     LocalDate today = LocalDate.now();
     DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd");
     for (int i = 0; i < days; ++i) {
@@ -168,5 +148,26 @@ public final class Borrow {
       }
     }
     return recentBorrows;
+  }
+
+  public static int addNewBorrow(String username, String bookId) {
+    JsonArray borrows = MainApp.BORROWS;
+    int borrowId = borrows.size() + 1;
+    Borrow borrow = new Borrow(borrowId, username, bookId);
+    borrows.add(borrow.getData());
+    JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
+    return borrowId;
+  }
+
+  public void saveToDatabase() {
+    JsonArray borrows = MainApp.BORROWS;
+    for (int i = 0; i < borrows.size(); i++) {
+      if (JsonUtils.getAsInt(borrows.get(i).getAsJsonObject(), "borrowId", 0) == getBorrowId()) {
+        borrows.set(i, data);
+        JsonUtils.saveToFile(borrows, MainApp.BORROWS_DB_PATH);
+        return;
+      }
+    }
+    assert false;
   }
 }

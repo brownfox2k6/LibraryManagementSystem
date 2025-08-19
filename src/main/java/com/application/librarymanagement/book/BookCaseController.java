@@ -1,6 +1,6 @@
 package com.application.librarymanagement.book;
 
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.effect.*;
@@ -39,7 +39,7 @@ public final class BookCaseController {
 
   private void setAuthorsAndPublishedDate() {
     if (author != null) {
-      author.setText(book.getAuthorsString() + " · " + book.getPublishedDate());
+      author.setText(book.getAuthors() + " · " + book.getPublishedDate());
     }
   }
 
@@ -56,7 +56,7 @@ public final class BookCaseController {
   }
 
   private void setThumbnail() {
-    thumbnail.setImage(Thumbnail.getThumbnail(book));
+    thumbnail.setImage(book.getThumbnail());
   }
 
   private void setContainerEffects() {

@@ -1,10 +1,7 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.utils.ImageUtils;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +14,7 @@ import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,18 +32,12 @@ public final class BookSearchController {
   @FXML private VBox searchResults;
 
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
-  private final Search search = new Search();
-  private final ArrayList<String> availableIds = new ArrayList<>();
-  private final ArrayList<Book> results = new ArrayList<>();
+  private final BookSearch search = new BookSearch();
+  private final List<Book> results = new ArrayList<>();
   private static final String[] queries = {"", "", "", "", "", "", "", ""};
 
   public void initialize() {
     searchIcon.setImage(ImageUtils.getImage("SearchButton.png"));
-    if (InAppController.CURRENT_USER.isMember()) {
-      for (JsonElement e : MainApp.BOOKS) {
-        availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
-      }
-    }
     showOldSearchQueries();
     showResults(false);
   }

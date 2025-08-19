@@ -1,11 +1,9 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.utils.JsonUtils;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -13,7 +11,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public final class Search {
+public final class BookSearch {
   private String q = "";
   private String intitle = "";
   private String inauthor = "";
@@ -22,9 +20,6 @@ public final class Search {
   private String isbn = "";
   private String lccn = "";
   private String oclc = "";
-
-  /** Maximum number of items to fetch per page. */
-  private static final int MAX_COUNT = 40;
 
   public void setQ(String q) {
     this.q = URLEncoder.encode(q, StandardCharsets.UTF_8);
@@ -81,8 +76,7 @@ public final class Search {
     if (!oclc.isEmpty()) {
       url.append("+oclc:").append(oclc);
     }
-    url.append("&maxResults=").append(MAX_COUNT);
-    System.out.println(url.toString());
+    url.append("&maxResults=40");
     return url.toString();
   }
 
@@ -93,15 +87,15 @@ public final class Search {
     return s1.toLowerCase().contains(s2.toLowerCase());
   }
 
-  public void getBooks(ArrayList<Book> results) {
+  public void getBooks(List<Book> results) {
     results.clear();
     Set<String> existIds = new HashSet<>();
     for (JsonElement e : MainApp.BOOKS) {
       Book b = Book.fromJsonObject(e.getAsJsonObject());
       if (containsIgnoreCase(b.getTitle(), intitle) || containsIgnoreCase(b.getTitle(), q)
-          || containsIgnoreCase(b.getAuthorsString(), inauthor) || containsIgnoreCase(b.getAuthorsString(), q)
+          || containsIgnoreCase(b.getAuthors(), inauthor) || containsIgnoreCase(b.getAuthors(), q)
           || containsIgnoreCase(b.getPublisher(), inpublisher) || containsIgnoreCase(b.getPublisher(), q)
-          || containsIgnoreCase(b.getCategoriesAsString(), subject) || containsIgnoreCase(b.getCategoriesAsString(), q)
+          || containsIgnoreCase(b.getCategories(), subject) || containsIgnoreCase(b.getCategories(), q)
           || containsIgnoreCase(b.getIsbn10(), isbn) || containsIgnoreCase(b.getIsbn10(), q)
           || containsIgnoreCase(b.getIsbn13(), isbn) || containsIgnoreCase(b.getIsbn13(), q)) {
         results.add(b);

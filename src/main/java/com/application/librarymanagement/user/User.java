@@ -55,25 +55,21 @@ public final class User {
     data.addProperty("email", email);
   }
 
+  public String getHashedPassword() {
+    return JsonUtils.getAsString(data, "password", "");
+  }
+
   public void setPassword(String password) {
     String hashedPassword = PasswordUtils.hashPassword(password);
     data.addProperty("password", hashedPassword);
   }
 
-  public String getHashedPassword() {
-    return JsonUtils.getAsString(data, "password", "");
-  }
-
-  public int getUserType() {
-    return JsonUtils.getAsInt(data, "type", 0);
-  }
-
   public boolean isAdmin() {
-    return getUserType() == TYPE_ADMIN;
+    return JsonUtils.getAsInt(data, "type", 0) == TYPE_ADMIN;
   }
 
   public boolean isMember() {
-    return getUserType() == TYPE_MEMBER;
+    return JsonUtils.getAsInt(data, "type", 0) == TYPE_MEMBER;
   }
 
   public JsonArray getBorrows() {

@@ -1,7 +1,5 @@
-package com.application.librarymanagement.inapp;
+package com.application.librarymanagement;
 
-import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.MainAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
 import com.application.librarymanagement.utils.JsonUtils;
@@ -23,9 +21,9 @@ public final class InAppController extends MainAppController {
   @FXML private ImageView booksIcon;
   @FXML private ImageView borrowsIcon;
   @FXML private ImageView usersIcon;
+  @FXML private ImageView accountSettingsIcon;
   @FXML private ImageView signOutIcon;
   @FXML private VBox subsceneContainer;
-  @FXML private ImageView changePasswordIcon;
 
   public static InAppController INSTANCE;
   public static User CURRENT_USER;
@@ -36,6 +34,17 @@ public final class InAppController extends MainAppController {
     loadCurrentUser();
     setWelcomeText();
     setSubscene("Dashboard", "Dashboard");
+  }
+
+  private void loadCurrentUser() {
+    String username = JsonUtils.getAsString(MainApp.CONFIG, "currentSession", "");
+    for (JsonElement e : MainApp.USERS) {
+      User user = new User(e.getAsJsonObject());
+      if (user.getUsername().equals(username)) {
+        CURRENT_USER = user;
+        return;
+      }
+    }
   }
 
   public <T> T setSubscene(String name, String title) {
@@ -52,31 +61,20 @@ public final class InAppController extends MainAppController {
     }
   }
 
-  private void loadCurrentUser() {
-    String username = JsonUtils.getAsString(MainApp.CONFIG, "currentSession", "");
-    for (JsonElement e : MainApp.USERS) {
-      User user = new User(e.getAsJsonObject());
-      if (user.getUsername().equals(username)) {
-        CURRENT_USER = user;
-        return;
-      }
-    }
-  }
-
   public void setWelcomeText() {
     welcomeLabel.setText(String.format("Welcome, %s [%s]",
         CURRENT_USER.getName(), CURRENT_USER.getUsername()));
   }
 
   @Override
-  protected void loadIcons() {
+  public void loadIcons() {
     String type = getLightOrDark();
     dashboardIcon.setImage(ImageUtils.getImage(type + "DashboardButton.png"));
     booksIcon.setImage(ImageUtils.getImage(type + "BooksButton.png"));
     signOutIcon.setImage(ImageUtils.getImage(type + "LogOutButton.png"));
     borrowsIcon.setImage(ImageUtils.getImage(type + "BorrowsButton.png"));
     usersIcon.setImage(ImageUtils.getImage(type + "UsersButton.png"));
-    changePasswordIcon.setImage(ImageUtils.getImage(type + "SettingsButton.png"));
+    accountSettingsIcon.setImage(ImageUtils.getImage(type + "SettingsButton.png"));
   }
 
   @FXML

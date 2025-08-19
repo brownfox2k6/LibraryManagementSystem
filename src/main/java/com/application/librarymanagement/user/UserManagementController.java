@@ -1,7 +1,7 @@
 package com.application.librarymanagement.user;
 
 import com.application.librarymanagement.MainApp;
-import com.application.librarymanagement.inapp.InAppController;
+import com.application.librarymanagement.InAppController;
 import com.application.librarymanagement.borrow.BorrowsController;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -13,14 +13,14 @@ import javafx.scene.layout.HBox;
 
 public final class UserManagementController {
   @FXML private TableView<User> userTable;
-  @FXML private TableColumn<User, String> usernameColumn;
-  @FXML private TableColumn<User, String> nameColumn;
-  @FXML private TableColumn<User, String> emailColumn;
-  @FXML private TableColumn<User, String> roleColumn;
-  @FXML private TableColumn<User, Integer> borrowedColumn;
-  @FXML private TableColumn<User, Void> borrowsActionColumn;
+  @FXML private TableColumn<User, String> usernameCol;
+  @FXML private TableColumn<User, String> nameCol;
+  @FXML private TableColumn<User, String> emailCol;
+  @FXML private TableColumn<User, String> roleCol;
+  @FXML private TableColumn<User, Integer> borrowedCol;
+  @FXML private TableColumn<User, Void> borrowsActionCol;
   @FXML private TextField searchField;
-  @FXML private Button addUserBtn;
+  @FXML private Button addUserButton;
   @FXML private HBox searchBox;
   @FXML private Label resultLabel;
 
@@ -29,24 +29,24 @@ public final class UserManagementController {
 
   @FXML
   public void initialize() {
-    usernameColumn.setCellValueFactory(cd ->
+    usernameCol.setCellValueFactory(cd ->
         new javafx.beans.property.SimpleStringProperty(cd.getValue().getUsername())
     );
-    nameColumn.setCellValueFactory(cd ->
+    nameCol.setCellValueFactory(cd ->
         new javafx.beans.property.SimpleStringProperty(cd.getValue().getName())
     );
-    emailColumn.setCellValueFactory(cd ->
+    emailCol.setCellValueFactory(cd ->
         new javafx.beans.property.SimpleStringProperty(cd.getValue().getEmail())
     );
-    roleColumn.setCellValueFactory(cd ->
+    roleCol.setCellValueFactory(cd ->
         new javafx.beans.property.SimpleStringProperty(cd.getValue().isAdmin() ? "Admin" : "Member")
     );
-    borrowedColumn.setCellValueFactory(cd ->
+    borrowedCol.setCellValueFactory(cd ->
         new javafx.beans.property.SimpleObjectProperty<>(
           cd.getValue().isMember() ? cd.getValue().getBorrows().size() : null)
     );
-    if (borrowsActionColumn != null) {
-      borrowsActionColumn.setCellFactory(col -> new TableCell<>() {
+    if (borrowsActionCol != null) {
+      borrowsActionCol.setCellFactory(col -> new TableCell<>() {
         private final Button viewBtn = new Button("View");
         {
           viewBtn.setOnAction(evt -> {
@@ -88,7 +88,7 @@ public final class UserManagementController {
     User current = InAppController.CURRENT_USER;
     displayList.clear();
     if (current.isMember()) {
-      addUserBtn.setVisible(false);
+      addUserButton.setVisible(false);
       searchBox.setVisible(false);
       for (User u : userList) {
         if (u.isAdmin() || u.getUsername().equals(current.getUsername())) {
@@ -97,16 +97,16 @@ public final class UserManagementController {
       }
     } else {
       displayList.addAll(userList);
-      addUserBtn.setVisible(true);
+      addUserButton.setVisible(true);
       if (searchBox != null) searchBox.setVisible(true);
-      borrowsActionColumn.setVisible(true);
+      borrowsActionCol.setVisible(true);
     }
     userTable.setItems(displayList);
     resultLabel.setText(String.format("Found %d records.", displayList.size()));
   }
 
   @FXML
-  private void handleSearchUser() {
+  private void searchUser() {
     assert InAppController.CURRENT_USER.isMember();
     filterByUsername(searchField.getText());
   }
@@ -124,7 +124,7 @@ public final class UserManagementController {
   }
 
   @FXML
-  private void handleAddUser() {
+  private void gotoAddUser() {
     assert InAppController.CURRENT_USER.isMember();
     InAppController.INSTANCE.setSubscene("AddUser", "Users");
   }
