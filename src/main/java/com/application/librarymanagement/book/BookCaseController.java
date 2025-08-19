@@ -1,11 +1,9 @@
 package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.inapp.InAppController;
-import com.application.librarymanagement.utils.ImageUtils;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.effect.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

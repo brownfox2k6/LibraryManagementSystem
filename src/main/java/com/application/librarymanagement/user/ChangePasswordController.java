@@ -6,7 +6,6 @@ import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.PasswordUtils;
 import com.application.librarymanagement.utils.ValidateUtils;
 
-import com.sun.tools.javac.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -69,7 +68,7 @@ public final class ChangePasswordController {
     currentUser.setEmail(email);
     currentUser.saveToDatabase();
     if (passwordChanged) {
-      JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", "");
+      JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH, "currentSession", "");
       MainApp.setScene("SignIn");
       MainApp.showPopupMessage("Account info updated. Please sign in again.", Color.DARKGREEN);
     } else {

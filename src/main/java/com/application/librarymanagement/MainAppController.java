@@ -17,7 +17,7 @@ public class MainAppController extends MainApp {
    */
   @FXML
   public void initialize() {
-    themeComboBox.setValue(JsonUtils.getAsString(config, "theme", ""));
+    themeComboBox.setValue(JsonUtils.getAsString(MainApp.CONFIG, "theme", ""));
     setBackgroundImage();
     loadIcons();
   }
@@ -39,7 +39,7 @@ public class MainAppController extends MainApp {
 
   @FXML
   public void applyStylesheet() {
-    JsonUtils.addProperty(config, CONFIG_PATH,"theme", themeComboBox.getValue());
+    JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH,"theme", themeComboBox.getValue());
     setBackgroundImage();
     loadIcons();
     applyStylesheet(themeComboBox.getValue());

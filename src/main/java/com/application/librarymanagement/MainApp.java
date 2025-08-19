@@ -2,13 +2,12 @@ package com.application.librarymanagement;
 
 import com.application.librarymanagement.utils.InitializeDatabase;
 import com.application.librarymanagement.utils.JsonUtils;
+import com.google.gson.JsonArray;
 import javafx.animation.Animation;
-import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Bounds;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,10 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,8 +30,11 @@ public class MainApp extends Application {
   public static final Path BOOKS_DB_PATH = Paths.get("json/books.json");
   public static final Path BORROWS_DB_PATH = Paths.get("json/borrows.json");
   public static final Path USERS_DB_PATH = Paths.get("json/users.json");
+  public static final JsonObject CONFIG = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
+  public static final JsonArray BOOKS = JsonUtils.loadLocalJsonAsArray(BOOKS_DB_PATH);
+  public static final JsonArray BORROWS = JsonUtils.loadLocalJsonAsArray(BORROWS_DB_PATH);
+  public static final JsonArray USERS = JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH);
   public static Stage stage;
-  public static JsonObject config;
   private static Node currentToast;
   private static Animation currentSlide;
   private static PauseTransition currentWait;
@@ -49,10 +49,8 @@ public class MainApp extends Application {
     stage = primaryStage;
     stage.setTitle("Library Management System");
     stage.setResizable(false);
-    config = JsonUtils.loadLocalJsonAsObject(CONFIG_PATH);
-    assert config != null;
-    applyStylesheet(JsonUtils.getAsString(config, "theme", ""));
-    if (JsonUtils.getAsString(config, "currentSession", "").isEmpty()) {
+    applyStylesheet(JsonUtils.getAsString(CONFIG, "theme", ""));
+    if (JsonUtils.getAsString(CONFIG, "currentSession", "").isEmpty()) {
       setScene("SignIn");
     } else {
       setScene("InApp");
@@ -78,7 +76,7 @@ public class MainApp extends Application {
   }
 
   public static String getLightOrDark() {
-    String theme = config.get("theme").getAsString();
+    String theme = CONFIG.get("theme").getAsString();
     return theme.contains("light") ? "Light" : "Dark";
   }
 

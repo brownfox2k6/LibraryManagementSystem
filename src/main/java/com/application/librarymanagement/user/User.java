@@ -89,7 +89,7 @@ public final class User {
   }
 
   public void saveToDatabase() {
-    JsonArray users = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
+    JsonArray users = MainApp.USERS;
     for (int i = 0; i < users.size(); ++i) {
       JsonObject user = users.get(i).getAsJsonObject();
       if (JsonUtils.getAsString(user, "username", "").equals(getUsername())) {

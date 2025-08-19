@@ -53,8 +53,8 @@ public final class InAppController extends MainAppController {
   }
 
   private void loadCurrentUser() {
-    String username = JsonUtils.getAsString(config, "currentSession", "");
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(USERS_DB_PATH)) {
+    String username = JsonUtils.getAsString(MainApp.CONFIG, "currentSession", "");
+    for (JsonElement e : MainApp.USERS) {
       User user = new User(e.getAsJsonObject());
       if (user.getUsername().equals(username)) {
         CURRENT_USER = user;
@@ -81,7 +81,7 @@ public final class InAppController extends MainAppController {
 
   @FXML
   private void signOut() {
-    JsonUtils.addProperty(config, CONFIG_PATH, "currentSession", "");
+    JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH, "currentSession", "");
     MainApp.setScene("SignIn");
     MainApp.showPopupMessage(String.format("Goodbye, %s. Looking forward to seeing you again.",
         CURRENT_USER.getUsername()), Color.DARKBLUE);

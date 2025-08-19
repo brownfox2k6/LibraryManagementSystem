@@ -43,10 +43,10 @@ public final class SignInController extends MainAppController {
       return;
     }
     password = PasswordUtils.hashPassword(password);
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+    for (JsonElement e : MainApp.USERS) {
       User user = new User(e.getAsJsonObject());
       if (username.equals(user.getUsername()) && password.equals(user.getHashedPassword())) {
-        JsonUtils.addProperty(MainApp.config, MainApp.CONFIG_PATH, "currentSession", user.getUsername());
+        JsonUtils.addProperty(MainApp.CONFIG, MainApp.CONFIG_PATH, "currentSession", user.getUsername());
         MainApp.setScene("InApp");
         MainApp.showPopupMessage(String.format("Welcome, %s.", user.getUsername()), Color.DARKGREEN);
         return;

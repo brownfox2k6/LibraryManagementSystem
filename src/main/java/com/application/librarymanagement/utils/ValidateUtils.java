@@ -14,7 +14,7 @@ public final class ValidateUtils {
   }
 
   public static boolean isEmailExists(String email) {
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+    for (JsonElement e : MainApp.USERS) {
       User user = new User(e.getAsJsonObject());
       if (user.getEmail().equals(email)) {
         return true;
@@ -24,7 +24,7 @@ public final class ValidateUtils {
   }
 
   public static boolean isUsernameExists(String username) {
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH)) {
+    for (JsonElement e : MainApp.USERS) {
       User user = new User(e.getAsJsonObject());
       if (user.getUsername().equals(username)) {
         return true;

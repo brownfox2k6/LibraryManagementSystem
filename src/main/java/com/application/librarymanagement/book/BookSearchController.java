@@ -2,9 +2,7 @@ package com.application.librarymanagement.book;
 
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
-import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
-import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import javafx.concurrent.Task;
@@ -45,7 +43,7 @@ public final class BookSearchController {
     searchIcon.setImage(ImageUtils.getImage("SearchButton.png"));
     search = new Search();
     if (InAppController.CURRENT_USER.isMember()) {
-      for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+      for (JsonElement e : MainApp.BOOKS) {
         availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
       }
     }

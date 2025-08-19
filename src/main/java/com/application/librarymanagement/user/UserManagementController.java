@@ -3,7 +3,6 @@ package com.application.librarymanagement.user;
 import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.borrow.BorrowsController;
-import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javafx.collections.FXCollections;
@@ -11,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 
 public final class UserManagementController {
   @FXML private TableView<User> userTable;
@@ -77,7 +75,7 @@ public final class UserManagementController {
 
   private void loadUsers() {
     userList.clear();
-    JsonArray usersData = JsonUtils.loadLocalJsonAsArray(MainApp.USERS_DB_PATH);
+    JsonArray usersData = MainApp.USERS;
     if (usersData != null) {
       for (int i = 0; i < usersData.size(); i++) {
         JsonObject obj = usersData.get(i).getAsJsonObject();

@@ -6,7 +6,6 @@ import com.application.librarymanagement.book.BookCaseController;
 import com.application.librarymanagement.book.BookDetailsController;
 import com.application.librarymanagement.book.BookStats;
 import com.application.librarymanagement.borrow.Borrow;
-import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonElement;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -49,7 +48,7 @@ public final class DashboardController {
 
   private void loadBooks() {
     books = new ArrayList<>();
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+    for (JsonElement e : MainApp.BOOKS) {
       books.add(Book.fromJsonObject(e.getAsJsonObject()));
     }
     books.sort(Comparator.comparing(Book::getBorrowsCount, Comparator.reverseOrder()).thenComparing(Book::getTitle));

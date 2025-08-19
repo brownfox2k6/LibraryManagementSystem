@@ -30,7 +30,7 @@ public final class Book {
   }
 
   public static Book findById(String id) {
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+    for (JsonElement e : MainApp.BOOKS) {
       Book book = Book.fromJsonObject(e.getAsJsonObject());
       if (book.getId().equals(id)) {
         return book;
@@ -206,7 +206,7 @@ public final class Book {
 
   public void updateToDatabase() {
     try {
-      JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
+      JsonArray books = MainApp.BOOKS;
       boolean updated = false;
       for (int i = 0; i < books.size(); ++i) {
         JsonObject currentBook = books.get(i).getAsJsonObject();

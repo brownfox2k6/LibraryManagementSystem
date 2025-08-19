@@ -33,7 +33,7 @@ public final class Borrow {
   }
 
   public static int addNewBorrow(String username, String bookId) {
-    JsonArray borrows = JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH);
+    JsonArray borrows = MainApp.BORROWS;
     int borrowId = borrows.size() + 1;
     Borrow borrow = new Borrow(borrowId, username, bookId);
     borrows.add(borrow.getData());
@@ -42,7 +42,7 @@ public final class Borrow {
   }
 
   public void saveToDatabase() {
-    JsonArray borrows = JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH);
+    JsonArray borrows = MainApp.BORROWS;
     for (int i = 0; i < borrows.size(); i++) {
       if (JsonUtils.getAsInt(borrows.get(i).getAsJsonObject(), "borrowId", 0) == getBorrowId()) {
         borrows.set(i, data);
@@ -135,8 +135,7 @@ public final class Borrow {
 
   private void changeQuantity(int bookDelta, int borrowsCountDelta) {
     assert Math.abs(bookDelta) == 1 && Math.abs(borrowsCountDelta) <= 1;
-    JsonArray books = JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH);
-    for (JsonElement e : books) {
+    for (JsonElement e : MainApp.BOOKS) {
       Book book = Book.fromJsonObject(e.getAsJsonObject());
       if (book.getId().equals(getBookId())) {
         book.adjustQuantity(bookDelta);
@@ -155,7 +154,7 @@ public final class Borrow {
     for (int i = 0; i < days; ++i) {
       recentBorrows.add(new Pair<>(today.minusDays(i).format(fmt), 0));
     }
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BORROWS_DB_PATH)) {
+    for (JsonElement e : MainApp.BORROWS) {
       Borrow borrow = new Borrow(e.getAsJsonObject());
       if (borrow.getStatus() == STATUS_CANCELED) {
         continue;

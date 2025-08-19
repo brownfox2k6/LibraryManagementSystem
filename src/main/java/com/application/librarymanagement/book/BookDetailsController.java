@@ -7,7 +7,6 @@ import com.application.librarymanagement.borrow.Borrow;
 import com.application.librarymanagement.inapp.InAppController;
 import com.application.librarymanagement.user.User;
 import com.application.librarymanagement.utils.ImageUtils;
-import com.application.librarymanagement.utils.JsonUtils;
 import com.application.librarymanagement.utils.QrCodeUtils;
 import com.google.gson.JsonElement;
 
@@ -231,7 +230,7 @@ public final class BookDetailsController {
   }
 
   private int getQuantity() {
-    for (JsonElement e : JsonUtils.loadLocalJsonAsArray(MainApp.BOOKS_DB_PATH)) {
+    for (JsonElement e : MainApp.BOOKS) {
       Book b = Book.fromJsonObject(e.getAsJsonObject());
       if (b.getId().equals(book.getId())) {
         return b.getQuantity();

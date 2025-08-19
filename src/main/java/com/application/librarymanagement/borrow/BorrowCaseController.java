@@ -4,13 +4,11 @@ import com.application.librarymanagement.MainApp;
 import com.application.librarymanagement.book.Book;
 import com.application.librarymanagement.book.Thumbnail;
 import com.application.librarymanagement.inapp.InAppController;
-import com.application.librarymanagement.utils.ImageUtils;
 
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 
