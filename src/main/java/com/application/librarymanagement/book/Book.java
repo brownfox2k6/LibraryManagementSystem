@@ -129,6 +129,10 @@ public final class Book {
     return getSpecificIndustryIdentifier("ISBN_13");
   }
 
+  public String getOtherIndustryIdentifiers() {
+    return getSpecificIndustryIdentifier("OTHER");
+  }
+
   public String getPageCount() {
     return JsonUtils.getAsString(getVolumeInfo(), "pageCount", "");
   }
@@ -139,6 +143,10 @@ public final class Book {
 
   public String getCategoriesAsString() {
     return JsonUtils.jsonArrayToString(getCategoriesAsArray());
+  }
+
+  public String getMaturityRating() {
+    return JsonUtils.getAsString(getVolumeInfo(), "maturityRating", "");
   }
 
   public String getAverageRating() {

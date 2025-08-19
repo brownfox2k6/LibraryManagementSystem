@@ -34,14 +34,13 @@ public final class BookSearchController {
   @FXML private VBox searchResults;
 
   private final ExecutorService executor = Executors.newSingleThreadExecutor();
-  private Search search;
+  private final Search search = new Search();
   private final ArrayList<String> availableIds = new ArrayList<>();
-  private static JsonArray results = new JsonArray();
+  private final ArrayList<Book> results = new ArrayList<>();
   private static final String[] queries = {"", "", "", "", "", "", "", ""};
 
   public void initialize() {
     searchIcon.setImage(ImageUtils.getImage("SearchButton.png"));
-    search = new Search();
     if (InAppController.CURRENT_USER.isMember()) {
       for (JsonElement e : MainApp.BOOKS) {
         availableIds.add(Book.fromJsonObject(e.getAsJsonObject()).getId());
@@ -67,9 +66,9 @@ public final class BookSearchController {
       @Override
       protected Void call() {
         searchButton.setDisable(true);
-        results = search.getBooks();
+        search.getBooks(results);
         return null;
-      };
+      }
     };
     task.setOnSucceeded(e -> showResults(true));
     executor.execute(task);
@@ -79,11 +78,7 @@ public final class BookSearchController {
     searchButton.setDisable(false);
     searchResults.getChildren().clear();
     int count = 0;
-    for (JsonElement e : results) {
-      Book book = Book.fromJsonObject(e.getAsJsonObject());
-      if (InAppController.CURRENT_USER.isMember() && !availableIds.contains(book.getId())) {
-        continue;
-      }
+    for (Book book : results) {
       FXMLLoader fxmlLoader = new FXMLLoader(MainApp.class.getResource("scenes/BookCase2.fxml"));
       HBox bookCaseBox = null;
       try {

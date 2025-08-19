@@ -138,6 +138,7 @@ public final class BookDetailsController {
   private void setTableData() {
     tryAddRowToTable("ID", book.getId());
     tryAddRowToTable("Authors", book.getAuthorsString());
+    tryAddRowToTable("Description", book.getDescription());
     tryAddRowToTable("Publisher", book.getPublisher());
     tryAddRowToTable("Published on", book.getPublishedDate());
     tryAddRowToTable("Pages", book.getPageCount());
@@ -145,7 +146,8 @@ public final class BookDetailsController {
     tryAddRowToTable("Categories", book.getCategoriesAsString());
     tryAddRowToTable("ISBN 10", book.getIsbn10());
     tryAddRowToTable("ISBN 13", book.getIsbn13());
-    tryAddRowToTable("Description", book.getDescription());
+    tryAddRowToTable("Other industry identifier(s)", book.getOtherIndustryIdentifiers());
+    tryAddRowToTable("Maturity rating", book.getMaturityRating());
     tryAddRowToTable("Ratings count", book.getRatingsCount());
     tryAddRowToTable("Average rating", book.getAverageRating());
   }
