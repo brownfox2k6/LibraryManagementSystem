@@ -7,6 +7,7 @@ module com.application.librarymanagement {
   requires java.desktop;
   requires java.sql;
   requires jcommander;
+  requires atlantafx.base;
 
   opens com.application.librarymanagement to javafx.fxml;
   opens com.application.librarymanagement.scenes to javafx.fxml;

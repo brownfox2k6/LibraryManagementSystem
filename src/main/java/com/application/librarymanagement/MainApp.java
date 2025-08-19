@@ -1,5 +1,6 @@
 package com.application.librarymanagement;
 
+import atlantafx.base.theme.*;
 import com.application.librarymanagement.utils.InitializeDatabase;
 import com.application.librarymanagement.utils.JsonUtils;
 import com.google.gson.JsonArray;
@@ -87,10 +88,17 @@ public class MainApp extends Application {
    *             e.g. {@code name=dracula} loads {@code themes/dracula.css}
    */
   public static void applyStylesheet(String name) {
-    String path = String.format("themes/%s.css", name);
-    URL url = MainApp.class.getResource(path);
-    assert url != null;
-    MainApp.setUserAgentStylesheet(url.toString());
+    Theme theme = switch(name) {
+      case "cupertino-dark" -> new CupertinoDark();
+      case "cupertino-light" -> new CupertinoLight();
+      case "dracula" -> new Dracula();
+      case "nord-dark" -> new NordDark();
+      case "nord-light" -> new NordLight();
+      case "primer-dark" -> new PrimerDark();
+      case "primer-light" -> new PrimerLight();
+      default -> throw new IllegalArgumentException("Invalid theme name.");
+    };
+    MainApp.setUserAgentStylesheet(theme.getUserAgentStylesheet());
   }
 
   public static void showPopupMessage(String message, Color bg) {
