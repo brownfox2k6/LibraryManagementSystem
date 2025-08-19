@@ -166,6 +166,7 @@ public final class BorrowsController {
       bcc.setData(borrowList.get(i));
       borrows.getChildren().add(borrowCaseBox);
     }
+    resultLabel.setVisible(!borrowList.isEmpty());
     resultLabel.setText(String.format("Page %d/%d: Results %d to %d out of %d.",
         page, (borrowList.size() + PAGE_SIZE - 1) / PAGE_SIZE, start + 1, end, borrowList.size()));
   }
