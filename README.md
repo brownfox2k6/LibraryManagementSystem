@@ -11,6 +11,33 @@
 ## Brief Description
 An application that helps users search for books, view detailed information, and manage borrowing activities. It integrates with the Google Books API for accurate book data, and supports QR code generation for quick access. Members can request to borrow books and track their borrowing history, while admins can manage stock and monitor all borrow records.
 
+## UML Class Diagram
+
+<details><summary><strong>[Image] com.application.librarymanagement</strong></summary>
+
+![](readme-images/uml_main.png)
+</details>
+
+<details><summary><strong>[Image] com.application.librarymanagement.book</strong></summary>
+
+![](readme-images/uml_book.png)
+</details>
+
+<details><summary><strong>[Image] com.application.librarymanagement.borrow</strong></summary>
+
+![](readme-images/uml_borrow.png)
+</details>
+
+<details><summary><strong>[Image] com.application.librarymanagement.user</strong></summary>
+
+![](readme-images/uml_user.png)
+</details>
+
+<details><summary><strong>[Image] com.application.librarymanagement.utils</strong></summary>
+
+![](readme-images/uml_utils.png)
+</details>
+
 ## Core Features
 
 ### Dashboard
