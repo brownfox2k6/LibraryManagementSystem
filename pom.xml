@@ -31,13 +31,19 @@
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-controls</artifactId>
-      <version>17.0.6</version>
+      <version>24.0.1</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.openjfx/javafx-fxml -->
     <dependency>
       <groupId>org.openjfx</groupId>
       <artifactId>javafx-fxml</artifactId>
-      <version>17.0.6</version>
+      <version>24.0.1</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.github.mkpaz/atlantafx-base -->
+    <dependency>
+      <groupId>io.github.mkpaz</groupId>
+      <artifactId>atlantafx-base</artifactId>
+      <version>2.1.0</version>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
     <dependency>
