@@ -64,8 +64,8 @@ public final class SignUpController extends MainAppController {
     } else {
       User member = new User(name, username, email, password, User.TYPE_MEMBER);
       member.saveToDatabase();
-      MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
       gotoSignIn();
+      MainApp.showPopupMessage("Registration complete! You can now sign in.", Color.DARKGREEN);
     }
   }
 }

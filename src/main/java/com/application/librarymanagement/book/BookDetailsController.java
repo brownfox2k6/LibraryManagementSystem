@@ -162,6 +162,7 @@ public final class BookDetailsController {
     Clipboard clipboard = Clipboard.getSystemClipboard();
     ClipboardContent content = new ClipboardContent();
     content.putUrl(book.getInfoLink());
+    content.putString(book.getInfoLink());
     clipboard.setContent(content);
     MainApp.showPopupMessage("Link copied to clipboard!", Color.DARKBLUE);
   }

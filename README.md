@@ -11,6 +11,9 @@
 ## Brief Description
 An application that helps users search for books, view detailed information, and manage borrowing activities. It integrates with the Google Books API for accurate book data, and supports QR code generation for quick access. Members can request to borrow books and track their borrowing history, while admins can manage stock and monitor all borrow records.
 
+## Demo Video
+[Demo ứng dụng Java quản lý thư viện (library management) - YouTube](https://youtu.be/AypL7hUO1Is)
+
 ## UML Class Diagram
 
 <details><summary><strong>[Image] com.application.librarymanagement</strong></summary>
