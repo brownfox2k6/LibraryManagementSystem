@@ -1,6 +1,6 @@
-# Library Management System [![starline](https://starlines.qoo.monster/assets/qoomon/starlines)](https://github.com/brownfox2k6/LibraryManagementSystem)
+# Library Management Application [![starline](https://starlines.qoo.monster/assets/brownfox2k6/LibraryManagementApplication)](https://github.com/brownfox2k6/LibraryManagementApplication)
 
-- **Course:** Object-Oriented Programming
+- **Course:** Object-oriented programming
 - **Course Code:** 2425H_INT2204_60
 - **Semester:** Summer 2024–2025
 
@@ -140,5 +140,4 @@ Users can change their name, their email as well as their password
 - **Java** – Core application logic and API integration
 - **Google Books API** – Retrieving and displaying book data
 - **JavaFX** – User interface development and event handling
-- **CSS** – Styling and customizing JavaFX components
-- **FXML** – Structuring UI layout separately from Java code  
+- **FXML** – Structuring UI layout separately from Java code
